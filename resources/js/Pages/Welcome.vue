@@ -22,12 +22,14 @@ defineProps({
 
             <div class="mx-auto max-w-3xl py-20 text-center">
                 <!-- Tech Badge -->
-                <div class="mb-8 flex justify-center">
-                    <span class="rounded-full px-3 py-1 text-xs font-medium leading-6 ring-1 ring-gray-900/10 dark:ring-white/10 bg-white/50 dark:bg-zinc-900/50 backdrop-blur">
-                        Built with <span class="text-red-600 font-bold">Laravel 12 + Inertia + Vue 3</span>
+                <div class="mb-8 flex flex-wrap justify-center gap-3">
+                    <span class="rounded-full px-4 py-1.5 text-xs font-semibold leading-6 ring-1 ring-gray-900/10 dark:ring-white/10 bg-white/50 dark:bg-zinc-900/50 backdrop-blur shadow-sm">
+                        <span class="text-red-600">Laravel v{{ laravelVersion }}</span> + Inertia + Vue 3
+                    </span>
+                    <span class="rounded-full px-4 py-1.5 text-xs font-semibold leading-6 ring-1 ring-gray-900/10 dark:ring-white/10 bg-white/50 dark:bg-zinc-900/50 backdrop-blur shadow-sm">
+                        PHP v{{ phpVersion }}
                     </span>
                 </div>
-
                 <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
                     Precision Engineering for <span class="text-red-600">Digital Media</span>
                 </h1>
