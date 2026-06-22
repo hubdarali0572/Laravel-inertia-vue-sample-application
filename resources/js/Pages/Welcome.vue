@@ -31,15 +31,17 @@ defineProps({
                     </span>
                 </div>
                 <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-                    Precision Engineering for <span class="text-red-600">Digital Media</span>
+                    Precision-Engineered <span class="text-red-600 leading-tight">Governance</span> 
+                    for Unified Digital Media
                 </h1>
-                
-             <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-    Experience a unified full-stack ecosystem powered by <strong>Laravel 12, Inertia, and Vue 3</strong>. 
-    Our architecture seamlessly integrates <strong>Spatie Media Library</strong> and <strong>Image Intervention</strong> 
-    for advanced asset orchestration, coupled with <strong>Spatie Permissions</strong> for enterprise-grade 
-    Role-Based Access Control (RBAC) and robust application security.
-</p>
+                            
+                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+                    Experience a high-performance ecosystem powered by <strong>Laravel 12, Inertia, and Vue 3</strong>. 
+                    Our architecture integrates <strong>Spatie Media Library</strong> and <strong>Image Intervention</strong> 
+                    for advanced asset handling, while <strong>Spatie Permissions</strong> delivers granular Role-Based Access Control (RBAC). 
+                    We ensure total transparency with <strong>Spatie Activity Logs</strong> and maintain peak application integrity 
+                    through <strong>Google reCAPTCHA</strong> protected security layers.
+                </p>
 
                 <!-- Action Buttons -->
                 <div v-if="canLogin" class="mt-10 flex items-center justify-center gap-x-4">

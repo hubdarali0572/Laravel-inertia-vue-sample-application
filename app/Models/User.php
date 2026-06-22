@@ -11,15 +11,12 @@ use Spatie\Permission\Traits\HasRoles;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Image\Enums\Fit;
-
-
-//  (User Email Verification other functionality completed only this added only)
-//  class User extends Authenticatable  == > class User extends Authenticatable implements MustVerifyEmail
+use Spatie\Activitylog\Traits\LogsActivity; // <--- Add this
+use Spatie\Activitylog\LogOptions;  
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, HasRoles, InteractsWithMedia;
+    use HasFactory, Notifiable, HasRoles, InteractsWithMedia, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -75,5 +72,13 @@ class User extends Authenticatable implements HasMedia
             ->sharpen(10)
             ->performOnCollections('images') // Ensure this matches
             ->nonQueued();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'image']) // Log these fields
+            ->logOnlyDirty()                      // Only log if something actually changed
+            ->dontSubmitEmptyLogs();              // Don't log if nothing changed
     }
 }

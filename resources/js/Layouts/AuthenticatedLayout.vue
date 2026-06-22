@@ -31,6 +31,12 @@ const navItems = [
         route: 'roles.index',
         active: route().current('roles.*') // Active for index, edit, create
     },
+    { 
+        name: 'Activity Logs',   
+        icon: 'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', 
+    route: 'activity.index',
+        active: route().current('activity.*')
+    },
 ];
 </script>
 
