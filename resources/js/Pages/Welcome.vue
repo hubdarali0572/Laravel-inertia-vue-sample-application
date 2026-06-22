@@ -34,11 +34,12 @@ defineProps({
                     Precision Engineering for <span class="text-red-600">Digital Media</span>
                 </h1>
                 
-                <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-                    Seamlessly build reactive interfaces with the <strong>Laravel-Inertia-Vue</strong> ecosystem. 
-                    Our core integrates <strong>Spatie Media Library</strong> and <strong>Image Intervention</strong> 
-                    to automate high-performance image processing and optimized asset delivery for enterprise-grade scalability.
-                </p>
+             <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
+    Experience a unified full-stack ecosystem powered by <strong>Laravel 12, Inertia, and Vue 3</strong>. 
+    Our architecture seamlessly integrates <strong>Spatie Media Library</strong> and <strong>Image Intervention</strong> 
+    for advanced asset orchestration, coupled with <strong>Spatie Permissions</strong> for enterprise-grade 
+    Role-Based Access Control (RBAC) and robust application security.
+</p>
 
                 <!-- Action Buttons -->
                 <div v-if="canLogin" class="mt-10 flex items-center justify-center gap-x-4">
