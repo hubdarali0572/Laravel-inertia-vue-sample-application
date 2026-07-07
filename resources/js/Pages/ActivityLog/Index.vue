@@ -111,45 +111,45 @@ const getFieldData = (log, fieldName) => {
                 <table class="w-full text-left table-fixed min-w-[1100px]">
                     <thead>
                         <tr class="bg-slate-400">
-                            <th class="w-[15%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest">User</th>
-                            <th class="w-[8%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Action</th>
-                            <th class="w-[10%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest">Resource</th>
-                            <th class="w-[15%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Name Change</th>
-                            <th class="w-[15%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Email Change</th>
-                            <th class="w-[15%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest text-right">Timestamp</th>
-                            <th class="w-[7%] px-4 py-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Delete</th>
+                            <th class="w-[15%] px-4 text-[11px] font-black text-white uppercase tracking-widest">User</th>
+                            <th class="w-[8%] px-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Action</th>
+                            <th class="w-[10%] px-4  text-[11px] font-black text-white uppercase tracking-widest">Resource</th>
+                            <th class="w-[15%] px-4  text-[11px] font-black text-white uppercase tracking-widest text-center">Name Change</th>
+                            <th class="w-[15%] px-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Email Change</th>
+                            <th class="w-[15%] px-4 text-[11px] font-black text-white uppercase tracking-widest text-right">Timestamp</th>
+                            <th class="w-[7%] px-4 text-[11px] font-black text-white uppercase tracking-widest text-center">Delete</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
                         <tr v-for="log in activities.data" :key="log.id" class="hover:bg-slate-50/40 transition-colors">
-                            <td class="px-4 py-4 text-xs font-bold text-slate-800">
+                            <td class="px-4 text-xs font-bold text-slate-800">
                                 {{ log.causer?.name || "System" }}
                             </td>
-                            <td class="px-4 py-4 text-center">
+                            <td class="px-4 text-center">
                                 <span :class="{'px-1.5 py-0.5 rounded text-[9px] font-black uppercase': true, 'bg-emerald-100 text-emerald-700': log.description === 'created', 'bg-amber-100 text-amber-700': log.description === 'updated', 'bg-rose-100 text-rose-700': log.description === 'deleted'}">
                                     {{ log.description }}
                                 </span>
                             </td>
-                            <td class="px-4 py-4">
+                            <td class="px-4">
                                 <div class="text-[11px] font-black text-slate-700 uppercase">{{ getModelName(log.subject_type) }}</div>
                                 <div class="text-[9px] text-slate-400 font-medium">REF: #{{ log.subject_id }}</div>
                             </td>
-                            <td class="px-4 py-4 text-center">
+                            <td class="px-4 text-center">
                                 <div v-if="getFieldData(log, 'name').hasChange">
                                     <span class="text-emerald-600 font-bold text-[11px]">{{ getFieldData(log, 'name').new || '-' }}</span>
                                 </div>
                                 <span v-else class="text-slate-200">-</span>
                             </td>
-                            <td class="px-4 py-4 text-center">
+                            <td class="px-4 text-center">
                                 <div v-if="getFieldData(log, 'email').hasChange">
                                     <span class="text-emerald-600 font-bold text-[11px]">{{ getFieldData(log, 'email').new || '-' }}</span>
                                 </div>
                                 <span v-else class="text-slate-200">-</span>
                             </td>
-                            <td class="px-4 py-4 text-right text-[11px] font-bold text-slate-700">
+                            <td class="px-4 text-right text-[11px] font-bold text-slate-700">
                                 {{ formatDate(log.created_at) }}
                             </td>
-                            <td class="px-4 py-4 text-center">
+                            <td class="px-4 text-center">
                                 <button @click="openDeleteModal(log.id)" class="p-2 text-slate-300 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all">
                                     <svg class="w-4 h-4 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                                 </button>
