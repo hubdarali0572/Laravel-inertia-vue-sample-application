@@ -41,7 +41,7 @@ const navItems = [
 </script>
 
 <template>
-    <div class="h-screen flex overflow-hidden bg-gray-50 font-sans text-gray-900">
+    <div class="h-screen flex overflow-hidden bg-slate-50 font-sans text-slate-900">
         
         <!-- MOBILE OVERLAY -->
         <transition
@@ -57,18 +57,18 @@ const navItems = [
 
         <!-- SIDEBAR -->
         <aside 
-            class="fixed inset-y-0 left-0 z-50 w-72 lg:w-64 bg-slate-400 text-white flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+            class="theme-sidebar fixed inset-y-0 left-0 z-50 w-72 lg:w-64 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
             :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
             <!-- Sidebar Header -->
-            <div class="p-6 border-b border-white/10 shrink-0 flex items-center justify-between">
+            <div class="p-6 border-b border-slate-800 shrink-0 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <div class="bg-white p-2 rounded-lg">
-                        <svg class="w-6 h-6 text-[#044e3a]" viewBox="0 0 24 24" fill="currentColor">
+                    <div class="bg-indigo-600 p-2 rounded-lg shadow-lg shadow-indigo-900/50">
+                        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                     </div>
-                    <span class="font-bold text-sm lg:text-base tracking-widest uppercase">Sample Project</span>
+                    <span class="font-bold text-sm lg:text-base tracking-wide text-white">Sample Project</span>
                 </div>
                 <button @click="isSidebarOpen = false" class="lg:hidden p-2 text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M6 18L18 6M6 6l12 12" /></svg>
@@ -80,7 +80,7 @@ const navItems = [
                 <template v-for="item in navItems" :key="item.name">
                     
                     <!-- Category Header: Styled with better contrast and spacing -->
-                    <div v-if="item.category" class="px-7 pt-3 pb-3 text-[10px] font-black text-white tracking-[0.2em] uppercase">
+                    <div v-if="item.category" class="theme-sidebar-category px-7 pt-3 pb-3 text-[10px] font-semibold tracking-[0.15em] uppercase">
                         {{ item.category }}
                     </div>
 
@@ -90,8 +90,8 @@ const navItems = [
                             :href="route(item.route)"
                             class="group flex items-center px-4 py-3 rounded-xl transition-all duration-200 ease-in-out"
                             :class="item.active 
-                                ? 'bg-slate-500 text-white shadow-sm' 
-                                : 'text-slate-100 hover:bg-slate-600/50 hover:text-white'"
+                                ? 'theme-sidebar-nav-active' 
+                                : 'theme-sidebar-nav-inactive'"
                         >
                             <!-- Icon: Group hover ensures icon color follows text -->
                             <svg 
@@ -115,7 +115,7 @@ const navItems = [
             </nav>
 
             <!-- Fixed Bottom Profile -->
-            <div class="relative p-4 bg-slate-600 border-t border-white/10 shrink-0">
+            <div class="theme-sidebar-footer relative p-4 shrink-0">
                 <!-- Dropdown Menu -->
                 <transition
                     enter-active-class="transition ease-out duration-200"
@@ -137,13 +137,13 @@ const navItems = [
                     </div>
                 </transition>
 
-                <button @click="isProfileMenuOpen = !isProfileMenuOpen" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-white/5 transition group">
-                    <div class="w-9 h-9 rounded-full bg-slate-500 flex items-center justify-center text-sm font-bold border-2 border-white/20 shrink-0">{{ $page.props.auth.user.name.charAt(0) }}</div>
+                <button @click="isProfileMenuOpen = !isProfileMenuOpen" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-slate-800 transition group">
+                    <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold border-2 border-indigo-500/30 shrink-0">{{ $page.props.auth.user.name.charAt(0) }}</div>
                     <div class="flex-1 text-left overflow-hidden text-white">
-                        <p class="text-xs font-bold truncate leading-none">{{ $page.props.auth.user.name }}</p>
-                        <p class="text-[10px] text-white mt-1">Administrator</p>
+                        <p class="text-xs font-semibold truncate leading-none">{{ $page.props.auth.user.name }}</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Administrator</p>
                     </div>
-                    <svg class="w-4 h-4 text-white transition" :class="{'rotate-180': isProfileMenuOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 15l7-7 7 7" /></svg>
+                    <svg class="w-4 h-4 text-slate-400 transition" :class="{'rotate-180': isProfileMenuOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 15l7-7 7 7" /></svg>
                 </button>
             </div>
         </aside>
@@ -152,34 +152,34 @@ const navItems = [
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             
             <!-- HEADER -->
-            <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm">
+            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm">
                 <div class="flex items-center">
                     <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 lg:hidden">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                     <div>
-                        <h1 class="text-sm lg:text-lg font-bold text-gray-800 leading-none">Dashboard</h1>
-                        <p class="hidden sm:block text-[10px] text-gray-400 uppercase tracking-widest mt-1">Laravel Inertia Vue Admin</p>
+                        <h1 class="text-sm lg:text-lg font-bold text-slate-800 leading-none">Dashboard</h1>
+                        <p class="hidden sm:block text-[10px] text-slate-400 uppercase tracking-widest mt-1">Laravel Inertia Vue Admin</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="hidden md:block text-sm font-bold text-gray-700">{{ $page.props.auth.user.name }}</span>
-                    <div class="w-8 h-8 rounded-full bg-slate-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-inner">
+                    <span class="hidden md:block text-sm font-semibold text-slate-700">{{ $page.props.auth.user.name }}</span>
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-sm">
                         {{ $page.props.auth.user.name.slice(0, 2) }}
                     </div>
                 </div>
             </header>
 
             <!-- SCROLLABLE MAIN & FOOTER -->
-            <main class="flex-1 overflow-y-auto bg-gray-50 p-4 lg:p-8 custom-scrollbar flex flex-col">
+            <main class="flex-1 overflow-y-auto bg-slate-50 p-4 lg:p-8 custom-scrollbar flex flex-col">
                 <div class="flex-1 max-w-[1600px] mx-auto w-full">
                     <!-- This SLOT is where your specific page content will appear -->
                     <slot />
                 </div>
 
                 <!-- FOOTER -->
-                <footer class="mt-1 pt-8 pb-3 border-t border-gray-200 text-center text-gray-600 text-[10px] lg:text-xs">
+                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200 text-center text-slate-500 text-[10px] lg:text-xs">
                     <div class="uppercase tracking-widest font-bold">
                         Sample Project for Laravel Inertia Vue3 Admin Dashboard Layout
                     </div>
@@ -193,5 +193,5 @@ const navItems = [
 .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.05); border-radius: 10px; }
-aside .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+aside .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); }
 </style>

@@ -95,19 +95,19 @@ const submit = () => {
         <!-- Header Section -->
         <div class="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-extrabold text-slate-700 tracking-tight">
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">
                     {{ isEditing ? 'Edit User Account' : 'Create New User' }}
                 </h2>
-                <p class="text-sm text-slate-500 mt-1 font-medium">
+                <p class="text-sm text-slate-800 mt-1 font-medium">
                     {{ isEditing ? 'Update existing user credentials and permissions.' : 'Add a new member to the system and assign their role.' }}
                 </p>
             </div>
             <Link 
                 :href="route('users.index')" 
-                class="inline-flex items-center text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-emerald-600 transition-colors"
+                class="theme-form-back-link"
             >
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Back to User List
+                <span class="text-slate-900">Back to User List</span>
             </Link>
         </div>
 
@@ -115,17 +115,17 @@ const submit = () => {
             <form @submit.prevent="submit" class="space-y-6">
                 
                 <!-- Main Information Card -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-visible">
+                <div class="theme-form-card">
                    <div class="p-8 md:p-10">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
                             
                             <!-- Full Name -->
                             <div class="flex flex-col">
-                                <InputLabel for="name" value="Name" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="name" value="Name" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="name"
                                     type="text"
-                                    class="block w-full px-4 py-3 bg-slate-50 border-slate-200 rounded-lg focus:bg-white text-slate-700 font-medium"
+                                    class="theme-form-input"
                                     v-model="form.name"
                                     required
                                     placeholder="e.g. John Doe"
@@ -135,11 +135,11 @@ const submit = () => {
 
                             <!-- Email Address -->
                             <div class="flex flex-col">
-                                <InputLabel for="email" value="Email Address" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="email" value="Email Address" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="email"
                                     type="email"
-                                    class="block w-full px-4 py-3 bg-slate-50 border-slate-200 rounded-lg focus:bg-white text-slate-700 font-medium"
+                                    class="theme-form-input"
                                     v-model="form.email"
                                     required
                                     placeholder="john@example.com"
@@ -149,15 +149,15 @@ const submit = () => {
 
                             <!-- CUSTOM SEARCHABLE DROPDOWN (Assign Role) -->
                             <div class="flex flex-col relative" ref="dropdownRef">
-                                <InputLabel for="role_id" value="Assign Role" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="role_id" value="Assign Role" class="theme-form-label ml-1" />
                                 
                                 <!-- Dropdown Trigger -->
                                 <div 
                                     @click="isDropdownOpen = !isDropdownOpen"
-                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer flex items-center justify-between transition-all"
-                                    :class="isDropdownOpen ? 'bg-white border-slate-500 ring-4 ring-slate-500/10' : 'hover:border-slate-300'"
+                                    class="theme-form-select"
+                                    :class="isDropdownOpen ? 'theme-form-select-open' : ''"
                                 >
-                                    <span :class="form.role_id ? 'text-slate-700 font-bold text-sm' : 'text-slate-400 text-sm font-medium'">
+                                    <span :class="form.role_id ? 'text-slate-800 font-semibold text-sm' : 'text-slate-400 text-sm font-medium'">
                                         {{ selectedRoleName }}
                                     </span>
                                     <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="{'rotate-180': isDropdownOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -173,7 +173,7 @@ const submit = () => {
                                                 <input 
                                                     v-model="searchRole"
                                                     type="text" 
-                                                    class="w-full pl-4 pr-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm  outline-none transition-all"
+                                                    class="theme-form-input py-2.5 text-sm"
                                                     placeholder="Search roles..."
                                                     @click.stop
                                                 />
@@ -182,11 +182,11 @@ const submit = () => {
                                         <ul class="max-h-56 overflow-y-auto py-2">
                                             <li v-for="role in filteredRoles" :key="role.id"
                                                 @click="selectRole(role)"
-                                                class="px-5 py-3 text-xs font-black text-slate-600 cursor-pointer flex items-center justify-between "
-                                                :class="{'bg-emerald-50 text-slate-700': form.role_id === role.id}"
+                                                class="px-5 py-3 text-xs font-bold text-slate-600 cursor-pointer flex items-center justify-between hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                                                :class="{'bg-indigo-50 text-indigo-700': form.role_id === role.id}"
                                             >
                                                 {{ role.name.toUpperCase() }}
-                                                <svg v-if="form.role_id === role.id" class="w-4 h-4 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg v-if="form.role_id === role.id" class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                                 </svg>
                                             </li>
@@ -199,17 +199,17 @@ const submit = () => {
 
                             <!-- Password -->
                             <div class="flex flex-col">
-                                <InputLabel for="password" value="Password" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="password" value="Password" class="theme-form-label ml-1" />
                                 <div class="relative">
                                     <TextInput
                                         id="password"
                                         :type="showPassword ? 'text' : 'password'"
-                                        class="block w-full px-4 py-3 bg-slate-50 border-slate-200 rounded-lg focus:bg-white text-slate-700"
+                                        class="theme-form-input pr-12"
                                         v-model="form.password"
                                         :required="!isEditing"
                                         placeholder="••••••••"
                                     />
-                                    <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-emerald-500 transition-colors">
+                                    <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-indigo-600 transition-colors">
                                         <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M2.036 12.322a1.012 1.012 0 0 1 0-.644C3.483 8.613 8.242 4.5 12 4.5c3.758 0 8.517 4.113 9.964 7.178.07.147.07.315 0 .462-1.447 3.065-4.206 7.178-9.964 7.178-3.758 0-8.517-4.113-9.964-7.178Z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
                                         <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21"/></svg>
                                     </button>
@@ -220,11 +220,11 @@ const submit = () => {
 
                             <!-- Confirm Password -->
                             <div class="flex flex-col">
-                                <InputLabel for="password_confirmation" value="Confirm Password" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="password_confirmation" value="Confirm Password" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="password_confirmation"
                                     type="password"
-                                    class="block w-full px-4 py-3 bg-slate-50 border-slate-200 rounded-lg focus:bg-white text-slate-700"
+                                    class="theme-form-input"
                                     v-model="form.password_confirmation"
                                     :required="!isEditing && form.password"
                                     placeholder="••••••••"
@@ -234,7 +234,7 @@ const submit = () => {
 
                             <!-- Profile Image -->
                             <div class="flex flex-col">
-                                <InputLabel for="image" value="Profile Image" class="mb-2 ml-1 text-[12px] font-black uppercase tracking-widest text-slate-800" />
+                                <InputLabel for="image" value="Profile Image" class="theme-form-label ml-1" />
                                 
                                 <div class="flex items-center gap-5 p-4 bg-slate-50 border border-slate-200 rounded-lg">
                                     <!-- Image Preview Circle -->
@@ -259,7 +259,7 @@ const submit = () => {
                                         <button 
                                             type="button" 
                                             @click="$refs.imageInput.click()"
-                                            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-bold uppercase tracking-wider text-slate-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-600 transition-all shadow-sm"
+                                            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-bold uppercase tracking-wider text-slate-700 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-600 transition-all shadow-sm"
                                         >
                                             Select New Photo
                                         </button>
@@ -276,7 +276,7 @@ const submit = () => {
                 <!-- Footer Action Buttons -->
                 <div class="flex items-center justify-center pt-4">
                     <PrimaryButton
-                        class="px-12 py-4 bg-slate-600 hover:bg-slate-700 text-white rounded-full shadow-2xl shadow-slate-200 transition-all duration-200 font-black text-xs uppercase tracking-widest active:scale-95"
+                        class="theme-btn-primary px-12 py-4 rounded-full text-white font-black text-xs uppercase tracking-widest active:scale-95"
                         :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
                         :disabled="form.processing"
                     >

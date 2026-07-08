@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
@@ -64,9 +65,7 @@ const confirmDelete = () => {
                 <p class="text-sm text-slate-500 mt-1 font-medium">Manage and monitor system access and roles.</p>
             </div>
             
-            <Link :href="route('users.create')"
-                class="inline-flex items-center justify-center px-6 py-3 bg-slate-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-slate-500/20 hover:bg-slate-600"
-            >
+            <Link :href="route('users.create')" class="theme-btn-primary">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M12 5v14m7-7H5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -92,18 +91,18 @@ const confirmDelete = () => {
         </transition>
 
         <!-- Professional Table Card -->
-        <div class="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden">
+        <div class="theme-table-card">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-400">
-                            <th class="px-6 py-4 text-[11px] font-black text-white uppercase tracking-widest border-b border-slate-100">User Info</th>
-                            <th class="px-6 py-4 text-[11px] font-black text-white uppercase tracking-widest border-b border-slate-100">User Role</th>
-                            <th class="px-6 py-4 text-[11px] font-black text-white uppercase tracking-widest border-b border-slate-100 text-right">Actions</th>
+                        <tr class="theme-table-header">
+                            <th class="theme-table-header-cell">User Info</th>
+                            <th class="theme-table-header-cell">User Role</th>
+                            <th class="theme-table-header-cell text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
-                        <tr v-for="user in users.data" :key="user.id" class="hover:bg-slate-50/40 transition-colors group">
+                        <tr v-for="user in users.data" :key="user.id" class="theme-table-row group">
                             <td class="px-6 py-2">
                                 <div class="flex items-center space-x-4">
                                   <div class="h-10 w-10 shrink-0 rounded-full bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center">
@@ -130,22 +129,25 @@ const confirmDelete = () => {
                             </td>
 
                             <td class="px-6 py-2 whitespace-nowrap text-right">
-                                <div class="flex justify-end items-center space-x-2">
+                                <div class="theme-table-actions">
                                     <Link 
                                         :href="route('users.edit', user.id)" 
-                                        class="p-2.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200"
+                                        class="theme-table-action-btn theme-table-action-edit"
                                         title="Edit User"
+                                        aria-label="Edit User"
                                     >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                             <path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </Link>
                                     
-                                  <button 
+                                    <button 
                                         @click="openDeleteModal(user)" 
-                                        class="p-2.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all duration-200"
+                                        class="theme-table-action-btn theme-table-action-delete"
+                                        title="Delete User"
+                                        aria-label="Delete User"
                                     >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                        <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                             <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </button>
@@ -160,7 +162,7 @@ const confirmDelete = () => {
             </div>
 
             <!-- Pagination Footer -->
-            <div class="px-6 py-3 bg-slate-50 border-t border-slate-200 flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
+            <div class="theme-table-footer flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
                 <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center sm:text-left">
                     Showing <span class="text-slate-900">{{ users.from || 0 }}</span> to <span class="text-slate-900">{{ users.to || 0 }}</span> of <span class="text-slate-900">{{ users.total }}</span> entries
                 </div>
@@ -172,7 +174,7 @@ const confirmDelete = () => {
                             :href="link.url" 
                             v-html="link.label"
                             class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold rounded-lg border transition-all duration-200"
-                            :class="[link.active ? 'bg-slate-600 border-slate-600 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50']"
+                            :class="[link.active ? 'theme-pagination-active' : 'theme-pagination-inactive']"
                         />
                         <span v-else v-html="link.label" class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold text-slate-300 bg-white border border-slate-100 rounded-lg cursor-not-allowed" />
                     </template>
@@ -180,77 +182,17 @@ const confirmDelete = () => {
             </div>
         </div>
 
-        <Teleport to="body">
-            <Transition
-                enter-active-class="transition duration-300 ease-out"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="transition duration-200 ease-in"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0"
-            >
-                <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <!-- Professional Backdrop -->
-                    <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-md" @click="closeModal"></div>
-
-                    <!-- Modal Content -->
-                    <Transition
-                        enter-active-class="transition duration-300 ease-out"
-                        enter-from-class="opacity-0 scale-95 translate-y-4"
-                        enter-to-class="opacity-100 scale-100 translate-y-0"
-                        leave-active-class="transition duration-200 ease-in"
-                        leave-from-class="opacity-100 scale-100 translate-y-0"
-                        leave-to-class="opacity-0 scale-95 translate-y-4"
-                    >
-                        <div v-if="isModalOpen" class="relative bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden w-full max-w-[400px] transform transition-all">
-                            <div class="p-10">
-                                <!-- Icon Circle -->
-                                <div class="flex items-center justify-center w-20 h-20 mx-auto bg-rose-50 rounded-full mb-6">
-                                    <div class="flex items-center justify-center w-14 h-14 bg-rose-100 rounded-full shadow-inner">
-                                        <svg class="w-7 h-7 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-center">
-                                    <p class="mt-4 text-slate-500 font-medium text-sm leading-relaxed px-2">
-                                        Are you sure you want to permanently remove the account for:
-                                    
-                                    <div class="mt-4 inline-flex items-center px-4 py-2 bg-slate-50 border border-slate-100 rounded-2xl">
-                                        <div class="w-6 h-6 rounded-full bg-slate-800 text-[10px] text-white flex items-center justify-center font-bold mr-2">
-                                            {{ selectedUser?.name.slice(0, 1) }}
-                                        </div>
-                                        <span class="text-slate-900 font-black text-sm">{{ selectedUser?.name }}</span>
-                                    </div>
-                                    </p>
-
-                                
-
-                                    <p class="mt-4 text-[13px] text-rose-500 font-bold uppercase tracking-widest">This action is irreversible</p>
-                                </div>
-                            </div>
-
-                            <!-- Centered Actions -->
-                            <div class="flex flex-col gap-3 p-10 pt-0 items-center justify-center">
-                                <button 
-                                    @click="confirmDelete" 
-                                    class="w-full py-4 text-sm font-black text-white bg-rose-600 rounded-2xl hover:bg-rose-700 shadow-xl shadow-rose-200 transition-all active:scale-[0.97]"
-                                >
-                                    Yes, Confirm Deletion
-                                </button>
-                                <button 
-                                    @click="closeModal" 
-                                    class="w-full py-4 text-sm font-bold text-slate-400 bg-transparent hover:text-slate-600 rounded-2xl transition-all"
-                                >
-                                    No, keep this account
-                                </button>
-                            </div>
-                        </div>
-                    </Transition>
-                </div>
-            </Transition>
-        </Teleport>
+        <ConfirmModal
+            :show="isModalOpen"
+            title="Delete User Account"
+            message="Are you sure you want to permanently remove this user account from the system?"
+            confirm-label="Yes, Delete User"
+            cancel-label="No, Keep User"
+            :badge="selectedUser?.name"
+            :badge-initial="selectedUser?.name?.slice(0, 1)"
+            @close="closeModal"
+            @confirm="confirmDelete"
+        />
     </AuthenticatedLayout>
 </template>
 

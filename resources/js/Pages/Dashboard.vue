@@ -49,7 +49,7 @@ const stats = [
             <!-- Welcome Banner - Added Gradient for a more premium look -->
             <div
                 data-aos="fade-down"
-                class="bg-gradient-to-r from-slate-500 to-slate-400 rounded-2xl p-6 lg:p-10 text-white relative overflow-hidden shadow-lg"
+                class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 rounded-2xl p-6 lg:p-10 text-white relative overflow-hidden shadow-lg"
             >
                 <div class="relative z-10">
                     <h2
@@ -84,7 +84,7 @@ const stats = [
                     :data-aos-delay="index * 100"
                     data-aos-duration="1000"
                     data-aos-easing="ease-out-back"
-                    class="group bg-white p-5 lg:p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-blue-200"
+                    class="group bg-white p-5 lg:p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-indigo-200"
                 >
                     <div>
                         <!-- Title with slightly more letter spacing -->
@@ -104,7 +104,7 @@ const stats = [
 
                     <!-- Icon Container: Changes color on card hover -->
                     <div
-                        class="bg-gray-50 p-3 rounded-xl text-gray-400 transition-all duration-300 group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:rotate-3"
+                        class="bg-slate-50 p-3 rounded-xl text-slate-400 transition-all duration-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-3"
                     >
                         <svg
                             class="w-6 h-6 lg:w-8 lg:h-8"
