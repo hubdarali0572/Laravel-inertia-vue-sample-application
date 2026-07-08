@@ -106,13 +106,13 @@ const getFieldData = (log, fieldName) => {
         <!-- Page Header -->
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-black text-slate-700 tracking-tight">System Activity Logs</h2>
-                <p class="text-sm text-slate-500 mt-1 font-medium">Detailed tracking of all system changes.</p>
+                <h2 class="text-2xl font-black text-slate-700 dark:text-slate-100 tracking-tight">System Activity Logs</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Detailed tracking of all system changes.</p>
             </div>
             
            <button 
                 @click="isClearModalOpen = true" 
-                class="theme-btn-secondary text-rose-600 border-rose-200 hover:bg-rose-50 hover:border-rose-300"
+                class="theme-btn-secondary text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:border-rose-300"
             >
                 <!-- Trash Icon SVG -->
                 <svg 
@@ -133,7 +133,7 @@ const getFieldData = (log, fieldName) => {
         </div>
 
         <!-- Flash Message -->
-        <div v-if="showFlash && $page.props.flash.success" class="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 text-sm font-bold rounded-r-xl shadow-sm flex justify-between items-center animate-pulse">
+        <div v-if="showFlash && $page.props.flash.success" class="mb-6 p-4 bg-emerald-50 dark:bg-emerald-500/10 border-l-4 border-emerald-500 text-emerald-800 dark:text-emerald-300 text-sm font-bold rounded-r-xl shadow-sm flex justify-between items-center animate-pulse">
             <div class="flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
                 {{ $page.props.flash.success }}
@@ -155,19 +155,19 @@ const getFieldData = (log, fieldName) => {
                             <th class="theme-table-header-cell w-[7%] text-center">Delete</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                         <tr v-for="log in activities.data" :key="log.id" class="theme-table-row">
-                            <td class="px-4 text-xs font-bold text-slate-800">
+                            <td class="px-4 text-xs font-bold text-slate-800 dark:text-slate-100">
                                 {{ log.causer?.name || "System" }}
                             </td>
                             <td class="px-4 text-center py-2">
-                                <span :class="{'px-1.5 py-0.5 rounded text-[9px] font-black uppercase': true, 'bg-emerald-100 text-emerald-700': log.description === 'created', 'bg-amber-100 text-amber-700': log.description === 'updated', 'bg-rose-100 text-rose-700': log.description === 'deleted'}">
+                                <span :class="{'px-1.5 py-0.5 rounded text-[9px] font-black uppercase': true, 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300': log.description === 'created', 'bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300': log.description === 'updated', 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300': log.description === 'deleted'}">
                                     {{ log.description }}
                                 </span>
                             </td>
                             <td class="px-4 py-2">
-                                <div class="text-[11px] font-black text-slate-700 uppercase">{{ getModelName(log.subject_type) }}</div>
-                                <div class="text-[9px] text-slate-400 font-medium">REF: #{{ log.subject_id }}</div>
+                                <div class="text-[11px] font-black text-slate-700 dark:text-slate-200 uppercase">{{ getModelName(log.subject_type) }}</div>
+                                <div class="text-[9px] text-slate-400 dark:text-slate-500 font-medium">REF: #{{ log.subject_id }}</div>
                             </td>
                             <td class="px-4 text-center py-2">
                                 <div v-if="getFieldData(log, 'name').hasChange">
@@ -181,7 +181,7 @@ const getFieldData = (log, fieldName) => {
                                 </div>
                                 <span v-else class="text-slate-200">-</span>
                             </td>
-                            <td class="px-4 text-right text-[11px] font-bold text-slate-700 py-2">
+                            <td class="px-4 text-right text-[11px] font-bold text-slate-700 dark:text-slate-300 py-2">
                                 {{ formatDate(log.created_at) }}
                             </td>
                             <td class="px-4 text-center py-2">
@@ -206,8 +206,8 @@ const getFieldData = (log, fieldName) => {
           <!-- Pagination Footer -->
             <div class="theme-table-footer flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
                 <!-- Summary Text -->
-                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center sm:text-left">
-                    Showing <span class="text-slate-900">{{ activities.from || 0 }}</span> to <span class="text-slate-900">{{ activities.to || 0 }}</span> of <span class="text-slate-900">{{ activities.total }}</span> logs
+                <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center sm:text-left">
+                    Showing <span class="text-slate-900 dark:text-slate-200">{{ activities.from || 0 }}</span> to <span class="text-slate-900 dark:text-slate-200">{{ activities.to || 0 }}</span> of <span class="text-slate-900 dark:text-slate-200">{{ activities.total }}</span> logs
                 </div>
 
                 <!-- Pagination Links -->
@@ -225,7 +225,7 @@ const getFieldData = (log, fieldName) => {
                         <span 
                             v-else 
                             v-html="link.label" 
-                            class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold text-slate-300 bg-white border border-slate-100 rounded-lg cursor-not-allowed" 
+                            class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold text-slate-300 dark:text-slate-600 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg cursor-not-allowed" 
                         />
                     </template>
                 </div>

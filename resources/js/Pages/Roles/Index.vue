@@ -60,8 +60,8 @@ const confirmDelete = () => {
         <!-- Page Header -->
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-black text-slate-700 tracking-tight">Role Management</h2>
-                <p class="text-sm text-slate-500 mt-1 font-medium">Manage and monitor system access and roles.</p>
+                <h2 class="text-2xl font-black text-slate-700 dark:text-slate-100 tracking-tight">Role Management</h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Manage and monitor system access and roles.</p>
             </div>
             
             <Link :href="route('roles.create')" class="theme-btn-primary">
@@ -75,7 +75,7 @@ const confirmDelete = () => {
         <!-- Flash Messages -->
         <transition name="fade">
             <div v-if="showFlash && ($page.props.flash.success || $page.props.flash.danger)" 
-                :class="[$page.props.flash.success ? 'bg-emerald-50 border-emerald-500 text-emerald-800' : 'bg-rose-50 border-rose-500 text-rose-800']"
+                :class="[$page.props.flash.success ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-500 text-emerald-800 dark:text-emerald-300' : 'bg-rose-50 dark:bg-rose-500/10 border-rose-500 text-rose-800 dark:text-rose-300']"
                 class="mb-6 flex items-center p-4 border-l-4 rounded-r-xl shadow-sm"
             >
                 <p class="text-sm font-bold">{{ $page.props.flash.success || $page.props.flash.danger }}</p>
@@ -95,10 +95,10 @@ const confirmDelete = () => {
                             <th class="theme-table-header-cell text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100">
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                         <tr v-for="role in roles.data" :key="role.id" class="theme-table-row group">
                             <td class="px-6 py-2">
-                                <span class="text-sm font-bold text-slate-800 tracking-tight capitalize">{{ role.name }}</span>
+                                <span class="text-sm font-bold text-slate-800 dark:text-slate-100 tracking-tight capitalize">{{ role.name }}</span>
                             </td>
 
                             <td class="px-6 py-2 whitespace-nowrap text-right">
@@ -128,7 +128,7 @@ const confirmDelete = () => {
                         </tr>
                         <!-- Empty State -->
                         <tr v-if="roles.data.length === 0">
-                            <td colspan="2" class="px-6 py-12 text-center text-slate-400 font-medium italic">No roles available.</td>
+                            <td colspan="2" class="px-6 py-12 text-center text-slate-400 dark:text-slate-500 font-medium italic">No roles available.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -136,10 +136,10 @@ const confirmDelete = () => {
 
             <!-- Pagination Footer -->
           <div class="theme-table-footer flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
-                 <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center sm:text-left">
-                    Showing <span class="text-slate-900">{{ roles.from || 0 }}</span>
-                    to <span class="text-slate-900">{{ roles.to || 0 }}</span>
-                    of <span class="text-slate-900">{{ roles.total }}</span> roles
+                 <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest text-center sm:text-left">
+                    Showing <span class="text-slate-900 dark:text-slate-200">{{ roles.from || 0 }}</span>
+                    to <span class="text-slate-900 dark:text-slate-200">{{ roles.to || 0 }}</span>
+                    of <span class="text-slate-900 dark:text-slate-200">{{ roles.total }}</span> roles
                 </div>
 
                 <div class="flex flex-wrap justify-center items-center gap-1.5">
@@ -151,7 +151,7 @@ const confirmDelete = () => {
                             class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold rounded-lg border transition-all"
                             :class="[link.active ? 'theme-pagination-active' : 'theme-pagination-inactive']"
                         />
-                        <span v-else v-html="link.label" class="min-w-[34px] h-8 px-2 flex items-center justify-center text-xs font-bold text-slate-300 bg-white border border-slate-100 rounded-lg cursor-not-allowed" />
+                        <span v-else v-html="link.label" class="min-w-[34px] h-8 px-2 flex items-center justify-center text-xs font-bold text-slate-300 dark:text-slate-600 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-lg cursor-not-allowed" />
                     </template>
                 </div>
             </div>

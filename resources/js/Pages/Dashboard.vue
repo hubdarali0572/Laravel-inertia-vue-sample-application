@@ -84,19 +84,19 @@ const stats = [
                     :data-aos-delay="index * 100"
                     data-aos-duration="1000"
                     data-aos-easing="ease-out-back"
-                    class="group bg-white p-5 lg:p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-indigo-200"
+                    class="group bg-white dark:bg-slate-800 p-5 lg:p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-indigo-200 dark:hover:border-indigo-500/40"
                 >
                     <div>
                         <!-- Title with slightly more letter spacing -->
                         <p
-                            class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.15em]"
+                            class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-[0.15em]"
                         >
                             {{ stat.title }}
                         </p>
 
                         <!-- Value with a subtle scale effect on card hover -->
                         <p
-                            class="text-3xl lg:text-4xl font-black text-gray-800 mt-2 transition-transform duration-500 group-hover:scale-105 origin-left"
+                            class="text-3xl lg:text-4xl font-black text-gray-800 dark:text-slate-100 mt-2 transition-transform duration-500 group-hover:scale-105 origin-left"
                         >
                             {{ stat.value }}
                         </p>
@@ -104,7 +104,7 @@ const stats = [
 
                     <!-- Icon Container: Changes color on card hover -->
                     <div
-                        class="bg-slate-50 p-3 rounded-xl text-slate-400 transition-all duration-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-3"
+                        class="bg-slate-50 dark:bg-slate-700 p-3 rounded-xl text-slate-400 dark:text-slate-300 transition-all duration-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-3"
                     >
                         <svg
                             class="w-6 h-6 lg:w-8 lg:h-8"

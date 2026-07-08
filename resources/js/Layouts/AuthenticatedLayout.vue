@@ -1,6 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import { useDarkMode } from '@/composables/useDarkMode';
+
+const { isDark, toggleDarkMode } = useDarkMode();
 
 const isSidebarOpen = ref(false); 
 const isProfileMenuOpen = ref(false);
@@ -41,7 +44,7 @@ const navItems = [
 </script>
 
 <template>
-    <div class="h-screen flex overflow-hidden bg-slate-50 font-sans text-slate-900">
+    <div class="h-screen flex overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 transition-colors">
         
         <!-- MOBILE OVERLAY -->
         <transition
@@ -152,19 +155,37 @@ const navItems = [
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             
             <!-- HEADER -->
-            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm">
+            <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors">
                 <div class="flex items-center">
-                    <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 lg:hidden">
+                    <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 dark:text-slate-300 lg:hidden">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                     <div>
-                        <h1 class="text-sm lg:text-lg font-bold text-slate-800 leading-none">Dashboard</h1>
-                        <p class="hidden sm:block text-[10px] text-slate-400 uppercase tracking-widest mt-1">Laravel Inertia Vue Admin</p>
+                        <h1 class="text-sm lg:text-lg font-bold text-slate-800 dark:text-slate-100 leading-none">Dashboard</h1>
+                        <p class="hidden sm:block text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Laravel Inertia Vue Admin</p>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <span class="hidden md:block text-sm font-semibold text-slate-700">{{ $page.props.auth.user.name }}</span>
+                    <!-- Light / Dark Mode Toggle -->
+                    <button
+                        @click="toggleDarkMode"
+                        type="button"
+                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                        :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+                        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+                    >
+                        <!-- Sun (shown in dark mode, click to go light) -->
+                        <svg v-if="isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+                        </svg>
+                        <!-- Moon (shown in light mode, click to go dark) -->
+                        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+                        </svg>
+                    </button>
+
+                    <span class="hidden md:block text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $page.props.auth.user.name }}</span>
                     <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-sm">
                         {{ $page.props.auth.user.name.slice(0, 2) }}
                     </div>
@@ -172,14 +193,14 @@ const navItems = [
             </header>
 
             <!-- SCROLLABLE MAIN & FOOTER -->
-            <main class="flex-1 overflow-y-auto bg-slate-50 p-4 lg:p-8 custom-scrollbar flex flex-col">
+            <main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 p-4 lg:p-8 custom-scrollbar flex flex-col transition-colors">
                 <div class="flex-1 max-w-[1600px] mx-auto w-full">
                     <!-- This SLOT is where your specific page content will appear -->
                     <slot />
                 </div>
 
                 <!-- FOOTER -->
-                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200 text-center text-slate-500 text-[10px] lg:text-xs">
+                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200 dark:border-slate-700 text-center text-slate-500 dark:text-slate-500 text-[10px] lg:text-xs">
                     <div class="uppercase tracking-widest font-bold">
                         Sample Project for Laravel Inertia Vue3 Admin Dashboard Layout
                     </div>

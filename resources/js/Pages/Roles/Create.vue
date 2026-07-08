@@ -48,10 +48,10 @@ const submit = () => {
         <!-- Header -->
         <div class="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-black text-slate-700 tracking-tight">
+                <h2 class="text-2xl font-black text-slate-700 dark:text-slate-100 tracking-tight">
                     {{ isEditing ? 'Edit Role Authority' : 'Create System Role' }}
                 </h2>
-                <p class="text-sm text-slate-500 mt-1 font-medium">Configure access levels for Users and Roles.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">Configure access levels for Users and Roles.</p>
             </div>
             <Link 
                 :href="route('roles.index')" 
@@ -97,7 +97,7 @@ const submit = () => {
                   <!-- Card Body: Permissions Grid (3 columns) -->
                     <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-x-4 gap-y-4">
                         <div v-for="permission in permissions" :key="permission.id" 
-                            class="flex items-center p-3 rounded-xl border border-transparent hover:border-slate-100 hover:bg-slate-50/80 transition-all group"
+                            class="flex items-center p-3 rounded-xl border border-transparent hover:border-slate-100 dark:hover:border-slate-700 hover:bg-slate-50/80 dark:hover:bg-slate-700/40 transition-all group"
                         >
                             <input 
                                 :id="'perm-' + permission.id"
@@ -107,7 +107,7 @@ const submit = () => {
                                 class="theme-form-checkbox h-5 w-5"
                             >
                             <label :for="'perm-' + permission.id" class="ml-3 cursor-pointer flex-1">
-                                <span class="block text-[13px] font-bold text-slate-700 capitalize tracking-tight group-hover:text-indigo-600 transition-colors">
+                                <span class="block text-[13px] font-bold text-slate-700 dark:text-slate-200 capitalize tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                     {{ permission.name }}
                                 </span>
                             </label>

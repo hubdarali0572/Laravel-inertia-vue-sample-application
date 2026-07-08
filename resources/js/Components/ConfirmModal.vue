@@ -98,7 +98,7 @@ const emit = defineEmits(['close', 'confirm']);
                                 >
                                     {{ badgeInitial }}
                                 </div>
-                                <span class="text-sm font-semibold text-slate-800">{{ badge }}</span>
+                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">{{ badge }}</span>
                             </div>
 
                             <p class="theme-modal-warning">This action is irreversible</p>
