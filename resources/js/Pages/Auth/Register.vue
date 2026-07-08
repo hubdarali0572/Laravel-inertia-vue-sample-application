@@ -14,7 +14,6 @@ const form = useForm({
     password_confirmation: '',
 });
 
-// State for toggling password visibility
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
@@ -29,24 +28,22 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <!-- Header Section -->
         <div class="mb-8 text-center">
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Create an account
             </h2>
-            <p class="mt-2 text-sm text-gray-600">
-                Join us today and start managing your projects.
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                Join us today and start managing your digital media platform.
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-5">
-            <!-- Name Field -->
             <div>
-                <InputLabel for="name" value="Full Name" class="font-semibold text-gray-700" />
+                <InputLabel for="name" value="Full Name" />
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:ring-slate-500 focus:border-slate-500 shadow-sm transition"
+                    class="mt-1.5"
                     v-model="form.name"
                     required
                     autofocus
@@ -56,13 +53,12 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.name" />
             </div>
 
-            <!-- Email Field -->
             <div>
-                <InputLabel for="email" value="Email Address" class="font-semibold text-gray-700" />
+                <InputLabel for="email" value="Email Address" />
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:ring-slate-500 focus:border-slate-500 shadow-sm transition"
+                    class="mt-1.5"
                     v-model="form.email"
                     required
                     placeholder="name@company.com"
@@ -71,14 +67,13 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.email" />
             </div>
 
-            <!-- Password Field -->
             <div>
-                <InputLabel for="password" value="Password" class="font-semibold text-gray-700" />
-                <div class="mt-1 relative">
+                <InputLabel for="password" value="Password" />
+                <div class="mt-1.5 relative">
                     <TextInput
                         id="password"
                         :type="showPassword ? 'text' : 'password'"
-                        class="block w-full px-4 py-3 pr-12 rounded-xl border-gray-300 focus:ring-slate-500 focus:border-slate-500 shadow-sm transition"
+                        class="pr-12"
                         v-model="form.password"
                         required
                         placeholder="••••••••"
@@ -86,7 +81,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-slate-600 transition"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         @click="showPassword = !showPassword"
                     >
                         <svg v-if="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -101,14 +96,13 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.password" />
             </div>
 
-            <!-- Confirm Password Field -->
             <div>
-                <InputLabel for="password_confirmation" value="Confirm Password" class="font-semibold text-gray-700" />
-                <div class="mt-1 relative">
+                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <div class="mt-1.5 relative">
                     <TextInput
                         id="password_confirmation"
                         :type="showConfirmPassword ? 'text' : 'password'"
-                        class="block w-full px-4 py-3 pr-12 rounded-xl border-gray-300 focus:ring-slate-500 focus:border-slate-500 shadow-sm transition"
+                        class="pr-12"
                         v-model="form.password_confirmation"
                         required
                         placeholder="••••••••"
@@ -116,7 +110,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-slate-600 transition"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         @click="showConfirmPassword = !showConfirmPassword"
                     >
                         <svg v-if="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -131,13 +125,8 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.password_confirmation" />
             </div>
 
-            <!-- Submit Button -->
-            <div class="pt-2">
-                <PrimaryButton
-                    class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-200"
-                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
-                    :disabled="form.processing"
-                >
+            <div class="pt-1">
+                <PrimaryButton class="w-full py-3.5" :disabled="form.processing">
                     <span v-if="form.processing" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -150,11 +139,13 @@ const submit = () => {
             </div>
         </form>
 
-        <!-- Footer -->
-        <div class="mt-8 text-center">
-            <p class="text-sm text-gray-500">
-                Already have an account? 
-                <Link :href="route('login')" class="font-semibold text-slate-600 hover:text-slate-500 underline-offset-4 hover:underline">
+        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+            <p class="text-sm text-slate-500 dark:text-slate-400">
+                Already have an account?
+                <Link
+                    :href="route('login')"
+                    class="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline-offset-4 hover:underline"
+                >
                     Log in
                 </Link>
             </p>

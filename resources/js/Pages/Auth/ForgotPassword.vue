@@ -25,77 +25,63 @@ const submit = () => {
     <GuestLayout>
         <Head title="Forgot Password" />
 
-        <!-- Header Section -->
         <div class="mb-8 text-center">
-            <!-- Icon Decoration (Optional) -->
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-slate-600">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-500/15 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-600 dark:text-indigo-400">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
                 </svg>
             </div>
-            
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+
+            <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
                 Forgot password?
             </h2>
-            <p class="mt-2 text-sm text-gray-600">
+            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
                 No worries, we'll send you reset instructions.
             </p>
         </div>
 
-        <!-- Success Status Message -->
         <div
             v-if="status"
-            class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-sm font-medium text-green-700 flex items-start"
+            class="mb-6 p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-xl text-sm font-medium text-emerald-700 dark:text-emerald-400 flex items-start"
         >
-            <svg class="h-5 w-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-5 w-5 text-emerald-500 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             {{ status }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
-            <!-- Email Field -->
             <div>
-                <InputLabel for="email" value="Email Address" class="font-semibold text-gray-700" />
-
+                <InputLabel for="email" value="Email Address" />
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full px-4 py-3 rounded-xl border-gray-300 focus:ring-slate-500 focus:border-slate-500 shadow-sm transition"
+                    class="mt-1.5"
                     v-model="form.email"
                     required
                     autofocus
                     placeholder="Enter your registered email"
                     autocomplete="username"
                 />
-
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <!-- Action Button -->
-            <div>
-                <PrimaryButton
-                    class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-sm font-bold text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-200"
-                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
-                    :disabled="form.processing"
-                >
-                    <span v-if="form.processing" class="flex items-center">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Sending Link...
-                    </span>
-                    <span v-else>Email Password Reset Link</span>
-                </PrimaryButton>
-            </div>
+            <PrimaryButton class="w-full py-3.5" :disabled="form.processing">
+                <span v-if="form.processing" class="flex items-center">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending Link...
+                </span>
+                <span v-else>Email Password Reset Link</span>
+            </PrimaryButton>
         </form>
 
-        <!-- Back to Login -->
-        <div class="mt-8 text-center">
+        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
             <Link
                 :href="route('login')"
-                class="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-slate-500 transition-colors"
+                class="inline-flex items-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
