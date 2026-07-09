@@ -44,7 +44,7 @@ const navItems = [
 </script>
 
 <template>
-    <div class="h-screen flex overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 transition-colors">
+    <div class="h-screen flex overflow-hidden bg-slate-50 font-sans text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors">
         
         <!-- MOBILE OVERLAY -->
         <transition
@@ -80,7 +80,7 @@ const navItems = [
 
           <!-- Scrollable Nav Links -->
             <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar">
-                <template v-for="item in navItems" :key="item.name">
+                <template v-for="item in navItems" :key="item.name" >
                     
                     <!-- Category Header: Styled with better contrast and spacing -->
                     <div v-if="item.category" class="theme-sidebar-category px-7 pt-3 pb-3 text-[10px] font-semibold tracking-[0.15em] uppercase">
@@ -155,7 +155,7 @@ const navItems = [
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             
             <!-- HEADER -->
-            <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors">
+            <header class="bg-white border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors">
                 <div class="flex items-center">
                     <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 dark:text-slate-300 lg:hidden">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -171,7 +171,7 @@ const navItems = [
                     <button
                         @click="toggleDarkMode"
                         type="button"
-                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-amber-300 hover:bg-slate-100 dark:hover:bg-slate-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-600 dark:bg-slate-700 dark:text-amber-300 dark:hover:bg-slate-600 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
                         :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                         :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                     >
@@ -200,7 +200,7 @@ const navItems = [
                 </div>
 
                 <!-- FOOTER -->
-                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200 dark:border-slate-700 text-center text-slate-500 dark:text-slate-500 text-[10px] lg:text-xs">
+                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200  text-center text-slate-500 dark:border-slate-700 dark:text-slate-500 text-[10px] lg:text-xs">
                     <div class="uppercase tracking-widest font-bold">
                         Sample Project for Laravel Inertia Vue3 Admin Dashboard Layout
                     </div>
