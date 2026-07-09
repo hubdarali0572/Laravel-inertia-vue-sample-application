@@ -3,11 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\ActivityLogController;
+
+require __DIR__ . '/public-site.php';
 
 // activitylogs Route
 
@@ -20,15 +21,6 @@ Route::delete('/activity-logs-clear', [ActivityLogController::class, 'clearAll']
 Route::get('/api/activities/{module}/{id}', [ActivityLogController::class, 'getLogs']);
 
 
-
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

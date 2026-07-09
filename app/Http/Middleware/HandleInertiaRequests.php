@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -34,6 +36,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'canLogin' => fn () => Route::has('login'),
+            'canRegister' => fn () => Route::has('register'),
+            'laravelVersion' => fn () => Application::VERSION,
+            'phpVersion' => fn () => PHP_VERSION,
             // ADD THIS PART BELOW:
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),

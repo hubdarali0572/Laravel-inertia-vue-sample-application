@@ -1,19 +1,11 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import { useDarkMode } from "@/composables/useDarkMode";
-import { onMounted, nextTick } from "vue";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { Head, usePage } from "@inertiajs/vue3";
+import PublicSiteLayout from "@/Layouts/PublicSite/PublicSiteLayout.vue";
+import { computed } from "vue";
 
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-});
-
-const { isDark, toggleDarkMode } = useDarkMode();
+const page = usePage();
+const laravelVersion = computed(() => page.props.laravelVersion);
+const phpVersion = computed(() => page.props.phpVersion);
 
 const pillars = [
     {
@@ -122,134 +114,15 @@ const accentClasses = {
     },
 };
 
-onMounted(() => {
-    nextTick(() => {
-        AOS.init({
-            duration: 700,
-            once: true,
-            offset: 60,
-        });
-    });
-});
 </script>
 
 <template>
-    <Head title="Welcome" />
-
-    <div
-        class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100"
-    >
-        <!-- Navigation -->
-        <header
-            class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-lg dark:border-slate-800/80 dark:bg-slate-950/80"
-        >
-            <nav
-                class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
-            >
-                <Link href="/" class="flex items-center gap-3">
-                    <ApplicationLogo
-                        class="h-8 w-auto fill-indigo-600 dark:fill-indigo-400"
-                    />
-                    <span
-                        class="hidden sm:block text-sm font-bold tracking-tight text-slate-800 dark:text-white"
-                    >
-                        Unified Media
-                    </span>
-                </Link>
-
-                <div class="hidden md:flex items-center gap-8">
-                    <a
-                        href="#features"
-                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
-                    >
-                        Features
-                    </a>
-                    <a
-                        href="#stack"
-                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
-                    >
-                        Tech Stack
-                    </a>
-                    <a
-                        href="#security"
-                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
-                    >
-                        Security
-                    </a>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <button
-                        type="button"
-                        @click="toggleDarkMode"
-                        class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors dark:text-slate-400 dark:hover:bg-slate-800"
-                        :aria-label="
-                            isDark
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
-                        "
-                    >
-                        <svg
-                            v-if="isDark"
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="1.5"
-                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                            />
-                        </svg>
-                        <svg
-                            v-else
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="1.5"
-                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                            />
-                        </svg>
-                    </button>
-
-                    <template v-if="canLogin">
-                        <Link
-                            v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors"
-                        >
-                            Dashboard
-                        </Link>
-                        <template v-else>
-                            <Link
-                                :href="route('login')"
-                                class="hidden sm:inline-flex rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors dark:text-slate-200 dark:hover:bg-slate-800"
-                            >
-                                Sign In
-                            </Link>
-                            <Link
-                                v-if="canRegister"
-                                :href="route('register')"
-                                class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 transition-colors"
-                            >
-                                Get Started
-                            </Link>
-                        </template>
-                    </template>
-                </div>
-            </nav>
-        </header>
+    <PublicSiteLayout>
+        <Head title="Home" />
 
         <!-- Hero -->
         <section
-            class="relative isolate pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden"
+            class="relative isolate pt-16 pb-20 lg:pt-20 lg:pb-28 overflow-hidden"
         >
             <div
                 class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl"
@@ -684,29 +557,5 @@ onMounted(() => {
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <footer
-            class="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950"
-        >
-            <div class="mx-auto max-w-7xl px-6 py-10 lg:px-8">
-                <div
-                    class="flex flex-col sm:flex-row items-center justify-between gap-4"
-                >
-                    <div class="flex items-center gap-3">
-                        <ApplicationLogo class="h-6 w-auto fill-slate-400" />
-                        <p class="text-sm text-slate-500 dark:text-slate-400">
-                            Precision-Engineered Governance for Unified Digital
-                            Media
-                        </p>
-                    </div>
-                    <p class="text-xs text-slate-400 dark:text-slate-500">
-                        Laravel v{{ laravelVersion }} &middot; PHP v{{
-                            phpVersion
-                        }}
-                    </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+    </PublicSiteLayout>
 </template>

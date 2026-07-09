@@ -8,10 +8,23 @@ const { isDark, toggleDarkMode } = useDarkMode();
 const isSidebarOpen = ref(false); 
 const isProfileMenuOpen = ref(false);
 
-// Close sidebar automatically when clicking a link on mobile
+// Close sidebar and profile menu when navigating
 watch(() => usePage().url, () => {
     isSidebarOpen.value = false;
+    isProfileMenuOpen.value = false;
 });
+
+const userInitials = () => {
+    const name = usePage().props.auth.user.name;
+    return name
+        .split(" ")
+        .map((part) => part[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+};
+
+const isProfileActive = () => route().current("profile.edit");
 
 // Dynamic Navigation with "Active" state detection
 const navItems = [
@@ -30,13 +43,13 @@ const navItems = [
     },
     { 
         name: 'Roles & Permissions',   
-        icon: 'M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z', 
+        icon: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z', 
         route: 'roles.index',
         active: route().current('roles.*') // Active for index, edit, create
     },
     { 
         name: 'Activity Logs',   
-        icon: 'M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z', 
+        icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01', 
     route: 'activity.index',
         active: route().current('activity.*')
     },
@@ -128,25 +141,124 @@ const navItems = [
                     leave-from-class="opacity-100 translate-y-0 scale-100"
                     leave-to-class="opacity-0 translate-y-2 scale-95"
                 >
-                    <div v-if="isProfileMenuOpen" class="absolute bottom-full left-4 right-4 mb-3 bg-white rounded-2xl shadow-2xl z-[60] overflow-hidden text-gray-800 border border-gray-100">
-                        <div class="p-4 bg-gray-50 border-b border-gray-100">
-                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Signed in as</p>
-                            <p class="text-sm font-bold truncate">{{ $page.props.auth.user.email }}</p>
+                    <div
+                        v-if="isProfileMenuOpen"
+                        class="absolute bottom-full left-3 right-3 mb-3 z-[60] overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-800 shadow-2xl shadow-black/40 ring-1 ring-white/10"
+                    >
+                        <div
+                            class="border-b border-slate-700 bg-slate-900/60 px-4 py-4"
+                        >
+                            <p
+                                class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500"
+                            >
+                                Signed in as
+                            </p>
+                            <p
+                                class="mt-1 truncate text-sm font-bold text-white"
+                            >
+                                {{ $page.props.auth.user.name }}
+                            </p>
+                            <p
+                                class="mt-0.5 truncate text-xs font-medium text-slate-400"
+                            >
+                                {{ $page.props.auth.user.email }}
+                            </p>
                         </div>
-                        <Link :href="route('logout')" method="post" as="button" class="w-full text-left p-4 text-sm font-bold text-red-600 hover:bg-red-50 transition flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7" /></svg>
-                            Log Out
-                        </Link>
+
+                        <div class="p-2">
+                            <Link
+                                :href="route('profile.edit')"
+                                class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors"
+                                :class="
+                                    isProfileActive()
+                                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-900/40'
+                                        : 'text-slate-300 hover:bg-slate-700/80 hover:text-white'
+                                "
+                            >
+                                <span
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg"
+                                    :class="
+                                        isProfileActive()
+                                            ? 'bg-indigo-500/40 text-white'
+                                            : 'bg-slate-700 text-indigo-400'
+                                    "
+                                >
+                                    <svg
+                                        class="h-4 w-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                                        />
+                                    </svg>
+                                </span>
+                                My Profile
+                            </Link>
+
+                            <Link
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                                class="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-rose-400 transition-colors hover:bg-rose-500/10 hover:text-rose-300"
+                            >
+                                <span
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400"
+                                >
+                                    <svg
+                                        class="h-4 w-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                                        />
+                                    </svg>
+                                </span>
+                                Log Out
+                            </Link>
+                        </div>
                     </div>
                 </transition>
 
-                <button @click="isProfileMenuOpen = !isProfileMenuOpen" class="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-slate-800 transition group">
-                    <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-sm font-bold border-2 border-indigo-500/30 shrink-0">{{ $page.props.auth.user.name.charAt(0) }}</div>
-                    <div class="flex-1 text-left overflow-hidden text-white">
-                        <p class="text-xs font-semibold truncate leading-none">{{ $page.props.auth.user.name }}</p>
-                        <p class="text-[10px] text-slate-400 mt-1">Administrator</p>
+                <button
+                    @click="isProfileMenuOpen = !isProfileMenuOpen"
+                    class="group flex w-full items-center space-x-3 rounded-xl p-3 transition-colors hover:bg-slate-800"
+                    :class="{ 'bg-slate-800 ring-1 ring-indigo-500/40': isProfileMenuOpen }"
+                >
+                    <div
+                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-indigo-500/30 bg-indigo-600 text-xs font-bold text-white shadow-md shadow-indigo-900/30"
+                    >
+                        {{ userInitials() }}
                     </div>
-                    <svg class="w-4 h-4 text-slate-400 transition" :class="{'rotate-180': isProfileMenuOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M5 15l7-7 7 7" /></svg>
+                    <div class="flex-1 overflow-hidden text-left text-white">
+                        <p
+                            class="truncate text-xs font-semibold leading-none"
+                        >
+                            {{ $page.props.auth.user.name }}
+                        </p>
+                        <p class="mt-1 text-[10px] text-slate-400">
+                            Administrator
+                        </p>
+                    </div>
+                    <svg
+                        class="h-4 w-4 text-slate-400 transition-transform duration-200"
+                        :class="{ 'rotate-180': isProfileMenuOpen }"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                    >
+                        <path d="M5 15l7-7 7 7" />
+                    </svg>
                 </button>
             </div>
         </aside>
@@ -187,7 +299,7 @@ const navItems = [
 
                     <span class="hidden md:block text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $page.props.auth.user.name }}</span>
                     <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-sm">
-                        {{ $page.props.auth.user.name.slice(0, 2) }}
+                        {{ userInitials() }}
                     </div>
                 </div>
             </header>
