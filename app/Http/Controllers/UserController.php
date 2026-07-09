@@ -19,7 +19,7 @@ class UserController extends Controller
         $users = User::whereHas('role', function ($query) {
             $query->where('name', '!=', 'superadmin');
         })
-            ->with('role')
+            ->with(['role', 'media'])
             ->latest()
             ->paginate(10)
             ->through(fn($user) => [
@@ -28,7 +28,7 @@ class UserController extends Controller
                 'email' => $user->email,
                 'role' => $user->role, // Keeps your role relationship data
                 // Add the image URL from Spatie
-                'profile_image' => $user->getFirstMediaUrl('images', 'optimized') ?: $user->getFirstMediaUrl('images'),
+                'profile_image' => $user->profile_image_url,
             ]);
 
         return Inertia::render('Users/Index', [
@@ -57,6 +57,8 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
+            'role_id' => 'required|exists:roles,id',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         $user = new User();
@@ -65,12 +67,11 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->user_type = 'user';
         $user->role_id = $request->role_id;
+        $user->save();
 
         if ($request->hasFile('image')) {
             $user->addMediaFromRequest('image')->toMediaCollection('images');
         }
-
-        $user->save();
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
     }
@@ -88,13 +89,13 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with(['role', 'media'])->findOrFail($id);
         $roles = Role::where('name', '!=', 'superadmin')->get();
 
         return Inertia::render('Users/Edit', [
             'user' => $user,
             'roles' => $roles,
-            'user_image' => $user->getFirstMediaUrl('images', 'optimized') ?: $user->getFirstMediaUrl('images'),
+            'user_image' => $user->profile_image_url,
         ]);
     }
 
@@ -108,21 +109,25 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|confirmed|min:6', // password is now optional
+            'password' => 'nullable|confirmed|min:6',
+            'role_id' => 'required|exists:roles,id',
+            'image' => 'nullable|image|max:2048',
         ]);
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->role_id = $request->role_id;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
-        if ($request->hasFile('image')) {
-            // Replaces old image automatically
-            $user->addMediaFromRequest('image')->toMediaCollection('images');
-        }
 
         $user->save();
+
+        if ($request->hasFile('image')) {
+            $user->clearMediaCollection('images');
+            $user->addMediaFromRequest('image')->toMediaCollection('images');
+        }
 
         return redirect()
             ->route('users.index')

@@ -60,18 +60,39 @@ class User extends Authenticatable implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('images') // Changed from 'avatars' to 'images'
-            ->singleFile();
+        $this->addMediaCollection('images')
+            ->singleFile()
+            ->useDisk('public');
     }
 
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('optimized')
-            ->width(800)
-            ->height(600)
-            ->sharpen(10)
-            ->performOnCollections('images') // Ensure this matches
-            ->nonQueued();
+            ->width(400)
+            ->height(400)
+            ->sharpen(5)
+            ->performOnCollections('images')
+            ->nonQueued()
+            ->keepOriginalImageFormat();
+    }
+
+    public function getProfileImageUrlAttribute(): ?string
+    {
+        $media = $this->getFirstMedia('images');
+
+        if (! $media) {
+            return null;
+        }
+
+        if (is_file($media->getPath())) {
+            return $media->getUrl();
+        }
+
+        if ($media->hasGeneratedConversion('optimized') && is_file($media->getPath('optimized'))) {
+            return $media->getUrl('optimized');
+        }
+
+        return route('media.show', ['media' => $media->id]);
     }
 
     public function getActivitylogOptions(): LogOptions

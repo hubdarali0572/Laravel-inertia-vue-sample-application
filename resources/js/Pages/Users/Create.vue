@@ -78,11 +78,13 @@ const showPassword = ref(false);
 const submit = () => {
     if (isEditing.value) {
         form.put(route('users.update', props.user.id), {
-            onFinish: () => form.reset('password', 'password_confirmation'),
+            forceFormData: true,
+            onFinish: () => form.reset('password', 'password_confirmation', 'image'),
         });
     } else {
         form.post(route('users.store'), {
-            onFinish: () => form.reset('password', 'password_confirmation'),
+            forceFormData: true,
+            onFinish: () => form.reset('password', 'password_confirmation', 'image'),
         });
     }
 };

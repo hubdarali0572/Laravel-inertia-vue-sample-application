@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -10,7 +10,10 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 const props = defineProps({
     roles: Array,
     user: Object,
-    user_image: String // This is the URL from the controller
+    user_image: {
+        type: String,
+        default: null,
+    },
 });
 
 const isEditing = computed(() => !!props.user);
@@ -27,7 +30,21 @@ const form = useForm({
 });
 
 // ✅ CORRECTED: Initialize with the 'user_image' prop
-const imagePreview = ref(props.user_image || null); 
+const imagePreview = ref(props.user_image || null);
+const imageLoadFailed = ref(false);
+
+watch(
+    () => props.user_image,
+    (url) => {
+        imagePreview.value = url || null;
+        imageLoadFailed.value = false;
+    }
+);
+
+const handleImageError = () => {
+    imageLoadFailed.value = true;
+    imagePreview.value = null;
+};
 
 const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -71,12 +88,12 @@ const submit = () => {
         // ✅ CORRECTED: Use .post with forceFormData for image uploads
         form.post(route('users.update', props.user.id), {
             forceFormData: true,
-            onFinish: () => form.reset('password', 'password_confirmation'),
+            onFinish: () => form.reset('password', 'password_confirmation', 'image'),
         });
     } else {
         form.post(route('users.store'), {
             forceFormData: true,
-            onFinish: () => form.reset('password', 'password_confirmation'),
+            onFinish: () => form.reset('password', 'password_confirmation', 'image'),
         });
     }
 };
@@ -235,8 +252,14 @@ const submit = () => {
                                     <!-- Image Preview Circle -->
                                     <div class="relative shrink-0">
                                         <div class="w-20 h-20 rounded-xl bg-slate-200 border-2 border-white shadow-sm overflow-hidden flex items-center justify-center dark:bg-slate-700 dark:border-slate-600">
-                                            <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
-                                            <svg v-else class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <img
+                                                v-if="imagePreview && !imageLoadFailed"
+                                                :src="imagePreview"
+                                                class="w-full h-full object-cover"
+                                                alt="Profile preview"
+                                                @error="handleImageError"
+                                            />
+                                            <svg v-if="!imagePreview || imageLoadFailed" class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                             </svg>
                                         </div>

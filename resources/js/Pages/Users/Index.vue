@@ -32,6 +32,13 @@ watch(
 // Modal Logic
 const isModalOpen = ref(false);
 const selectedUser = ref(null); // Store the whole user object here
+const brokenImages = ref({});
+
+const markImageBroken = (userId) => {
+    brokenImages.value[userId] = true;
+};
+
+const showUserImage = (user) => user.profile_image && !brokenImages.value[user.id];
 
 const openDeleteModal = (user) => {
     selectedUser.value = user; // Pass the whole user object
@@ -107,13 +114,16 @@ const confirmDelete = () => {
                                 <div class="flex items-center space-x-4">
                                   <div class="h-10 w-10 shrink-0 rounded-full bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center dark:bg-slate-700 dark:border-slate-600">
                                         <!-- Show profile_image if it exists -->
-                                        <img v-if="user.profile_image" 
-                                            :src="user.profile_image" 
-                                            class="h-full w-full object-cover" 
+                                        <img
+                                            v-if="showUserImage(user)"
+                                            :src="user.profile_image"
+                                            :alt="user.name"
+                                            class="h-full w-full object-cover"
+                                            @error="markImageBroken(user.id)"
                                         />
                                         
                                         <!-- Show default icon if no image -->
-                                        <svg v-else class="h-6 w-6 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <svg v-if="!showUserImage(user)" class="h-6 w-6 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                         </svg>
                                     </div>

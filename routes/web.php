@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\MediaController;
 
 require __DIR__ . '/public-site.php';
 
@@ -20,7 +21,8 @@ Route::delete('/activity-logs-clear', [ActivityLogController::class, 'clearAll']
 // Your existing API route for modals
 Route::get('/api/activities/{module}/{id}', [ActivityLogController::class, 'getLogs']);
 
-
+Route::get('/media/{media}/{conversion?}', [MediaController::class, 'show'])
+    ->name('media.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
