@@ -44,20 +44,6 @@ const isVerified = computed(() => !!user.email_verified_at);
                     Update your account details and email address.
                 </p>
             </div>
-
-            <div
-                class="inline-flex items-center gap-2 rounded-full bg-slate-700/60 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-300"
-            >
-                <span
-                    class="h-1.5 w-1.5 rounded-full"
-                    :class="
-                        isVerified
-                            ? 'bg-indigo-400'
-                            : 'bg-slate-400 animate-pulse'
-                    "
-                ></span>
-                {{ isVerified ? "Verified Account" : "Verification Pending" }}
-            </div>
         </div>
 
         <div class="p-6 md:p-8 lg:p-10">

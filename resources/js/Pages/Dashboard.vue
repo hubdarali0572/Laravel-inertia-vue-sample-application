@@ -112,7 +112,7 @@ const accentStyles = {
             <!-- Welcome Banner - Added Gradient for a more premium look -->
             <div
                 data-aos="fade-down"
-                class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 rounded-2xl p-6 lg:p-10 text-white relative overflow-hidden shadow-lg"
+                class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 rounded-xl p-6 lg:p-10 text-white relative overflow-hidden shadow-lg"
             >
                 <div class="relative z-10">
                     <h2
@@ -147,7 +147,7 @@ const accentStyles = {
                     :data-aos-delay="index * 100"
                     data-aos-duration="1000"
                     data-aos-easing="ease-out-back"
-                    class="group bg-white p-5 lg:p-6 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-indigo-200 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-indigo-500/40"
+                    class="group bg-white p-5 lg:p-6 rounded-sm shadow-sm border border-slate-100 flex justify-between items-start transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:border-indigo-200 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-indigo-500/40"
                 >
                     <div>
                         <!-- Title with slightly more letter spacing -->
@@ -167,7 +167,7 @@ const accentStyles = {
 
                     <!-- Icon Container: Changes color on card hover -->
                     <div
-                        class="bg-slate-50 p-3 rounded-xl text-slate-400 transition-all duration-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-3 dark:bg-slate-700 dark:text-slate-300"
+                        class="bg-slate-50 p-3 rounded-sm text-slate-400 transition-all duration-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-3 dark:bg-slate-700 dark:text-slate-300"
                     >
                         <svg
                             class="w-6 h-6 lg:w-8 lg:h-8"

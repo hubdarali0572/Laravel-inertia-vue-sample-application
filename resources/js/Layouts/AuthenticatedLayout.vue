@@ -414,7 +414,7 @@ const navItems = [
                     </a>
                     <span
                         class="hidden md:block text-sm font-semibold text-slate-700 dark:text-slate-200"
-                        >{{ $page.props.auth.user.name }}</span
+                        >{{ $page.props.auth.user.name }} ( {{ $page.props.auth.user.user_type }})</span
                     >
                     <div
                         class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-sm"

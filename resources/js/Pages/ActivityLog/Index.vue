@@ -346,7 +346,7 @@ const actionBadgeClass = (event) => {
             </div>
 
             <div class="theme-table-footer flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
-                <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center sm:text-left dark:text-slate-400">
+                <div class="text-[11px] font-bold text-indigo-700 uppercase tracking-widest text-center sm:text-left dark:text-slate-400">
                     Showing <span class="text-slate-900 dark:text-slate-200">{{ activities.from || 0 }}</span> to <span class="text-slate-900 dark:text-slate-200">{{ activities.to || 0 }}</span> of <span class="text-slate-900 dark:text-slate-200">{{ activities.total }}</span> logs
                 </div>
 
