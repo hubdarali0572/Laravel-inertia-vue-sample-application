@@ -52,8 +52,8 @@ const isVerified = computed(() => !!user.email_verified_at);
                     class="h-1.5 w-1.5 rounded-full"
                     :class="
                         isVerified
-                            ? 'bg-emerald-400'
-                            : 'bg-amber-400 animate-pulse'
+                            ? 'bg-indigo-400'
+                            : 'bg-slate-400 animate-pulse'
                     "
                 ></span>
                 {{ isVerified ? "Verified Account" : "Verification Pending" }}
@@ -85,7 +85,7 @@ const isVerified = computed(() => !!user.email_verified_at);
 
                 <div
                     v-if="isVerified"
-                    class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300"
+                    class="inline-flex items-center gap-1.5 rounded-lg bg-indigo-50 px-3 py-2 text-xs font-bold uppercase tracking-wider text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200"
                 >
                     <svg
                         class="h-4 w-4"
@@ -141,11 +141,11 @@ const isVerified = computed(() => !!user.email_verified_at);
 
                 <div
                     v-if="mustVerifyEmail && user.email_verified_at === null"
-                    class="rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-500/30 dark:bg-amber-500/10"
+                    class="rounded-xl border border-indigo-200 bg-indigo-50 p-4 dark:border-indigo-500/30 dark:bg-indigo-500/10"
                 >
                     <div class="flex items-start gap-3">
                         <span
-                            class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300"
+                            class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300"
                         >
                             <svg
                                 class="h-4 w-4"
@@ -164,12 +164,12 @@ const isVerified = computed(() => !!user.email_verified_at);
 
                         <div>
                             <p
-                                class="text-sm font-semibold text-amber-900 dark:text-amber-200"
+                                class="text-sm font-semibold text-indigo-900 dark:text-indigo-200"
                             >
                                 Your email address is not verified.
                             </p>
                             <p
-                                class="mt-1 text-sm text-amber-800/80 dark:text-amber-300/80"
+                                class="mt-1 text-sm text-indigo-800/80 dark:text-indigo-200/80"
                             >
                                 Click below to receive a new verification link.
                             </p>
@@ -186,7 +186,7 @@ const isVerified = computed(() => !!user.email_verified_at);
 
                     <div
                         v-show="status === 'verification-link-sent'"
-                        class="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300"
+                        class="mt-4 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-200"
                     >
                         A new verification link has been sent to your email
                         address.
@@ -209,7 +209,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                         >
                             <p
                                 v-if="form.recentlySuccessful"
-                                class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400"
+                                class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300"
                             >
                                 <svg
                                     class="h-4 w-4"

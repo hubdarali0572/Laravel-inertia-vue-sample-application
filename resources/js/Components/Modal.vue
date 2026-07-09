@@ -65,11 +65,11 @@ onUnmounted(() => {
 
 const maxWidthClass = computed(() => {
     return {
-        sm: 'sm:max-w-sm',
-        md: 'sm:max-w-md',
-        lg: 'sm:max-w-lg',
-        xl: 'sm:max-w-xl',
-        '2xl': 'sm:max-w-2xl',
+        sm: 'max-w-sm',
+        md: 'max-w-md',
+        lg: 'max-w-lg',
+        xl: 'max-w-xl',
+        '2xl': 'max-w-2xl',
     }[props.maxWidth];
 });
 </script>
@@ -80,8 +80,8 @@ const maxWidthClass = computed(() => {
         ref="dialog"
     >
         <div
-            class="fixed inset-0 z-50 overflow-y-auto px-4 py-6 sm:px-0"
-            scroll-region
+            v-show="showSlot"
+            class="fixed inset-0 z-50 flex min-h-full items-center justify-center p-4 sm:p-6"
         >
             <Transition
                 enter-active-class="ease-out duration-300"
@@ -93,25 +93,28 @@ const maxWidthClass = computed(() => {
             >
                 <div
                     v-show="show"
-                    class="fixed inset-0 transform transition-all"
+                    class="fixed inset-0"
                     @click="close"
                 >
-                    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" />
+                    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" />
                 </div>
             </Transition>
 
             <Transition
                 enter-active-class="ease-out duration-300"
-                enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enter-to-class="opacity-100 translate-y-0 sm:scale-100"
+                enter-from-class="opacity-0 scale-95 translate-y-2"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
                 leave-active-class="ease-in duration-200"
-                leave-from-class="opacity-100 translate-y-0 sm:scale-100"
-                leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 translate-y-2"
             >
                 <div
                     v-show="show"
-                    class="mb-6 transform overflow-hidden rounded-xl bg-white shadow-2xl border border-slate-200 transition-all sm:mx-auto sm:w-full"
+                    class="relative z-10 w-full transform overflow-hidden rounded-2xl bg-white shadow-2xl border border-slate-200 transition-all dark:bg-slate-800 dark:border-slate-700"
                     :class="maxWidthClass"
+                    role="dialog"
+                    aria-modal="true"
+                    @click.stop
                 >
                     <slot v-if="showSlot" />
                 </div>

@@ -107,7 +107,7 @@ const updatePassword = () => {
                     >
                         <p
                             v-if="form.recentlySuccessful"
-                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400"
+                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300"
                         >
                             <svg
                                 class="h-4 w-4"

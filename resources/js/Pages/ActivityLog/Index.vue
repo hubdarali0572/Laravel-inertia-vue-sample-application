@@ -4,16 +4,14 @@ import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { Head, Link, router, usePage } from "@inertiajs/vue3";
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps({
+defineProps({
     activities: Object,
 });
 
-// Flash Message Logic
 const page = usePage();
 const showFlash = ref(false);
 watch(() => page.props.flash?.success, (val) => { if (val) showFlash.value = true; }, { immediate: true });
 
-// --- Modal State Logic ---
 const isDeleteModalOpen = ref(false);
 const isClearModalOpen = ref(false);
 const selectedLogId = ref(null);
@@ -76,7 +74,6 @@ const handleModalConfirm = () => {
         confirmClearAll();
     }
 };
-// --- End Modal Logic ---
 
 const formatDate = (date) => {
     return new Date(date).toLocaleString("en-US", {
@@ -85,17 +82,113 @@ const formatDate = (date) => {
 };
 
 const getModelName = (type) => {
-    return type ? type.split("\\").pop() : "System";
+    if (!type) {
+        return "System";
+    }
+
+    return type.split("\\").pop();
 };
 
-const getFieldData = (log, fieldName) => {
-    const newValue = log.properties?.attributes?.[fieldName];
-    const oldValue = log.properties?.old?.[fieldName];
-    return {
-        hasChange: newValue !== undefined || oldValue !== undefined,
-        new: newValue,
-        old: oldValue,
-    };
+const formatFieldLabel = (key) => {
+    return key
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
+const normalizeProperties = (log) => {
+    const raw = log.properties;
+
+    if (!raw) {
+        return { old: {}, attributes: {} };
+    }
+
+    if (typeof raw === 'string') {
+        try {
+            return JSON.parse(raw);
+        } catch {
+            return { old: {}, attributes: {} };
+        }
+    }
+
+    return raw;
+};
+
+const formatValue = (value) => {
+    if (value === null || value === undefined || value === '') {
+        return '—';
+    }
+
+    if (typeof value === 'boolean') {
+        return value ? 'Yes' : 'No';
+    }
+
+    if (typeof value === 'object') {
+        return JSON.stringify(value);
+    }
+
+    return String(value);
+};
+
+const getChangeDetails = (log) => {
+    const properties = normalizeProperties(log);
+    const oldValues = properties.old || {};
+    const newValues = properties.attributes || {};
+    const event = log.description || log.event;
+    const hiddenFields = new Set(['password', 'remember_token']);
+
+    const isVisibleField = (field) => !hiddenFields.has(field);
+
+    if (event === 'created') {
+        return Object.entries(newValues)
+            .filter(([field]) => isVisibleField(field))
+            .map(([field, value]) => ({
+            field,
+            label: formatFieldLabel(field),
+            type: 'created',
+            new: value,
+        }));
+    }
+
+    if (event === 'deleted') {
+        return Object.entries(oldValues)
+            .filter(([field]) => isVisibleField(field))
+            .map(([field, value]) => ({
+            field,
+            label: formatFieldLabel(field),
+            type: 'deleted',
+            old: value,
+        }));
+    }
+
+    const fields = new Set([
+        ...Object.keys(oldValues),
+        ...Object.keys(newValues),
+    ]);
+
+    return [...fields]
+        .filter(isVisibleField)
+        .map((field) => ({
+        field,
+        label: formatFieldLabel(field),
+        type: 'updated',
+        old: oldValues[field],
+        new: newValues[field],
+        changed: oldValues[field] !== newValues[field],
+    }));
+};
+
+const hasChangeDetails = (log) => getChangeDetails(log).length > 0;
+
+const actionBadgeClass = (event) => {
+    if (event === 'created') {
+        return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-200';
+    }
+
+    if (event === 'deleted') {
+        return 'bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-200';
+    }
+
+    return 'bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-200';
 };
 </script>
 
@@ -103,28 +196,26 @@ const getFieldData = (log, fieldName) => {
     <AuthenticatedLayout>
         <Head title="Activity Logs" />
 
-        <!-- Page Header -->
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-black text-slate-700 tracking-tight dark:text-slate-100">System Activity Logs</h2>
                 <p class="text-sm text-slate-500 mt-1 font-medium dark:text-slate-400">Detailed tracking of all system changes.</p>
             </div>
-            
-           <button 
-                @click="isClearModalOpen = true" 
-                class="theme-btn-secondary text-rose-600 border-rose-200 hover:bg-rose-50 hover:border-rose-300 dark:text-rose-400 dark:border-rose-500/30 dark:hover:bg-rose-500/10"
+
+            <button
+                @click="isClearModalOpen = true"
+                class="theme-btn-secondary"
             >
-                <!-- Trash Icon SVG -->
-                <svg 
-                    class="w-4 h-4 mr-2" 
-                    fill="none" 
-                    stroke="currentColor" 
+                <svg
+                    class="w-4 h-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                 >
-                    <path 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        stroke-width="2.5" 
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2.5"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                 </svg>
@@ -132,59 +223,104 @@ const getFieldData = (log, fieldName) => {
             </button>
         </div>
 
-        <!-- Flash Message -->
-        <div v-if="showFlash && $page.props.flash.success" class="mb-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 text-sm font-bold rounded-r-xl shadow-sm flex justify-between items-center animate-pulse dark:bg-emerald-500/10 dark:text-emerald-300">
+        <div v-if="showFlash && $page.props.flash.success" class="mb-6 p-4 bg-indigo-50 border-l-4 border-indigo-500 text-indigo-800 text-sm font-bold rounded-r-xl shadow-sm flex justify-between items-center dark:bg-indigo-500/10 dark:text-indigo-200">
             <div class="flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"/></svg>
                 {{ $page.props.flash.success }}
             </div>
-            <button @click="showFlash = false" class="text-emerald-400 hover:text-emerald-900 text-xl">×</button>
+            <button @click="showFlash = false" class="text-indigo-400 hover:text-indigo-900 text-xl dark:hover:text-indigo-100">×</button>
         </div>
 
         <div class="theme-table-card">
             <div class="overflow-x-auto">
-                <table class="w-full text-left table-fixed min-w-[1100px]">
+                <table class="w-full text-left border-collapse min-w-[1000px]">
                     <thead>
                         <tr class="theme-table-header">
-                            <th class="theme-table-header-cell w-[15%]">User</th>
+                            <th class="theme-table-header-cell w-[12%]">User</th>
                             <th class="theme-table-header-cell w-[8%] text-center">Action</th>
-                            <th class="theme-table-header-cell w-[10%]">Resource</th>
-                            <th class="theme-table-header-cell w-[15%] text-center">Name Change</th>
-                            <th class="theme-table-header-cell w-[15%] text-center">Email Change</th>
-                            <th class="theme-table-header-cell w-[15%] text-right">Timestamp</th>
+                            <th class="theme-table-header-cell w-[12%]">Resource</th>
+                            <th class="theme-table-header-cell w-[42%]">Change Details</th>
+                            <th class="theme-table-header-cell w-[14%] text-right">Timestamp</th>
                             <th class="theme-table-header-cell w-[7%] text-center">Delete</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
-                        <tr v-for="log in activities.data" :key="log.id" class="theme-table-row">
-                            <td class="px-4 text-xs font-bold text-slate-800 dark:text-slate-100">
-                                {{ log.causer?.name || "System" }}
+                        <tr v-for="log in activities.data" :key="log.id" class="theme-table-row align-top">
+                            <td class="px-4 py-3">
+                                <div class="text-xs font-bold text-slate-800 dark:text-slate-100">
+                                    {{ log.causer?.name || "System" }}
+                                </div>
+                                <div v-if="log.causer?.email" class="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
+                                    {{ log.causer.email }}
+                                </div>
                             </td>
-                            <td class="px-4 text-center py-2">
-                                <span :class="{'px-1.5 py-0.5 rounded text-[9px] font-black uppercase': true, 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300': log.description === 'created', 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300': log.description === 'updated', 'bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300': log.description === 'deleted'}">
+
+                            <td class="px-4 py-3 text-center">
+                                <span
+                                    class="inline-flex px-2 py-1 rounded text-[10px] font-black uppercase tracking-wide"
+                                    :class="actionBadgeClass(log.description)"
+                                >
                                     {{ log.description }}
                                 </span>
                             </td>
-                            <td class="px-4 py-2">
-                                <div class="text-[11px] font-black text-slate-700 uppercase dark:text-slate-200">{{ getModelName(log.subject_type) }}</div>
-                                <div class="text-[9px] text-slate-400 font-medium dark:text-slate-500">REF: #{{ log.subject_id }}</div>
-                            </td>
-                            <td class="px-4 text-center py-2">
-                                <div v-if="getFieldData(log, 'name').hasChange">
-                                    <span class="text-emerald-600 font-bold text-[11px]">{{ getFieldData(log, 'name').new || '-' }}</span>
+
+                            <td class="px-4 py-3">
+                                <div class="text-[11px] font-black text-slate-700 uppercase dark:text-slate-200">
+                                    {{ getModelName(log.subject_type) }}
                                 </div>
-                                <span v-else class="text-slate-200">-</span>
-                            </td>
-                            <td class="px-4 text-center py-2">
-                                <div v-if="getFieldData(log, 'email').hasChange">
-                                    <span class="text-emerald-600 font-bold text-[11px]">{{ getFieldData(log, 'email').new || '-' }}</span>
+                                <div class="text-[10px] text-slate-400 font-medium dark:text-slate-500">
+                                    ID #{{ log.subject_id || '—' }}
                                 </div>
-                                <span v-else class="text-slate-200">-</span>
+                                <div v-if="log.log_name" class="mt-1 text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                    {{ log.log_name }}
+                                </div>
                             </td>
-                            <td class="px-4 text-right text-[11px] font-bold text-slate-700 py-2 dark:text-slate-300">
+
+                            <td class="px-4 py-3">
+                                <div v-if="hasChangeDetails(log)" class="space-y-2">
+                                    <div
+                                        v-for="change in getChangeDetails(log)"
+                                        :key="`${log.id}-${change.field}`"
+                                        class="rounded-lg border border-slate-200 bg-slate-50/80 px-3 py-2 dark:border-slate-600 dark:bg-slate-700/40"
+                                    >
+                                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                                            {{ change.label }}
+                                        </p>
+
+                                        <div v-if="change.type === 'updated'" class="mt-1 flex flex-wrap items-center gap-2 text-[11px]">
+                                            <span class="rounded bg-white px-2 py-0.5 font-medium text-slate-500 line-through dark:bg-slate-800 dark:text-slate-400">
+                                                {{ formatValue(change.old) }}
+                                            </span>
+                                            <svg class="h-3 w-3 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 4.5L21 12m0 0l-8.5 8.5M21 12H3" />
+                                            </svg>
+                                            <span class="rounded bg-indigo-50 px-2 py-0.5 font-bold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-200">
+                                                {{ formatValue(change.new) }}
+                                            </span>
+                                        </div>
+
+                                        <div v-else-if="change.type === 'created'" class="mt-1">
+                                            <span class="inline-flex rounded bg-indigo-50 px-2 py-0.5 text-[11px] font-bold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-200">
+                                                {{ formatValue(change.new) }}
+                                            </span>
+                                        </div>
+
+                                        <div v-else-if="change.type === 'deleted'" class="mt-1">
+                                            <span class="inline-flex rounded bg-slate-200 px-2 py-0.5 text-[11px] font-medium text-slate-700 line-through dark:bg-slate-600 dark:text-slate-200">
+                                                {{ formatValue(change.old) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span v-else class="text-[11px] text-slate-400 dark:text-slate-500">No detail recorded</span>
+                            </td>
+
+                            <td class="px-4 py-3 text-right text-[11px] font-bold text-slate-700 dark:text-slate-300">
                                 {{ formatDate(log.created_at) }}
                             </td>
-                            <td class="px-4 text-center py-2">
+
+                            <td class="px-4 py-3 text-center">
                                 <div class="theme-table-actions justify-center">
                                     <button
                                         @click="openDeleteModal(log.id)"
@@ -199,33 +335,34 @@ const getFieldData = (log, fieldName) => {
                                 </div>
                             </td>
                         </tr>
+
+                        <tr v-if="activities.data.length === 0">
+                            <td colspan="6" class="px-6 py-12 text-center text-slate-400 font-medium dark:text-slate-500">
+                                No activity logs found.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            
-          <!-- Pagination Footer -->
+
             <div class="theme-table-footer flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
-                <!-- Summary Text -->
                 <div class="text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center sm:text-left dark:text-slate-400">
                     Showing <span class="text-slate-900 dark:text-slate-200">{{ activities.from || 0 }}</span> to <span class="text-slate-900 dark:text-slate-200">{{ activities.to || 0 }}</span> of <span class="text-slate-900 dark:text-slate-200">{{ activities.total }}</span> logs
                 </div>
 
-                <!-- Pagination Links -->
                 <div class="flex flex-wrap justify-center items-center gap-1.5">
                     <template v-for="(link, k) in activities.links" :key="k">
-                        <!-- Clickable Link -->
-                        <Link 
-                            v-if="link.url" 
-                            :href="link.url" 
+                        <Link
+                            v-if="link.url"
+                            :href="link.url"
                             v-html="link.label"
                             class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold rounded-lg border transition-all duration-200"
                             :class="[link.active ? 'theme-pagination-active' : 'theme-pagination-inactive']"
                         />
-                        <!-- Disabled State (e.g. 'Previous' on first page) -->
-                        <span 
-                            v-else 
-                            v-html="link.label" 
-                            class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold text-slate-300 bg-white border border-slate-100 rounded-lg cursor-not-allowed dark:text-slate-600 dark:bg-slate-800 dark:border-slate-700" 
+                        <span
+                            v-else
+                            v-html="link.label"
+                            class="min-w-[30px] h-6 px-2 flex items-center justify-center text-xs font-bold text-slate-300 bg-white border border-slate-100 rounded-lg cursor-not-allowed dark:text-slate-600 dark:bg-slate-800 dark:border-slate-700"
                         />
                     </template>
                 </div>
@@ -243,6 +380,5 @@ const getFieldData = (log, fieldName) => {
             @close="closeModals"
             @confirm="handleModalConfirm"
         />
-
     </AuthenticatedLayout>
 </template>

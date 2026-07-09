@@ -13,11 +13,11 @@ const highlights = [
 </script>
 
 <template>
-    <div class="min-h-screen flex bg-slate-50 dark:bg-slate-950">
+    <div class="theme-app-bg min-h-screen flex">
         <!-- Branding panel -->
-        <div class="hidden lg:flex lg:w-[45%] xl:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white">
+        <div class="hidden lg:flex lg:w-[45%] xl:w-1/2 relative overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-indigo-900 text-white">
             <div class="absolute -right-16 -top-16 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl"></div>
-            <div class="absolute -left-10 bottom-20 w-48 h-48 bg-violet-500/15 rounded-full blur-2xl"></div>
+            <div class="absolute -left-10 bottom-20 w-48 h-48 bg-indigo-500/15 rounded-full blur-2xl"></div>
 
             <div class="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
                 <Link href="/" class="flex items-center gap-3 w-fit">

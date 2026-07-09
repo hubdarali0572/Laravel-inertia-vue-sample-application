@@ -39,7 +39,7 @@ const features = [
         description:
             "Upload, organize, and serve digital media through a unified library. Attach files to any model, generate conversions, and maintain a single source of truth for all visual assets across the platform.",
         icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
-        accent: "violet",
+        accent: "indigo",
     },
     {
         title: "Image Intervention",
@@ -47,7 +47,7 @@ const features = [
         description:
             "Resize, crop, optimize, and transform images on the fly. Ensure consistent output quality and performance for thumbnails, avatars, and media previews without relying on external services.",
         icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
-        accent: "sky",
+        accent: "indigo",
     },
     {
         title: "Spatie Permissions",
@@ -55,7 +55,7 @@ const features = [
         description:
             "Granular Role-Based Access Control (RBAC) with roles, permissions, and middleware guards. Define who can view, create, edit, or delete resources at every level of the application.",
         icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
-        accent: "emerald",
+        accent: "indigo",
     },
     {
         title: "Spatie Activity Logs",
@@ -63,7 +63,7 @@ const features = [
         description:
             "Every meaningful change is recorded automatically. Track who did what, when, and on which resource — giving administrators complete visibility and accountability across the system.",
         icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
-        accent: "amber",
+        accent: "indigo",
     },
     {
         title: "Google reCAPTCHA",
@@ -71,7 +71,7 @@ const features = [
         description:
             "Protect authentication and public forms from automated abuse. reCAPTCHA verification is enforced server-side, blocking bots while keeping the experience frictionless for real users.",
         icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
-        accent: "rose",
+        accent: "indigo",
     },
     {
         title: "Automated Database Backups",
@@ -79,7 +79,7 @@ const features = [
         description:
             "Scheduled daily database backups run automatically via Laravel's task scheduler. Your data is preserved on a consistent cadence, ensuring recoverability and long-term application integrity.",
         icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4",
-        accent: "cyan",
+        accent: "indigo",
     },
 ];
 
@@ -89,28 +89,28 @@ const accentClasses = {
         ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     violet: {
-        icon: "bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white dark:bg-violet-500/15 dark:text-violet-400",
-        ring: "group-hover:ring-violet-200 dark:group-hover:ring-violet-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     sky: {
-        icon: "bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-500/15 dark:text-sky-400",
-        ring: "group-hover:ring-sky-200 dark:group-hover:ring-sky-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     emerald: {
-        icon: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white dark:bg-emerald-500/15 dark:text-emerald-400",
-        ring: "group-hover:ring-emerald-200 dark:group-hover:ring-emerald-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     amber: {
-        icon: "bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white dark:bg-amber-500/15 dark:text-amber-400",
-        ring: "group-hover:ring-amber-200 dark:group-hover:ring-amber-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     rose: {
-        icon: "bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white dark:bg-rose-500/15 dark:text-rose-400",
-        ring: "group-hover:ring-rose-200 dark:group-hover:ring-rose-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     cyan: {
-        icon: "bg-cyan-50 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white dark:bg-cyan-500/15 dark:text-cyan-400",
-        ring: "group-hover:ring-cyan-200 dark:group-hover:ring-cyan-500/30",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
+        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
 };
 
@@ -129,7 +129,7 @@ const accentClasses = {
                 aria-hidden="true"
             >
                 <div
-                    class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-indigo-500 to-violet-400 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                    class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-indigo-500 to-slate-300 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                 ></div>
             </div>
             <div
@@ -137,7 +137,7 @@ const accentClasses = {
                 aria-hidden="true"
             >
                 <div
-                    class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-indigo-500 to-cyan-400 opacity-15 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                    class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-indigo-500 to-slate-300 opacity-15 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
                 ></div>
             </div>
 
@@ -164,7 +164,7 @@ const accentClasses = {
                     >
                         Precision-Engineered
                         <span
-                            class="block mt-2 bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent"
+                            class="block mt-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-clip-text text-transparent"
                         >
                             Governance
                         </span>
@@ -437,7 +437,7 @@ const accentClasses = {
                         class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"
                     ></div>
                     <div
-                        class="absolute -left-10 bottom-0 w-40 h-40 bg-violet-500/15 rounded-full blur-2xl"
+                        class="absolute -left-10 bottom-0 w-40 h-40 bg-indigo-500/15 rounded-full blur-2xl"
                     ></div>
 
                     <div
@@ -466,10 +466,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-rose-300"
+                                        class="w-4 h-4 text-indigo-300"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -496,10 +496,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-amber-300"
+                                        class="w-4 h-4 text-indigo-300"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -526,10 +526,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-cyan-300"
+                                        class="w-4 h-4 text-indigo-300"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"

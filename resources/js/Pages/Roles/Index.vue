@@ -75,7 +75,7 @@ const confirmDelete = () => {
         <!-- Flash Messages -->
         <transition name="fade">
             <div v-if="showFlash && ($page.props.flash.success || $page.props.flash.danger)" 
-                :class="[$page.props.flash.success ? 'bg-emerald-50 border-emerald-500 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-rose-50 border-rose-500 text-rose-800 dark:bg-rose-500/10 dark:text-rose-300']"
+                :class="[$page.props.flash.success ? 'bg-indigo-50 border-indigo-500 text-indigo-800 dark:bg-indigo-500/10 dark:text-indigo-200' : 'bg-slate-100 border-slate-400 text-slate-700 dark:bg-slate-700/80 dark:text-slate-200']"
                 class="mb-6 flex items-center p-4 border-l-4 rounded-r-xl shadow-sm"
             >
                 <p class="text-sm font-bold">{{ $page.props.flash.success || $page.props.flash.danger }}</p>

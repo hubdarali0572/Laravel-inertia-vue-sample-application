@@ -16,14 +16,14 @@ const form = useForm({
 const confirmUserDeletion = () => {
     confirmingUserDeletion.value = true;
 
-    nextTick(() => passwordInput.value.focus());
+    nextTick(() => passwordInput.value?.focus());
 };
 
 const deleteUser = () => {
     form.delete(route("profile.destroy"), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
-        onError: () => passwordInput.value.focus(),
+        onError: () => passwordInput.value?.focus(),
         onFinish: () => form.reset(),
     });
 };
@@ -38,27 +38,27 @@ const closeModal = () => {
 
 <template>
     <section
-        class="theme-form-card overflow-hidden border-rose-200 dark:border-rose-500/30"
+        class="theme-form-card overflow-hidden border-slate-200 dark:border-slate-700"
     >
         <div
-            class="flex flex-col gap-2 border-b border-rose-200 bg-gradient-to-r from-rose-50 to-rose-100/50 px-6 py-4 dark:border-rose-500/30 dark:from-rose-500/10 dark:to-rose-500/5"
+            class="flex flex-col gap-2 border-b border-indigo-100 bg-gradient-to-r from-indigo-50 to-slate-50 px-6 py-4 dark:border-indigo-400/20 dark:from-indigo-500/10 dark:to-slate-700/40"
         >
             <h2
-                class="text-xs font-semibold uppercase tracking-wider text-rose-700 dark:text-rose-300"
+                class="text-xs font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-200"
             >
                 Danger Zone
             </h2>
-            <p class="text-xs text-rose-600/80 dark:text-rose-400/80">
+            <p class="text-xs text-slate-600 dark:text-slate-300">
                 Permanently remove your account and all associated data.
             </p>
         </div>
 
         <div class="p-6 md:p-8">
             <div
-                class="flex flex-col gap-5 rounded-xl border border-rose-200 bg-rose-50/50 p-5 dark:border-rose-500/30 dark:bg-rose-500/5 sm:flex-row sm:items-center"
+                class="flex flex-col gap-5 rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-600 dark:bg-slate-700/40 sm:flex-row sm:items-center"
             >
                 <div
-                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-rose-100 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400"
+                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300"
                 >
                     <svg
                         class="h-6 w-6"
@@ -92,62 +92,71 @@ const closeModal = () => {
                 <button
                     type="button"
                     @click="confirmUserDeletion"
-                    class="inline-flex shrink-0 items-center justify-center rounded-lg bg-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-rose-600/20 transition-colors hover:bg-rose-700 active:scale-[0.98] dark:focus:ring-offset-slate-900"
+                    class="inline-flex shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-600/20 transition-colors hover:bg-indigo-700 active:scale-[0.98] dark:focus:ring-offset-slate-900"
                 >
                     Delete Account
                 </button>
             </div>
         </div>
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div
-                class="bg-white p-6 dark:bg-slate-800"
-            >
-                <h2
-                    class="text-lg font-bold text-slate-900 dark:text-slate-100"
+        <Modal :show="confirmingUserDeletion" max-width="md" @close="closeModal">
+            <div class="theme-modal-header">
+                <h3 class="theme-modal-title">Delete Account</h3>
+                <button
+                    type="button"
+                    class="theme-modal-close"
+                    aria-label="Close"
+                    @click="closeModal"
                 >
-                    Confirm account deletion
-                </h2>
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
 
-                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                    Please enter your password to permanently delete your
-                    account and all associated data.
+            <div class="px-6 py-6">
+                <div class="theme-modal-icon theme-modal-icon-danger">
+                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </div>
+
+                <p class="text-center text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-300">
+                    Please enter your password to permanently delete your account and all associated data.
                 </p>
 
+                <p class="theme-modal-warning text-center">This action is irreversible</p>
+
                 <div class="mt-6">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Password" class="theme-form-label" />
 
                     <TextInput
                         id="password"
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-full"
+                        class="theme-form-input mt-2 block w-full"
                         placeholder="Enter your password"
                         @keyup.enter="deleteUser"
                     />
 
                     <InputError :message="form.errors.password" class="mt-2" />
                 </div>
+            </div>
 
-                <div class="mt-6 flex justify-end gap-3">
-                    <button
-                        type="button"
-                        @click="closeModal"
-                        class="theme-btn-secondary"
-                    >
-                        Cancel
-                    </button>
+            <div class="theme-modal-footer">
+                <button type="button" class="theme-modal-btn-cancel" @click="closeModal">
+                    Cancel
+                </button>
 
-                    <button
-                        type="button"
-                        :disabled="form.processing"
-                        class="inline-flex items-center justify-center rounded-lg bg-rose-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-rose-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        @click="deleteUser"
-                    >
-                        Delete Account
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    :disabled="form.processing"
+                    class="theme-modal-btn-danger disabled:cursor-not-allowed disabled:opacity-50"
+                    @click="deleteUser"
+                >
+                    {{ form.processing ? 'Deleting...' : 'Delete Account' }}
+                </button>
             </div>
         </Modal>
     </section>
