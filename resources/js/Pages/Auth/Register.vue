@@ -29,7 +29,7 @@ const submit = () => {
         <Head title="Register" />
 
         <div class="mb-8 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight dark:text-white">
                 Create an account
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
@@ -81,7 +81,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 transition-colors dark:hover:text-indigo-400"
                         @click="showPassword = !showPassword"
                     >
                         <svg v-if="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -110,7 +110,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 transition-colors dark:hover:text-indigo-400"
                         @click="showConfirmPassword = !showConfirmPassword"
                     >
                         <svg v-if="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -139,12 +139,12 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+        <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
             <p class="text-sm text-slate-500 dark:text-slate-400">
                 Already have an account?
                 <Link
                     :href="route('login')"
-                    class="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline-offset-4 hover:underline"
+                    class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
                 >
                     Log in
                 </Link>

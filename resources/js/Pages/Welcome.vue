@@ -93,31 +93,31 @@ const features = [
 
 const accentClasses = {
     indigo: {
-        icon: "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white",
+        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-400",
         ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
     },
     violet: {
-        icon: "bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-400 group-hover:bg-violet-600 group-hover:text-white",
+        icon: "bg-violet-50 text-violet-600 group-hover:bg-violet-600 group-hover:text-white dark:bg-violet-500/15 dark:text-violet-400",
         ring: "group-hover:ring-violet-200 dark:group-hover:ring-violet-500/30",
     },
     sky: {
-        icon: "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-400 group-hover:bg-sky-600 group-hover:text-white",
+        icon: "bg-sky-50 text-sky-600 group-hover:bg-sky-600 group-hover:text-white dark:bg-sky-500/15 dark:text-sky-400",
         ring: "group-hover:ring-sky-200 dark:group-hover:ring-sky-500/30",
     },
     emerald: {
-        icon: "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white",
+        icon: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white dark:bg-emerald-500/15 dark:text-emerald-400",
         ring: "group-hover:ring-emerald-200 dark:group-hover:ring-emerald-500/30",
     },
     amber: {
-        icon: "bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-400 group-hover:bg-amber-600 group-hover:text-white",
+        icon: "bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white dark:bg-amber-500/15 dark:text-amber-400",
         ring: "group-hover:ring-amber-200 dark:group-hover:ring-amber-500/30",
     },
     rose: {
-        icon: "bg-rose-50 text-rose-600 dark:bg-rose-500/15 dark:text-rose-400 group-hover:bg-rose-600 group-hover:text-white",
+        icon: "bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white dark:bg-rose-500/15 dark:text-rose-400",
         ring: "group-hover:ring-rose-200 dark:group-hover:ring-rose-500/30",
     },
     cyan: {
-        icon: "bg-cyan-50 text-cyan-600 dark:bg-cyan-500/15 dark:text-cyan-400 group-hover:bg-cyan-600 group-hover:text-white",
+        icon: "bg-cyan-50 text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white dark:bg-cyan-500/15 dark:text-cyan-400",
         ring: "group-hover:ring-cyan-200 dark:group-hover:ring-cyan-500/30",
     },
 };
@@ -141,7 +141,7 @@ onMounted(() => {
     >
         <!-- Navigation -->
         <header
-            class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg"
+            class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-lg dark:border-slate-800/80 dark:bg-slate-950/80"
         >
             <nav
                 class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
@@ -160,19 +160,19 @@ onMounted(() => {
                 <div class="hidden md:flex items-center gap-8">
                     <a
                         href="#features"
-                        class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
                     >
                         Features
                     </a>
                     <a
                         href="#stack"
-                        class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
                     >
                         Tech Stack
                     </a>
                     <a
                         href="#security"
-                        class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
                     >
                         Security
                     </a>
@@ -182,7 +182,7 @@ onMounted(() => {
                     <button
                         type="button"
                         @click="toggleDarkMode"
-                        class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                        class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors dark:text-slate-400 dark:hover:bg-slate-800"
                         :aria-label="
                             isDark
                                 ? 'Switch to light mode'
@@ -230,7 +230,7 @@ onMounted(() => {
                         <template v-else>
                             <Link
                                 :href="route('login')"
-                                class="hidden sm:inline-flex rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                class="hidden sm:inline-flex rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors dark:text-slate-200 dark:hover:bg-slate-800"
                             >
                                 Sign In
                             </Link>
@@ -272,7 +272,7 @@ onMounted(() => {
                 <div class="mx-auto max-w-3xl text-center" data-aos="fade-up">
                     <div class="mb-8 flex flex-wrap justify-center gap-3">
                         <span
-                            class="rounded-full px-4 py-1.5 text-xs font-semibold ring-1 ring-slate-900/10 dark:ring-white/10 bg-white/70 dark:bg-slate-900/70 backdrop-blur"
+                            class="rounded-full px-4 py-1.5 text-xs font-semibold ring-1 ring-slate-900/10 bg-white/70 backdrop-blur dark:ring-white/10 dark:bg-slate-900/70"
                         >
                             <span class="text-indigo-600 dark:text-indigo-400"
                                 >Laravel v{{ laravelVersion }}</span
@@ -280,7 +280,7 @@ onMounted(() => {
                             + Inertia + Vue 3
                         </span>
                         <span
-                            class="rounded-full px-4 py-1.5 text-xs font-semibold ring-1 ring-slate-900/10 dark:ring-white/10 bg-white/70 dark:bg-slate-900/70 backdrop-blur"
+                            class="rounded-full px-4 py-1.5 text-xs font-semibold ring-1 ring-slate-900/10 bg-white/70 backdrop-blur dark:ring-white/10 dark:bg-slate-900/70"
                         >
                             PHP v{{ phpVersion }}
                         </span>
@@ -299,7 +299,7 @@ onMounted(() => {
                     </h1>
 
                     <p
-                        class="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto"
+                        class="mt-6 text-lg leading-8 text-slate-600 max-w-2xl mx-auto dark:text-slate-300"
                     >
                         A production-ready starter ecosystem built for teams who
                         need secure user management, rich media handling, and
@@ -317,7 +317,7 @@ onMounted(() => {
                         :key="pillar.label"
                         data-aos="fade-up"
                         :data-aos-delay="index * 100"
-                        class="rounded-2xl bg-white dark:bg-slate-900/60 p-6 text-center ring-1 ring-slate-200 dark:ring-slate-800 shadow-sm"
+                        class="rounded-2xl bg-white p-6 text-center ring-1 ring-slate-200 shadow-sm dark:bg-slate-900/60 dark:ring-slate-800"
                     >
                         <p
                             class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
@@ -325,7 +325,7 @@ onMounted(() => {
                             {{ pillar.label }}
                         </p>
                         <p
-                            class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+                            class="mt-2 text-sm text-slate-600 leading-relaxed dark:text-slate-400"
                         >
                             {{ pillar.description }}
                         </p>
@@ -352,7 +352,7 @@ onMounted(() => {
                         Everything defined. Nothing left ambiguous.
                     </h2>
                     <p
-                        class="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed"
+                        class="mt-4 text-slate-600 leading-relaxed dark:text-slate-400"
                     >
                         Each module in this starter is purpose-built and fully
                         integrated — from the SPA foundation to security
@@ -368,7 +368,7 @@ onMounted(() => {
                         :key="feature.title"
                         data-aos="fade-up"
                         :data-aos-delay="(index % 2) * 80"
-                        class="group relative rounded-2xl bg-slate-50 dark:bg-slate-900 p-8 ring-1 ring-slate-200 dark:ring-slate-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-slate-300 dark:hover:ring-slate-700"
+                        class="group relative rounded-2xl bg-slate-50 p-8 ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-slate-300 dark:bg-slate-900 dark:ring-slate-800 dark:hover:ring-slate-700"
                         :class="accentClasses[feature.accent].ring"
                     >
                         <div class="flex items-start gap-5">
@@ -429,7 +429,7 @@ onMounted(() => {
                             Built on proven, battle-tested tools
                         </h2>
                         <p
-                            class="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed"
+                            class="mt-4 text-slate-600 leading-relaxed dark:text-slate-400"
                         >
                             The foundation combines Laravel's expressive backend
                             with a modern Vue 3 frontend, bridged by Inertia.js
@@ -687,7 +687,7 @@ onMounted(() => {
 
         <!-- Footer -->
         <footer
-            class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950"
+            class="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950"
         >
             <div class="mx-auto max-w-7xl px-6 py-10 lg:px-8">
                 <div

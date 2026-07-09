@@ -44,7 +44,7 @@ const navItems = [
 </script>
 
 <template>
-    <div class="h-screen flex overflow-hidden bg-slate-50 font-sans text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors">
+    <div class="h-screen flex overflow-hidden bg-slate-50 font-sans text-slate-900 transition-colors dark:bg-slate-900 dark:text-slate-100">
         
         <!-- MOBILE OVERLAY -->
         <transition
@@ -155,14 +155,14 @@ const navItems = [
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             
             <!-- HEADER -->
-            <header class="bg-white border-b border-slate-200 dark:bg-slate-800 dark:border-slate-700 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors">
+            <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors dark:bg-slate-800 dark:border-slate-700">
                 <div class="flex items-center">
-                    <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 dark:text-slate-300 lg:hidden">
+                    <button @click="isSidebarOpen = true" class="p-2 -ml-2 mr-3 text-gray-500 lg:hidden dark:text-slate-300">
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                     <div>
-                        <h1 class="text-sm lg:text-lg font-bold text-slate-800 dark:text-slate-100 leading-none">Dashboard</h1>
-                        <p class="hidden sm:block text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">Laravel Inertia Vue Admin</p>
+                        <h1 class="text-sm lg:text-lg font-bold text-slate-800 leading-none dark:text-slate-100">Dashboard</h1>
+                        <p class="hidden sm:block text-[10px] text-slate-400 uppercase tracking-widest mt-1 dark:text-slate-500">Laravel Inertia Vue Admin</p>
                     </div>
                 </div>
 
@@ -171,7 +171,7 @@ const navItems = [
                     <button
                         @click="toggleDarkMode"
                         type="button"
-                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-600 dark:bg-slate-700 dark:text-amber-300 dark:hover:bg-slate-600 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:border-slate-600 dark:bg-slate-700 dark:text-amber-300 dark:hover:bg-slate-600"
                         :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                         :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                     >
@@ -193,14 +193,14 @@ const navItems = [
             </header>
 
             <!-- SCROLLABLE MAIN & FOOTER -->
-            <main class="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-900 p-4 lg:p-8 custom-scrollbar flex flex-col transition-colors">
+            <main class="flex-1 overflow-y-auto bg-slate-50 p-4 lg:p-8 custom-scrollbar flex flex-col transition-colors dark:bg-slate-900">
                 <div class="flex-1 max-w-[1600px] mx-auto w-full">
                     <!-- This SLOT is where your specific page content will appear -->
                     <slot />
                 </div>
 
                 <!-- FOOTER -->
-                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200  text-center text-slate-500 dark:border-slate-700 dark:text-slate-500 text-[10px] lg:text-xs">
+                <footer class="mt-1 pt-8 pb-3 border-t border-slate-200 text-center text-slate-500 text-[10px] lg:text-xs dark:border-slate-700 dark:text-slate-500">
                     <div class="uppercase tracking-widest font-bold">
                         Sample Project for Laravel Inertia Vue3 Admin Dashboard Layout
                     </div>

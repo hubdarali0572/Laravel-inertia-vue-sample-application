@@ -56,7 +56,7 @@ const submit = () => {
         <Head title="Log in" />
 
         <div class="mb-8 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight dark:text-white">
                 Welcome back
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
@@ -66,7 +66,7 @@ const submit = () => {
 
         <div
             v-if="status"
-            class="mb-4 p-3 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-lg text-sm font-medium text-emerald-700 dark:text-emerald-400"
+            class="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-sm font-medium text-emerald-700 dark:bg-emerald-500/10 dark:border-emerald-500/30 dark:text-emerald-400"
         >
             {{ status }}
         </div>
@@ -93,7 +93,7 @@ const submit = () => {
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors"
+                        class="text-xs font-semibold text-indigo-600 hover:text-indigo-500 transition-colors dark:text-indigo-400"
                     >
                         Forgot password?
                     </Link>
@@ -112,7 +112,7 @@ const submit = () => {
 
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none transition-colors"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 focus:outline-none transition-colors dark:hover:text-indigo-400"
                         @click="showPassword = !showPassword"
                     >
                         <svg
@@ -146,7 +146,7 @@ const submit = () => {
             <div class="flex items-center">
                 <Checkbox name="remember" v-model:checked="form.remember" />
                 <span
-                    class="ms-2 text-sm text-slate-600 dark:text-slate-400 cursor-pointer select-none"
+                    class="ms-2 text-sm text-slate-600 cursor-pointer select-none dark:text-slate-400"
                     @click="form.remember = !form.remember"
                 >
                     Remember me
@@ -175,12 +175,12 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+        <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
             <p class="text-sm text-slate-500 dark:text-slate-400">
                 Don't have an account?
                 <Link
                     :href="route('register')"
-                    class="font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline-offset-4 hover:underline"
+                    class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
                 >
                     Create an account
                 </Link>

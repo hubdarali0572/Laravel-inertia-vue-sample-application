@@ -95,10 +95,10 @@ const submit = () => {
         <!-- Header Section -->
         <div class="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-100">
                     {{ isEditing ? 'Edit User Account' : 'Create New User' }}
                 </h2>
-                <p class="text-sm text-slate-800 dark:text-slate-400 mt-1 font-medium">
+                <p class="text-sm text-slate-800 mt-1 font-medium dark:text-slate-400">
                     {{ isEditing ? 'Update existing user credentials and permissions.' : 'Add a new member to the system and assign their role.' }}
                 </p>
             </div>
@@ -157,7 +157,7 @@ const submit = () => {
                                     class="theme-form-select"
                                     :class="isDropdownOpen ? 'theme-form-select-open' : ''"
                                 >
-                                    <span :class="form.role_id ? 'text-slate-800 dark:text-slate-100 font-semibold text-sm' : 'text-slate-400 dark:text-slate-500 text-sm font-medium'">
+                                    <span :class="form.role_id ? 'text-slate-800 font-semibold text-sm dark:text-slate-100' : 'text-slate-400 text-sm font-medium dark:text-slate-500'">
                                         {{ selectedRoleName }}
                                     </span>
                                     <svg class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="{'rotate-180': isDropdownOpen}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,8 +167,8 @@ const submit = () => {
 
                                 <!-- Dropdown Menu -->
                                 <transition name="pop">
-                                    <div v-if="isDropdownOpen" class="absolute z-50 w-full mt-24 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
-                                        <div class="p-3 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/40">
+                                    <div v-if="isDropdownOpen" class="absolute z-50 w-full mt-24 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                                        <div class="p-3 border-b border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-900/40">
                                             <div class="relative">
                                                 <input 
                                                     v-model="searchRole"
@@ -182,15 +182,15 @@ const submit = () => {
                                         <ul class="max-h-56 overflow-y-auto py-2">
                                             <li v-for="role in filteredRoles" :key="role.id"
                                                 @click="selectRole(role)"
-                                                class="px-5 py-3 text-xs font-bold text-slate-600 dark:text-slate-300 cursor-pointer flex items-center justify-between hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
-                                                :class="{'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300': form.role_id === role.id}"
+                                                class="px-5 py-3 text-xs font-bold text-slate-600 cursor-pointer flex items-center justify-between hover:bg-indigo-50 hover:text-indigo-700 transition-colors dark:text-slate-300 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300"
+                                                :class="{'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300': form.role_id === role.id}"
                                             >
                                                 {{ role.name.toUpperCase() }}
                                                 <svg v-if="form.role_id === role.id" class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                                 </svg>
                                             </li>
-                                            <li v-if="filteredRoles.length === 0" class="px-5 py-8 text-center text-slate-400 dark:text-slate-500 text-xs">No results found</li>
+                                            <li v-if="filteredRoles.length === 0" class="px-5 py-8 text-center text-slate-400 text-xs dark:text-slate-500">No results found</li>
                                         </ul>
                                     </div>
                                 </transition>
@@ -214,7 +214,7 @@ const submit = () => {
                                         <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21"/></svg>
                                     </button>
                                 </div>
-                                <p v-if="isEditing" class="mt-2 text-[10px] text-slate-400 dark:text-slate-500 font-bold italic ml-1">Leave blank to keep current password.</p>
+                                <p v-if="isEditing" class="mt-2 text-[10px] text-slate-400 font-bold italic ml-1 dark:text-slate-500">Leave blank to keep current password.</p>
                                 <InputError :message="form.errors.password" class="mt-2 ml-1" />
                             </div>
 
@@ -236,10 +236,10 @@ const submit = () => {
                             <div class="flex flex-col">
                                 <InputLabel for="image" value="Profile Image" class="theme-form-label ml-1" />
                                 
-                                <div class="flex items-center gap-5 p-4 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 rounded-lg">
+                                <div class="flex items-center gap-5 p-4 bg-slate-50 border border-slate-200 rounded-lg dark:bg-slate-900/60 dark:border-slate-700">
                                     <!-- Image Preview Circle -->
                                     <div class="relative shrink-0">
-                                        <div class="w-20 h-20 rounded-xl bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-slate-600 shadow-sm overflow-hidden flex items-center justify-center">
+                                        <div class="w-20 h-20 rounded-xl bg-slate-200 border-2 border-white shadow-sm overflow-hidden flex items-center justify-center dark:bg-slate-700 dark:border-slate-600">
                                             <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover" />
                                             <svg v-else class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -259,11 +259,11 @@ const submit = () => {
                                         <button 
                                             type="button" 
                                             @click="$refs.imageInput.click()"
-                                            class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg text-[12px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-500/40 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all shadow-sm"
+                                            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-bold uppercase tracking-wider text-slate-700 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-600 transition-all shadow-sm dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:border-indigo-500/40 dark:hover:text-indigo-300"
                                         >
                                             Select New Photo
                                         </button>
-                                        <p class="text-[10px] text-slate-400 dark:text-slate-500 font-medium ml-1">JPG, PNG or GIF. Max 2MB.</p>
+                                        <p class="text-[10px] text-slate-400 font-medium ml-1 dark:text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
                                     </div>
                                 </div>
                                 

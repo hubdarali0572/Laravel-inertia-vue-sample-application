@@ -71,14 +71,14 @@ const highlights = [
                 <div class="flex items-center gap-3 ml-auto">
                     <Link
                         href="/"
-                        class="hidden sm:inline-flex text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                        class="hidden sm:inline-flex text-sm font-medium text-slate-500 hover:text-indigo-600 transition-colors dark:text-slate-400 dark:hover:text-indigo-400"
                     >
                         &larr; Back to home
                     </Link>
                     <button
                         type="button"
                         @click="toggleDarkMode"
-                        class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+                        class="p-2 rounded-lg text-slate-500 hover:bg-slate-200/60 transition-colors dark:text-slate-400 dark:hover:bg-slate-800"
                         :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
                     >
                         <svg v-if="isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@ const highlights = [
 
             <main class="flex flex-1 items-center justify-center px-6 pb-10 lg:px-10">
                 <div class="w-full max-w-md">
-                    <div class="rounded-2xl bg-white dark:bg-slate-900 p-8 shadow-xl shadow-slate-200/50 dark:shadow-none ring-1 ring-slate-200 dark:ring-slate-800">
+                    <div class="rounded-2xl bg-white p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 dark:bg-slate-900 dark:shadow-none dark:ring-slate-800">
                         <slot />
                     </div>
                 </div>
