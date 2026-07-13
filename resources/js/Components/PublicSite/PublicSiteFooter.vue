@@ -32,9 +32,11 @@ const isAnchor = (href) => href.startsWith("#") || href.includes("#");
                     <Link
                         :href="route('publicSite.home')"
                         class="inline-flex items-center gap-2.5 sm:gap-3"
+                        aria-label="Unified Media home"
                     >
                         <ApplicationLogo
-                            class="h-6 w-auto shrink-0 fill-slate-400 sm:h-7 dark:fill-slate-500"
+                            class="h-6 w-6 shrink-0 fill-slate-400 sm:h-7 sm:w-7 dark:fill-slate-500"
+                            aria-hidden="true"
                         />
                         <span
                             class="text-sm font-semibold tracking-tight text-slate-700 sm:text-base dark:text-slate-200"
@@ -66,14 +68,14 @@ const isAnchor = (href) => href.startsWith("#") || href.includes("#");
                             <a
                                 v-if="isAnchor(item.href)"
                                 :href="item.href"
-                                class="inline-flex min-h-10 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+                                class="inline-flex min-h-12 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
                             >
                                 {{ item.label }}
                             </a>
                             <Link
                                 v-else
                                 :href="item.href"
-                                class="inline-flex min-h-10 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+                                class="inline-flex min-h-12 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
                             >
                                 {{ item.label }}
                             </Link>

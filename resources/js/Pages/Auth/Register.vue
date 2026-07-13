@@ -28,8 +28,10 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <div class="mb-8 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 tracking-tight dark:text-white">
+        <div class="mb-6 text-center sm:mb-8">
+            <h2
+                class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
+            >
                 Create an account
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">

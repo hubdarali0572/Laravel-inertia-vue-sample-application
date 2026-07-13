@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Force HTTPS
+    |--------------------------------------------------------------------------
+    |
+    | When true (or when APP_URL starts with https://), HTTP requests are
+    | redirected to HTTPS. Enable this for Lighthouse Best Practices and
+    | production deployments. On Laragon, enable SSL and use https://...
+    |
+    */
+
+    'force_https' => env('FORCE_HTTPS', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |

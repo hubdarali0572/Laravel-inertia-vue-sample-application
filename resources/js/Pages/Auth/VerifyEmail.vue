@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { computed } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -25,14 +25,14 @@ const verificationLinkSent = computed(
     <GuestLayout>
         <Head title="Email Verification" />
 
-        <div class="mb-8 text-center">
+        <div class="mb-6 text-center sm:mb-8">
             <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 mb-4 dark:bg-indigo-500/15">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-600 dark:text-indigo-400">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
             </div>
 
-            <h2 class="text-2xl font-bold text-slate-900 tracking-tight dark:text-white">
+            <h2 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
                 Verify your email
             </h2>
             <p class="mt-3 text-sm text-slate-500 leading-relaxed dark:text-slate-400">

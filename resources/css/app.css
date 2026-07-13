@@ -30,6 +30,12 @@
         background-color: var(--theme-dark-bg);
         color: var(--theme-dark-text);
     }
+
+    /* Keep Google reCAPTCHA within narrow mobile viewports */
+    .g-recaptcha,
+    .g-recaptcha > div {
+        max-width: 100%;
+    }
 }
 
 @layer components {

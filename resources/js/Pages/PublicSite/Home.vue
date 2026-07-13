@@ -7,6 +7,11 @@ const page = usePage();
 const laravelVersion = computed(() => page.props.laravelVersion);
 const phpVersion = computed(() => page.props.phpVersion);
 
+const seoTitle = "Home";
+const seoDescription =
+    "Precision-engineered governance for unified digital media. Secure user management, media libraries, activity logs, reCAPTCHA protection, and automated backups — built with Laravel, Inertia, and Vue 3.";
+const canonicalUrl = computed(() => route("publicSite.home"));
+
 const pillars = [
     {
         label: "Governance",
@@ -118,7 +123,50 @@ const accentClasses = {
 
 <template>
     <PublicSiteLayout>
-        <Head title="Home" />
+        <Head :title="seoTitle">
+            <meta
+                head-key="description"
+                name="description"
+                :content="seoDescription"
+            />
+            <meta
+                head-key="robots"
+                name="robots"
+                content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+            />
+            <link head-key="canonical" rel="canonical" :href="canonicalUrl" />
+            <meta head-key="og:type" property="og:type" content="website" />
+            <meta
+                head-key="og:title"
+                property="og:title"
+                content="Home - Unified Media"
+            />
+            <meta
+                head-key="og:description"
+                property="og:description"
+                :content="seoDescription"
+            />
+            <meta
+                head-key="og:url"
+                property="og:url"
+                :content="canonicalUrl"
+            />
+            <meta
+                head-key="twitter:card"
+                name="twitter:card"
+                content="summary_large_image"
+            />
+            <meta
+                head-key="twitter:title"
+                name="twitter:title"
+                content="Home - Unified Media"
+            />
+            <meta
+                head-key="twitter:description"
+                name="twitter:description"
+                :content="seoDescription"
+            />
+        </Head>
 
         <!-- Hero -->
         <section
@@ -160,7 +208,7 @@ const accentClasses = {
                     </div>
 
                     <h1
-                        class="text-4xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl"
+                        class="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
                     >
                         Precision-Engineered
                         <span
@@ -172,7 +220,7 @@ const accentClasses = {
                     </h1>
 
                     <p
-                        class="mt-6 text-lg leading-8 text-slate-600 max-w-2xl mx-auto dark:text-slate-300"
+                        class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8 dark:text-slate-300"
                     >
                         A production-ready starter ecosystem built for teams who
                         need secure user management, rich media handling, and
@@ -241,10 +289,10 @@ const accentClasses = {
                         :key="feature.title"
                         data-aos="fade-up"
                         :data-aos-delay="(index % 2) * 80"
-                        class="group relative rounded-2xl bg-slate-50 p-8 ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-slate-300 dark:bg-slate-900 dark:ring-slate-800 dark:hover:ring-slate-700"
+                        class="group relative rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-slate-300 sm:p-8 dark:bg-slate-900 dark:ring-slate-800 dark:hover:ring-slate-700"
                         :class="accentClasses[feature.accent].ring"
                     >
-                        <div class="flex items-start gap-5">
+                            <div class="flex items-start gap-3 sm:gap-5">
                             <div
                                 class="flex-shrink-0 rounded-xl p-3 transition-all duration-300"
                                 :class="accentClasses[feature.accent].icon"
@@ -310,9 +358,9 @@ const accentClasses = {
                         </p>
 
                         <dl class="mt-10 space-y-6">
-                            <div class="flex gap-4">
+                            <div class="flex flex-col gap-1 sm:flex-row sm:gap-4">
                                 <dt
-                                    class="flex-shrink-0 w-28 text-sm font-semibold text-slate-900 dark:text-white"
+                                    class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
                                     Backend
                                 </dt>
@@ -323,9 +371,9 @@ const accentClasses = {
                                     {{ phpVersion }}, Sanctum, Eloquent ORM
                                 </dd>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col gap-1 sm:flex-row sm:gap-4">
                                 <dt
-                                    class="flex-shrink-0 w-28 text-sm font-semibold text-slate-900 dark:text-white"
+                                    class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
                                     Frontend
                                 </dt>
@@ -335,9 +383,9 @@ const accentClasses = {
                                     Vue 3, Inertia.js, Tailwind CSS, Vite
                                 </dd>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col gap-1 sm:flex-row sm:gap-4">
                                 <dt
-                                    class="flex-shrink-0 w-28 text-sm font-semibold text-slate-900 dark:text-white"
+                                    class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
                                     Packages
                                 </dt>
@@ -348,9 +396,9 @@ const accentClasses = {
                                     Log, Intervention Image
                                 </dd>
                             </div>
-                            <div class="flex gap-4">
+                            <div class="flex flex-col gap-1 sm:flex-row sm:gap-4">
                                 <dt
-                                    class="flex-shrink-0 w-28 text-sm font-semibold text-slate-900 dark:text-white"
+                                    class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
                                     Tooling
                                 </dt>

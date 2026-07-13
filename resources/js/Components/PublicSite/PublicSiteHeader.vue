@@ -12,6 +12,8 @@ const canLogin = computed(() => page.props.canLogin);
 const canRegister = computed(() => page.props.canRegister);
 
 const isMobileMenuOpen = ref(false);
+/** true from 1024px up — drives menu vs hamburger (not CSS-only) */
+const isDesktop = ref(false);
 
 const navItems = [
     { label: "Home", href: route("publicSite.home"), routeName: "publicSite.home" },
@@ -37,6 +39,15 @@ const toggleMobileMenu = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
+let mediaQuery = null;
+
+const syncViewport = () => {
+    isDesktop.value = mediaQuery ? mediaQuery.matches : false;
+    if (isDesktop.value) {
+        closeMobileMenu();
+    }
+};
+
 watch(
     () => page.url,
     () => {
@@ -52,48 +63,51 @@ watch(isMobileMenuOpen, (open) => {
     }
 });
 
-const onResize = () => {
-    if (window.innerWidth >= 768 && isMobileMenuOpen.value) {
-        closeMobileMenu();
-    }
-};
-
 onMounted(() => {
-    window.addEventListener("resize", onResize);
+    mediaQuery = window.matchMedia("(min-width: 1024px)");
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
 });
 
 onUnmounted(() => {
-    window.removeEventListener("resize", onResize);
+    if (mediaQuery) {
+        mediaQuery.removeEventListener("change", syncViewport);
+    }
     document.body.style.removeProperty("overflow");
 });
 </script>
 
 <template>
     <header
-        class="fixed inset-x-0 top-0 z-50 w-full max-w-full overflow-x-hidden border-b border-slate-200/80 bg-white/90 backdrop-blur-lg dark:border-slate-800/80 dark:bg-slate-950/90"
+        class="fixed inset-x-0 top-0 z-50 w-full max-w-[100vw] border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/95"
     >
         <nav
-            class="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-2 overflow-x-hidden px-3 sm:h-16 sm:gap-3 sm:px-6 lg:px-8"
+            class="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:px-6 lg:px-8"
             aria-label="Primary"
         >
-            <!-- Brand: logo only on xs, name from sm -->
+            <!-- Brand -->
             <Link
                 :href="route('publicSite.home')"
-                class="flex min-w-0 items-center gap-2 sm:gap-2.5"
+                class="flex min-w-0 flex-1 items-center gap-2 overflow-hidden"
+                aria-label="Unified Media home"
                 @click="closeMobileMenu"
             >
                 <ApplicationLogo
                     class="h-7 w-7 shrink-0 fill-indigo-600 sm:h-8 sm:w-8 dark:fill-indigo-400"
+                    aria-hidden="true"
                 />
                 <span
-                    class="hidden truncate text-sm font-bold tracking-tight text-slate-800 sm:inline dark:text-white"
+                    class="truncate text-sm font-bold tracking-tight text-slate-800 dark:text-white"
                 >
                     Unified Media
                 </span>
             </Link>
 
-            <!-- Desktop / tablet navigation -->
-            <div class="hidden items-center gap-5 md:flex lg:gap-8">
+            <!-- Desktop nav links -->
+            <div
+                v-if="isDesktop"
+                class="flex shrink-0 items-center gap-6 xl:gap-8"
+            >
                 <PublicSiteNavLink
                     v-for="item in navItems"
                     :key="item.label"
@@ -104,17 +118,17 @@ onUnmounted(() => {
                 </PublicSiteNavLink>
             </div>
 
-            <!-- Actions: compact on mobile to prevent overflow -->
-            <div class="flex shrink-0 items-center gap-1 sm:gap-2">
+            <!-- Right actions: never overflow -->
+            <div class="ml-auto flex shrink-0 items-center gap-1">
                 <button
                     type="button"
-                    @click="toggleDarkMode"
-                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 sm:h-10 sm:w-10 dark:text-slate-400 dark:hover:bg-slate-800"
+                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
                     :aria-label="
                         isDark
                             ? 'Switch to light mode'
                             : 'Switch to dark mode'
                     "
+                    @click="toggleDarkMode"
                 >
                     <svg
                         v-if="isDark"
@@ -148,36 +162,37 @@ onUnmounted(() => {
                     </svg>
                 </button>
 
-                <!-- Auth CTAs: desktop/tablet only — mobile uses the drawer -->
-                <template v-if="canLogin">
+                <!-- Desktop auth only (not in DOM on mobile → no overflow) -->
+                <template v-if="isDesktop && canLogin">
                     <Link
                         v-if="$page.props.auth.user"
                         :href="route('dashboard')"
-                        class="hidden h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 md:inline-flex"
+                        class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
                     >
                         Dashboard
                     </Link>
                     <template v-else>
                         <Link
                             :href="route('login')"
-                            class="hidden h-10 items-center rounded-lg px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 md:inline-flex dark:text-slate-200 dark:hover:bg-slate-800"
+                            class="inline-flex h-10 items-center rounded-lg px-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                         >
                             Sign In
                         </Link>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="hidden h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500 md:inline-flex"
+                            class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
                         >
                             Get Started
                         </Link>
                     </template>
                 </template>
 
-                <!-- Mobile menu toggle -->
+                <!-- Mobile / tablet hamburger (right side) -->
                 <button
+                    v-if="!isDesktop"
                     type="button"
-                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100 sm:h-10 sm:w-10 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                     :aria-expanded="isMobileMenuOpen"
                     aria-controls="public-site-mobile-menu"
                     :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
@@ -194,7 +209,7 @@ onUnmounted(() => {
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            stroke-width="1.75"
+                            stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"
                         />
                     </svg>
@@ -209,7 +224,7 @@ onUnmounted(() => {
                         <path
                             stroke-linecap="round"
                             stroke-linejoin="round"
-                            stroke-width="1.75"
+                            stroke-width="2"
                             d="M6 18L18 6M6 6l12 12"
                         />
                     </svg>
@@ -217,86 +232,67 @@ onUnmounted(() => {
             </div>
         </nav>
 
-        <!-- Mobile navigation panel -->
-        <Transition
-            enter-active-class="transition duration-200 ease-out"
-            enter-from-class="opacity-0 -translate-y-1"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition duration-150 ease-in"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-1"
+        <!-- Mobile dropdown -->
+        <div
+            v-if="!isDesktop && isMobileMenuOpen"
+            id="public-site-mobile-menu"
+            class="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950"
         >
             <div
-                v-show="isMobileMenuOpen"
-                id="public-site-mobile-menu"
-                class="border-t border-slate-200/80 bg-white md:hidden dark:border-slate-800/80 dark:bg-slate-950"
+                class="mx-auto max-h-[calc(100dvh-3.5rem)] max-w-7xl overflow-y-auto px-3 py-3 sm:px-6"
             >
-                <div
-                    class="mx-auto max-h-[calc(100dvh-3.5rem)] overflow-y-auto px-3 py-3 sm:max-h-[calc(100dvh-4rem)] sm:px-6"
-                >
-                    <div class="flex flex-col gap-1">
-                        <PublicSiteNavLink
-                            v-for="item in navItems"
-                            :key="`mobile-${item.label}`"
-                            :href="item.href"
-                            :active="isActive(item)"
-                            mobile
-                            @navigate="closeMobileMenu"
-                        >
-                            {{ item.label }}
-                        </PublicSiteNavLink>
-                    </div>
-
-                    <div
-                        v-if="canLogin"
-                        class="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 dark:border-slate-800"
+                <div class="flex flex-col gap-1">
+                    <PublicSiteNavLink
+                        v-for="item in navItems"
+                        :key="`m-${item.label}`"
+                        :href="item.href"
+                        :active="isActive(item)"
+                        mobile
+                        @navigate="closeMobileMenu"
                     >
-                        <template v-if="$page.props.auth.user">
-                            <Link
-                                :href="route('dashboard')"
-                                class="inline-flex h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500"
-                                @click="closeMobileMenu"
-                            >
-                                Dashboard
-                            </Link>
-                        </template>
-                        <template v-else>
-                            <Link
-                                :href="route('login')"
-                                class="inline-flex h-11 items-center justify-center rounded-lg px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
-                                @click="closeMobileMenu"
-                            >
-                                Sign In
-                            </Link>
-                            <Link
-                                v-if="canRegister"
-                                :href="route('register')"
-                                class="inline-flex h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-500"
-                                @click="closeMobileMenu"
-                            >
-                                Get Started
-                            </Link>
-                        </template>
-                    </div>
+                        {{ item.label }}
+                    </PublicSiteNavLink>
+                </div>
+
+                <div
+                    v-if="canLogin"
+                    class="mt-3 flex flex-col gap-2 border-t border-slate-200 pt-3 dark:border-slate-800"
+                >
+                    <template v-if="$page.props.auth.user">
+                        <Link
+                            :href="route('dashboard')"
+                            class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
+                            @click="closeMobileMenu"
+                        >
+                            Dashboard
+                        </Link>
+                    </template>
+                    <template v-else>
+                        <Link
+                            :href="route('login')"
+                            class="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                            @click="closeMobileMenu"
+                        >
+                            Sign In
+                        </Link>
+                        <Link
+                            v-if="canRegister"
+                            :href="route('register')"
+                            class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
+                            @click="closeMobileMenu"
+                        >
+                            Get Started
+                        </Link>
+                    </template>
                 </div>
             </div>
-        </Transition>
+        </div>
     </header>
 
-    <!-- Overlay under header -->
-    <Transition
-        enter-active-class="transition-opacity duration-200 ease-out"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-150 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-    >
-        <div
-            v-if="isMobileMenuOpen"
-            class="fixed inset-0 z-40 bg-slate-950/40 md:hidden"
-            aria-hidden="true"
-            @click="closeMobileMenu"
-        />
-    </Transition>
+    <div
+        v-if="!isDesktop && isMobileMenuOpen"
+        class="fixed inset-0 z-40 bg-black/40"
+        aria-hidden="true"
+        @click="closeMobileMenu"
+    />
 </template>

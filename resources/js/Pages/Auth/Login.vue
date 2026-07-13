@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import Checkbox from "@/Components/Checkbox.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
@@ -19,6 +19,7 @@ defineProps({
 
 const captchaContainer = ref(null);
 const showPassword = ref(false);
+const recaptchaScriptId = "google-recaptcha-explicit";
 
 const form = useForm({
     email: "",
@@ -27,15 +28,57 @@ const form = useForm({
     "g-recaptcha-response": "",
 });
 
-onMounted(() => {
-    if (window.grecaptcha) {
+const renderCaptcha = () => {
+    if (!captchaContainer.value || !window.grecaptcha) {
+        return;
+    }
+
+    window.grecaptcha.ready(() => {
+        if (!captchaContainer.value || captchaContainer.value.dataset.rendered) {
+            return;
+        }
+
         window.grecaptcha.render(captchaContainer.value, {
             sitekey: usePage().props.recaptcha_site_key,
             callback: (response) => {
                 form["g-recaptcha-response"] = response;
             },
+            "expired-callback": () => {
+                form["g-recaptcha-response"] = "";
+            },
         });
+
+        captchaContainer.value.dataset.rendered = "true";
+    });
+};
+
+const loadRecaptcha = () => {
+    if (window.grecaptcha) {
+        renderCaptcha();
+        return;
     }
+
+    const existing = document.getElementById(recaptchaScriptId);
+    if (existing) {
+        existing.addEventListener("load", renderCaptcha, { once: true });
+        return;
+    }
+
+    const script = document.createElement("script");
+    script.id = recaptchaScriptId;
+    script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.onload = renderCaptcha;
+    document.head.appendChild(script);
+};
+
+onMounted(() => {
+    loadRecaptcha();
+});
+
+onUnmounted(() => {
+    // Keep the script cached for back-navigation; widget node is destroyed with the page.
 });
 
 const submit = () => {
@@ -55,8 +98,10 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
-        <div class="mb-8 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 tracking-tight dark:text-white">
+        <div class="mb-6 text-center sm:mb-8">
+            <h2
+                class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
+            >
                 Welcome back
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
@@ -153,11 +198,17 @@ const submit = () => {
                 </span>
             </div>
 
-            <div>
+            <div class="min-w-0">
                 <InputLabel for="recaptcha" value="Verification" />
-                <div class="mt-1.5">
-                    <div ref="captchaContainer"></div>
-                    <InputError class="mt-2" :message="form.errors['g-recaptcha-response']" />
+                <div class="mt-1.5 w-full min-w-0 overflow-x-auto">
+                    <div
+                        ref="captchaContainer"
+                        class="origin-top-left scale-[0.77] sm:scale-100"
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors['g-recaptcha-response']"
+                    />
                 </div>
             </div>
 
