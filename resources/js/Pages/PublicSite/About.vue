@@ -8,7 +8,7 @@ import PublicSiteLayout from "@/Layouts/PublicSite/PublicSiteLayout.vue";
         <Head title="About" />
 
         <section class="py-20 lg:py-28">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-3xl" data-aos="fade-up">
                     <p
                         class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"

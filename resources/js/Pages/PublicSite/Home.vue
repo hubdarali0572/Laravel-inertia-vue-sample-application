@@ -141,7 +141,7 @@ const accentClasses = {
                 ></div>
             </div>
 
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-3xl text-center" data-aos="fade-up">
                     <div class="mb-8 flex flex-wrap justify-center gap-3">
                         <span
@@ -212,7 +212,7 @@ const accentClasses = {
             id="features"
             class="py-20 lg:py-28 bg-white dark:bg-slate-900/40"
         >
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center" data-aos="fade-up">
                     <p
                         class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
@@ -287,10 +287,10 @@ const accentClasses = {
         </section>
 
         <!-- Tech Stack -->
-        <section id="stack" class="py-20 lg:py-28">
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
-                <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    <div data-aos="fade-right">
+        <section id="stack" class="overflow-x-hidden py-20 lg:py-28">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+                    <div data-aos="fade-up">
                         <p
                             class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
                         >
@@ -365,7 +365,7 @@ const accentClasses = {
                     </div>
 
                     <div
-                        data-aos="fade-left"
+                        data-aos="fade-up"
                         class="relative rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 p-8 lg:p-10 text-white shadow-2xl overflow-hidden"
                     >
                         <div
@@ -380,7 +380,7 @@ const accentClasses = {
                         >
                             Runtime Versions
                         </p>
-                        <div class="relative mt-8 grid grid-cols-2 gap-4">
+                        <div class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div
                                 class="rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
@@ -428,10 +428,10 @@ const accentClasses = {
             id="security"
             class="py-20 lg:py-28 bg-white dark:bg-slate-900/40"
         >
-            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     data-aos="fade-up"
-                    class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 px-8 py-16 lg:px-16 lg:py-20 text-white shadow-2xl"
+                    class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 px-6 py-12 sm:px-8 sm:py-16 lg:px-16 lg:py-20 text-white shadow-2xl"
                 >
                     <div
                         class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"
