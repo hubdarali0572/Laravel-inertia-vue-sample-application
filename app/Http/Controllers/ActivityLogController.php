@@ -64,7 +64,7 @@ class ActivityLogController extends Controller implements HasMiddleware
         $activity = Activity::findOrFail($id);
         $activity->delete();
 
-        return back()->with('danger', 'Activity log deleted successfully.');
+        return back()->with('danger', __('ui.flash.activity_deleted'));
     }
 
     public function clearAll()
@@ -73,7 +73,7 @@ class ActivityLogController extends Controller implements HasMiddleware
 
         Activity::query()->delete();
 
-        return back()->with('danger', 'All activity logs have been cleared.');
+        return back()->with('danger', __('ui.flash.activity_cleared'));
     }
 
     private function ensureSuperAdmin(): void

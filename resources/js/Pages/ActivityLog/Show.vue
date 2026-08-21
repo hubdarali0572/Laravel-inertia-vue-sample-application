@@ -4,6 +4,7 @@ import PageHeader from "@/Components/PageHeader.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { useActivityLog } from "@/composables/useActivityLog";
+import { useI18n } from "@/composables/useI18n";
 
 const props = defineProps({
     activity: {
@@ -12,6 +13,7 @@ const props = defineProps({
     },
 });
 
+const { t } = useI18n();
 const {
     formatDate,
     getModelName,
@@ -19,21 +21,32 @@ const {
     getChangeDetails,
     hasChangeDetails,
     actionBadgeClass,
+    eventLabel,
 } = useActivityLog();
 
 const changes = computed(() => getChangeDetails(props.activity));
-const actionLabel = computed(
+const actionKey = computed(
     () => props.activity.description || props.activity.event || "—",
 );
+const actionDisplay = computed(() => eventLabel(actionKey.value));
+const actionDescription = computed(() => {
+    const map = {
+        created: "activity.record_created",
+        updated: "activity.record_updated",
+        deleted: "activity.record_deleted",
+    };
+
+    return map[actionKey.value] ? t(map[actionKey.value]) : actionDisplay.value;
+});
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <Head title="Activity Log Details" />
+        <Head :title="t('activity.details_title')" />
 
         <PageHeader
-            title="Activity Log Details"
-            subtitle="Complete record of this system change."
+            :title="t('activity.details_title')"
+            :subtitle="t('activity.details_subtitle')"
         >
             <Link :href="route('activity.index')" class="theme-form-back-link">
                 <svg
@@ -49,7 +62,7 @@ const actionLabel = computed(
                         stroke-linejoin="round"
                     />
                 </svg>
-                Back to Activity Logs
+                {{ t("activity.back") }}
             </Link>
         </PageHeader>
 
@@ -57,11 +70,11 @@ const actionLabel = computed(
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <div class="theme-form-card">
                     <div class="theme-form-section-header">
-                        <h3 class="theme-form-section-title">User</h3>
+                        <h3 class="theme-form-section-title">{{ t("activity.user") }}</h3>
                     </div>
                     <div class="theme-form-body">
                         <p class="text-sm font-bold text-slate-800 dark:text-slate-100">
-                            {{ activity.causer?.name || "System" }}
+                            {{ activity.causer?.name || t("common.system") }}
                         </p>
                         <p
                             v-if="activity.causer?.email"
@@ -74,35 +87,35 @@ const actionLabel = computed(
 
                 <div class="theme-form-card">
                     <div class="theme-form-section-header">
-                        <h3 class="theme-form-section-title">Action</h3>
+                        <h3 class="theme-form-section-title">{{ t("activity.action") }}</h3>
                     </div>
                     <div class="theme-form-body">
                         <span
                             class="inline-flex rounded px-2 py-1 text-[10px] font-black uppercase tracking-wide"
-                            :class="actionBadgeClass(actionLabel)"
+                            :class="actionBadgeClass(actionKey)"
                         >
-                            {{ actionLabel }}
+                            {{ actionDisplay }}
                         </span>
                     </div>
                 </div>
 
                 <div class="theme-form-card">
                     <div class="theme-form-section-header">
-                        <h3 class="theme-form-section-title">Module</h3>
+                        <h3 class="theme-form-section-title">{{ t("activity.module") }}</h3>
                     </div>
                     <div class="theme-form-body">
                         <p class="text-sm font-bold uppercase text-slate-800 dark:text-slate-100">
                             {{ getModelName(activity.subject_type) }}
                         </p>
                         <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                            ID #{{ activity.subject_id || "—" }}
+                            #{{ activity.subject_id || "—" }}
                         </p>
                     </div>
                 </div>
 
                 <div class="theme-form-card">
                     <div class="theme-form-section-header">
-                        <h3 class="theme-form-section-title">Date & Time</h3>
+                        <h3 class="theme-form-section-title">{{ t("activity.date_time") }}</h3>
                     </div>
                     <div class="theme-form-body">
                         <p class="text-sm font-bold text-slate-800 dark:text-slate-100">
@@ -114,26 +127,18 @@ const actionLabel = computed(
 
             <div class="theme-form-card">
                 <div class="theme-form-section-header">
-                    <h3 class="theme-form-section-title">Description</h3>
+                    <h3 class="theme-form-section-title">{{ t("activity.description") }}</h3>
                 </div>
                 <div class="theme-form-body">
                     <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
-                        {{
-                            actionLabel === "created"
-                                ? "A new record was created."
-                                : actionLabel === "updated"
-                                  ? "An existing record was updated."
-                                  : actionLabel === "deleted"
-                                    ? "A record was deleted."
-                                    : actionLabel
-                        }}
+                        {{ actionDescription }}
                     </p>
                 </div>
             </div>
 
             <div class="theme-form-card">
                 <div class="theme-form-section-header">
-                    <h3 class="theme-form-section-title">Change Details</h3>
+                    <h3 class="theme-form-section-title">{{ t("activity.changes") }}</h3>
                 </div>
                 <div class="theme-form-body">
                     <div v-if="hasChangeDetails(activity)" class="space-y-3">
@@ -195,49 +200,49 @@ const actionLabel = computed(
                         </div>
                     </div>
                     <p v-else class="text-sm text-slate-400 dark:text-slate-500">
-                        No detail recorded for this activity.
+                        {{ t("activity.no_detail_long") }}
                     </p>
                 </div>
             </div>
 
             <div class="theme-form-card">
                 <div class="theme-form-section-header">
-                    <h3 class="theme-form-section-title">Additional Details</h3>
+                    <h3 class="theme-form-section-title">{{ t("activity.metadata") }}</h3>
                 </div>
                 <div class="theme-form-body">
                     <dl class="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
                         <div>
-                            <dt class="theme-form-label mb-1">Log ID</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.id") }}</dt>
                             <dd class="text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 #{{ activity.id }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="theme-form-label mb-1">Log Name</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.log_name") }}</dt>
                             <dd class="text-sm font-semibold capitalize text-slate-800 dark:text-slate-100">
                                 {{ activity.log_name || "—" }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="theme-form-label mb-1">Event</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.event") }}</dt>
                             <dd class="text-sm font-semibold capitalize text-slate-800 dark:text-slate-100">
-                                {{ activity.event || actionLabel }}
+                                {{ eventLabel(activity.event || actionKey) }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="theme-form-label mb-1">Causer ID</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.causer_id") }}</dt>
                             <dd class="text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 {{ activity.causer_id || "—" }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="theme-form-label mb-1">Subject Type</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.subject_type") }}</dt>
                             <dd class="text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 {{ activity.subject_type || "—" }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="theme-form-label mb-1">Batch UUID</dt>
+                            <dt class="theme-form-label mb-1">{{ t("activity.batch") }}</dt>
                             <dd class="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
                                 {{ activity.batch_uuid || "—" }}
                             </dd>

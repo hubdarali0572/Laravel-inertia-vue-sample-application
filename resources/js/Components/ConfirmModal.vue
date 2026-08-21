@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { useI18n } from "@/composables/useI18n";
+
+const props = defineProps({
     show: {
         type: Boolean,
         default: false,
@@ -36,6 +38,7 @@ defineProps({
 });
 
 const emit = defineEmits(['close', 'confirm']);
+const { t } = useI18n();
 </script>
 
 <template>
@@ -66,7 +69,7 @@ const emit = defineEmits(['close', 'confirm']);
                             <button
                                 type="button"
                                 class="theme-modal-close"
-                                aria-label="Close"
+                                :aria-label="t('common.close')"
                                 @click="emit('close')"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -101,7 +104,7 @@ const emit = defineEmits(['close', 'confirm']);
                                 <span class="truncate text-xs font-semibold text-slate-800 dark:text-slate-100">{{ badge }}</span>
                             </div>
 
-                            <p class="theme-modal-warning">This action is irreversible</p>
+                            <p class="theme-modal-warning">{{ t('common.irreversible') }}</p>
                         </div>
 
                         <!-- Footer -->

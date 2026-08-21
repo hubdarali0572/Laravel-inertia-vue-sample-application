@@ -6,6 +6,9 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
+
+const { t } = useI18n();
 
 const form = useForm({
     name: '',
@@ -26,22 +29,22 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
+        <Head :title="t('auth.register')" />
 
         <div class="mb-6 text-center sm:mb-8">
             <h2
                 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
             >
-                Create an account
+                {{ t('auth.register_title') }}
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                Join us today and start managing your digital media platform.
+                {{ t('auth.register_subtitle') }}
             </p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <InputLabel for="name" value="Full Name" />
+                <InputLabel for="name" :value="t('auth.full_name')" />
                 <TextInput
                     id="name"
                     type="text"
@@ -56,7 +59,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="email" value="Email Address" />
+                <InputLabel for="email" :value="t('auth.email')" />
                 <TextInput
                     id="email"
                     type="email"
@@ -70,7 +73,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" :value="t('auth.password')" />
                 <div class="mt-1.5 relative">
                     <TextInput
                         id="password"
@@ -99,7 +102,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" :value="t('auth.confirm_password')" />
                 <div class="mt-1.5 relative">
                     <TextInput
                         id="password_confirmation"
@@ -134,21 +137,21 @@ const submit = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Creating account...
+                        {{ t('auth.creating_account') }}
                     </span>
-                    <span v-else>Register</span>
+                    <span v-else>{{ t('auth.register') }}</span>
                 </PrimaryButton>
             </div>
         </form>
 
         <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
             <p class="text-sm text-slate-500 dark:text-slate-400">
-                Already have an account?
+                {{ t('auth.have_account') }}
                 <Link
                     :href="route('login')"
                     class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
                 >
-                    Log in
+                    {{ t('auth.login') }}
                 </Link>
             </p>
         </div>

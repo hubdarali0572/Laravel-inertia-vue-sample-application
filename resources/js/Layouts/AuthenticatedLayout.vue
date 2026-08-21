@@ -3,9 +3,12 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { usePermissions } from "@/composables/usePermissions";
+import { useI18n } from "@/composables/useI18n";
+import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 
 const { isDark, toggleDarkMode } = useDarkMode();
 const { can, roleName, isSuperAdmin } = usePermissions();
+const { t } = useI18n();
 const page = usePage();
 
 const isSidebarOpen = ref(false);
@@ -54,29 +57,29 @@ const isProfileActive = () => route().current("profile.edit");
 
 const allNavItems = computed(() => [
     {
-        name: "Dashboard",
+        name: t("nav.dashboard"),
         icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
         route: "dashboard",
         active: route().current("dashboard"),
         show: true,
     },
-    { category: "MAIN MODULES" },
+    { category: t("nav.main_modules") },
     {
-        name: "User Management",
+        name: t("nav.users"),
         icon: "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z",
         route: "users.index",
         active: route().current("users.*"),
         show: can("view user"),
     },
     {
-        name: "Roles & Permissions",
+        name: t("nav.roles"),
         icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
         route: "roles.index",
         active: route().current("roles.*"),
         show: can("view role"),
     },
     {
-        name: "Activity Logs",
+        name: t("nav.activity"),
         icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
         route: "activity.index",
         active: route().current("activity.*"),
@@ -100,12 +103,12 @@ const navItems = computed(() => {
 });
 
 const pageTitle = computed(() => {
-    if (route().current("dashboard")) return "Dashboard";
-    if (route().current("users.*")) return "User Management";
-    if (route().current("roles.*")) return "Roles & Permissions";
-    if (route().current("activity.*")) return "Activity Logs";
-    if (route().current("profile.*")) return "Profile";
-    return "Dashboard";
+    if (route().current("dashboard")) return t("nav.dashboard");
+    if (route().current("users.*")) return t("nav.users");
+    if (route().current("roles.*")) return t("nav.roles");
+    if (route().current("activity.*")) return t("nav.activity");
+    if (route().current("profile.*")) return t("nav.profile");
+    return t("nav.dashboard");
 });
 </script>
 
@@ -131,8 +134,12 @@ const pageTitle = computed(() => {
 
         <!-- SIDEBAR -->
         <aside
-            class="theme-sidebar fixed inset-y-0 left-0 z-50 flex w-72 flex-col transition-transform duration-300 ease-in-out lg:static lg:inset-0 lg:w-64 lg:translate-x-0"
-            :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+            class="theme-sidebar fixed inset-y-0 start-0 z-50 flex w-72 flex-col transition-transform duration-300 ease-in-out lg:static lg:inset-auto lg:w-64 lg:translate-x-0"
+            :class="
+                isSidebarOpen
+                    ? 'max-lg:translate-x-0'
+                    : 'max-lg:-translate-x-full max-lg:rtl:translate-x-full'
+            "
         >
             <div
                 class="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-4 dark:border-slate-700"
@@ -153,7 +160,7 @@ const pageTitle = computed(() => {
                     </div>
                     <span
                         class="text-sm font-bold tracking-wide text-slate-800 lg:text-base dark:text-white"
-                        >Sample Project</span
+                        >{{ t("app.name") }}</span
                     >
                 </div>
                 <button
@@ -232,7 +239,7 @@ const pageTitle = computed(() => {
                             <p
                                 class="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                             >
-                                Signed in as
+                                {{ t("header.signed_in_as") }}
                             </p>
                             <p
                                 class="truncate text-[11px] font-semibold leading-tight text-slate-800 dark:text-white"
@@ -278,7 +285,7 @@ const pageTitle = computed(() => {
                                         />
                                     </svg>
                                 </span>
-                                My Profile
+                                {{ t("header.my_profile") }}
                             </Link>
 
                             <Link
@@ -304,7 +311,7 @@ const pageTitle = computed(() => {
                                         />
                                     </svg>
                                 </span>
-                                Log Out
+                                {{ t("header.log_out") }}
                             </Link>
                         </div>
                     </div>
@@ -357,7 +364,7 @@ const pageTitle = computed(() => {
                 <div class="flex min-w-0 items-center">
                     <button
                         type="button"
-                        class="-ml-2 mr-3 p-2 text-gray-500 lg:hidden dark:text-slate-300"
+                        class="-ms-2 me-3 p-2 text-gray-500 lg:hidden dark:text-slate-300"
                         @click="isSidebarOpen = true"
                     >
                         <svg
@@ -379,25 +386,25 @@ const pageTitle = computed(() => {
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 sm:gap-4">
+                <div class="flex items-center gap-2">
                     <button
                         type="button"
-                        class="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:border-slate-600 dark:bg-slate-700 dark:text-indigo-200 dark:hover:bg-slate-600"
+                        class="theme-header-control theme-header-control-icon"
                         :title="
                             isDark
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
+                                ? t('header.light_mode')
+                                : t('header.dark_mode')
                         "
                         :aria-label="
                             isDark
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
+                                ? t('header.light_mode')
+                                : t('header.dark_mode')
                         "
                         @click="toggleDarkMode"
                     >
                         <svg
                             v-if="isDark"
-                            class="h-5 w-5"
+                            class="h-4 w-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -411,7 +418,7 @@ const pageTitle = computed(() => {
                         </svg>
                         <svg
                             v-else
-                            class="h-5 w-5"
+                            class="h-4 w-4"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -424,30 +431,27 @@ const pageTitle = computed(() => {
                             />
                         </svg>
                     </button>
+                    <LanguageSwitcher />
                     <a
                         href="/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="group hidden h-10 items-center gap-2 bg-slate-100 px-3 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow sm:inline-flex dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300"
+                        class="theme-header-control hidden sm:inline-flex"
                     >
-                        <span
-                            class="flex h-5 w-5 items-center justify-center rounded-md bg-white text-slate-500 transition-colors group-hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:text-indigo-300"
+                        <svg
+                            class="h-3.5 w-3.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
                         >
-                            <svg
-                                class="h-3.5 w-3.5"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                stroke-width="2"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M13.5 3H21m0 0v7.5M21 3l-9.75 9.75M7.5 6H6A2.25 2.25 0 003.75 8.25v9.75A2.25 2.25 0 006 20.25h9.75A2.25 2.25 0 0018 18v-1.5"
-                                />
-                            </svg>
-                        </span>
-                        View Site
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13.5 3H21m0 0v7.5M21 3l-9.75 9.75M7.5 6H6A2.25 2.25 0 003.75 8.25v9.75A2.25 2.25 0 006 20.25h9.75A2.25 2.25 0 0018 18v-1.5"
+                            />
+                        </svg>
+                        {{ t("header.view_site") }}
                     </a>
                 </div>
             </header>
@@ -462,8 +466,7 @@ const pageTitle = computed(() => {
 
             <footer class="theme-page-footer">
                 <div class="font-bold uppercase tracking-widest">
-                    Sample Project for Laravel Inertia Vue3 Admin Dashboard
-                    Layout
+                    {{ t("app.footer") }}
                 </div>
             </footer>
         </div>

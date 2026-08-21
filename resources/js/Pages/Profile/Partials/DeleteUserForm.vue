@@ -5,7 +5,9 @@ import Modal from "@/Components/Modal.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { nextTick, ref } from "vue";
+import { useI18n } from "@/composables/useI18n";
 
+const { t } = useI18n();
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
 
@@ -39,32 +41,32 @@ const closeModal = () => {
 <template>
     <section class="theme-form-card overflow-hidden">
         <div class="theme-form-section-header">
-            <h2 class="theme-form-section-title">Delete account</h2>
+            <h2 class="theme-form-section-title">{{ t("profile.delete_title") }}</h2>
             <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                Permanently remove this account. This cannot be undone.
+                {{ t("profile.delete_hint") }}
             </p>
         </div>
 
         <div class="flex items-center justify-between gap-3 p-4">
             <p class="text-[11px] text-slate-500 dark:text-slate-400">
-                All profile data will be deleted.
+                {{ t("profile.delete_help") }}
             </p>
             <button
                 type="button"
                 class="theme-btn-danger shrink-0"
                 @click="confirmUserDeletion"
             >
-                Delete
+                {{ t("profile.delete_button") }}
             </button>
         </div>
 
         <Modal :show="confirmingUserDeletion" max-width="sm" @close="closeModal">
             <div class="theme-modal-header">
-                <h3 class="theme-modal-title">Delete Account</h3>
+                <h3 class="theme-modal-title">{{ t("profile.delete_modal_title") }}</h3>
                 <button
                     type="button"
                     class="theme-modal-close"
-                    aria-label="Close"
+                    :aria-label="t('common.close')"
                     @click="closeModal"
                 >
                     <svg
@@ -101,17 +103,17 @@ const closeModal = () => {
                 </div>
 
                 <p class="theme-modal-message">
-                    Enter your password to permanently delete this account.
+                    {{ t("profile.delete_modal_message") }}
                 </p>
 
                 <p class="theme-modal-warning text-center">
-                    This action is irreversible
+                    {{ t("common.irreversible") }}
                 </p>
 
                 <div class="mt-3">
                     <InputLabel
                         for="password"
-                        value="Password"
+                        :value="t('profile.password')"
                         class="theme-form-label"
                     />
 
@@ -121,7 +123,7 @@ const closeModal = () => {
                         v-model="form.password"
                         type="password"
                         class="theme-form-input mt-2 block w-full"
-                        placeholder="Enter your password"
+                        :placeholder="t('profile.placeholder_password')"
                         @keyup.enter="deleteUser"
                     />
 
@@ -135,7 +137,7 @@ const closeModal = () => {
                     class="theme-modal-btn-cancel"
                     @click="closeModal"
                 >
-                    Cancel
+                    {{ t("common.cancel") }}
                 </button>
 
                 <button
@@ -144,7 +146,11 @@ const closeModal = () => {
                     class="theme-modal-btn-danger disabled:cursor-not-allowed disabled:opacity-50"
                     @click="deleteUser"
                 >
-                    {{ form.processing ? "Deleting..." : "Delete Account" }}
+                    {{
+                        form.processing
+                            ? t("profile.deleting")
+                            : t("profile.delete_modal_title")
+                    }}
                 </button>
             </div>
         </Modal>

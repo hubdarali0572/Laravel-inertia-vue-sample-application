@@ -3,18 +3,21 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import ConfirmModal from "@/Components/ConfirmModal.vue";
 import FlashMessage from "@/Components/FlashMessage.vue";
 import PageHeader from "@/Components/PageHeader.vue";
+import PaginationFooter from "@/Components/PaginationFooter.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { usePermissions } from "@/composables/usePermissions";
 import { useActivityLog } from "@/composables/useActivityLog";
+import { useI18n } from "@/composables/useI18n";
 
 defineProps({
     activities: Object,
 });
 
+const { t } = useI18n();
 const { can } = usePermissions();
 const canDelete = computed(() => can("delete activity"));
-const { formatDate, getModelName, changeSummary, actionBadgeClass } =
+const { formatDate, getModelName, changeSummary, actionBadgeClass, eventLabel } =
     useActivityLog();
 
 const isDeleteModalOpen = ref(false);
@@ -54,27 +57,31 @@ const isModalOpen = computed(
 
 const modalTitle = computed(() =>
     isDeleteModalOpen.value
-        ? "Delete Activity Log"
-        : "Clear All Activity Logs",
+        ? t("activity.delete_title")
+        : t("activity.clear_title"),
 );
 
 const modalMessage = computed(() =>
     isDeleteModalOpen.value
-        ? "Are you sure you want to permanently remove this activity log entry?"
-        : "Are you sure you want to permanently delete all system activity logs?",
+        ? t("activity.delete_message")
+        : t("activity.clear_message"),
 );
 
 const modalConfirmLabel = computed(() =>
-    isDeleteModalOpen.value ? "Yes, Delete Log" : "Yes, Clear All",
+    isDeleteModalOpen.value
+        ? t("activity.delete_confirm")
+        : t("activity.clear_confirm"),
 );
 
 const modalCancelLabel = computed(() =>
-    isDeleteModalOpen.value ? "No, Keep Log" : "No, Keep Logs",
+    isDeleteModalOpen.value
+        ? t("activity.delete_cancel")
+        : t("activity.clear_cancel"),
 );
 
 const modalBadge = computed(() =>
     isDeleteModalOpen.value && selectedLogId.value
-        ? `Log ID: #${selectedLogId.value}`
+        ? t("activity.log_id", { id: selectedLogId.value })
         : null,
 );
 
@@ -93,11 +100,11 @@ const handleModalConfirm = () => {
 
 <template>
     <AuthenticatedLayout>
-        <Head title="Activity Logs" />
+        <Head :title="t('activity.title')" />
 
         <PageHeader
-            title="System Activity Logs"
-            subtitle="Detailed tracking of all system changes."
+            :title="t('activity.page_title')"
+            :subtitle="t('activity.subtitle')"
         >
             <button
                 v-if="canDelete"
@@ -118,7 +125,7 @@ const handleModalConfirm = () => {
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                 </svg>
-                Clear All System Logs
+                {{ t("activity.clear_all") }}
             </button>
         </PageHeader>
 
@@ -129,13 +136,13 @@ const handleModalConfirm = () => {
                 <table class="theme-table">
                     <thead>
                         <tr class="theme-table-header">
-                            <th class="theme-table-header-cell">User</th>
-                            <th class="theme-table-header-cell">Action</th>
-                            <th class="theme-table-header-cell">Module</th>
-                            <th class="theme-table-header-cell">Summary</th>
-                            <th class="theme-table-header-cell">Timestamp</th>
+                            <th class="theme-table-header-cell">{{ t("activity.user") }}</th>
+                            <th class="theme-table-header-cell">{{ t("activity.action") }}</th>
+                            <th class="theme-table-header-cell">{{ t("activity.module") }}</th>
+                            <th class="theme-table-header-cell">{{ t("activity.summary") }}</th>
+                            <th class="theme-table-header-cell">{{ t("activity.timestamp") }}</th>
                             <th class="theme-table-header-cell w-px text-right">
-                                Actions
+                                {{ t("common.actions") }}
                             </th>
                         </tr>
                     </thead>
@@ -147,7 +154,7 @@ const handleModalConfirm = () => {
                         >
                             <td class="theme-table-cell">
                                 <div class="text-sm font-bold text-slate-800 dark:text-slate-100">
-                                    {{ log.causer?.name || "System" }}
+                                    {{ log.causer?.name || t("common.system") }}
                                 </div>
                                 <div
                                     v-if="log.causer?.email"
@@ -161,7 +168,7 @@ const handleModalConfirm = () => {
                                     class="inline-flex rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-wide"
                                     :class="actionBadgeClass(log.description)"
                                 >
-                                    {{ log.description }}
+                                    {{ eventLabel(log.description) }}
                                 </span>
                             </td>
                             <td class="theme-table-cell">
@@ -185,8 +192,8 @@ const handleModalConfirm = () => {
                                     <Link
                                         :href="route('activity.show', log.id)"
                                         class="theme-table-action-btn theme-table-action-view"
-                                        title="View Log"
-                                        aria-label="View Log"
+                                        :title="t('activity.view')"
+                                        :aria-label="t('activity.view')"
                                     >
                                         <svg
                                             class="h-3.5 w-3.5"
@@ -211,8 +218,8 @@ const handleModalConfirm = () => {
                                         v-if="canDelete"
                                         type="button"
                                         class="theme-table-action-btn theme-table-action-delete"
-                                        title="Delete Log"
-                                        aria-label="Delete Log"
+                                        :title="t('activity.delete')"
+                                        :aria-label="t('activity.delete')"
                                         @click="openDeleteModal(log.id)"
                                     >
                                         <svg
@@ -237,50 +244,14 @@ const handleModalConfirm = () => {
                                 colspan="6"
                                 class="theme-table-cell py-10 text-center font-medium text-slate-400 dark:text-slate-500"
                             >
-                                No activity logs found.
+                                {{ t("activity.empty") }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="theme-table-footer">
-                <div class="theme-table-footer-meta">
-                    Showing
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        activities.from || 0
-                    }}</span>
-                    to
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        activities.to || 0
-                    }}</span>
-                    of
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        activities.total
-                    }}</span>
-                    logs
-                </div>
-                <div class="flex flex-wrap items-center justify-center gap-1">
-                    <template v-for="(link, k) in activities.links" :key="k">
-                        <Link
-                            v-if="link.url"
-                            :href="link.url"
-                            class="theme-pagination-btn"
-                            :class="[
-                                link.active
-                                    ? 'theme-pagination-active'
-                                    : 'theme-pagination-inactive',
-                            ]"
-                            v-html="link.label"
-                        />
-                        <span
-                            v-else
-                            class="theme-pagination-btn cursor-not-allowed border-slate-100 bg-white text-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-600"
-                            v-html="link.label"
-                        />
-                    </template>
-                </div>
-            </div>
+            <PaginationFooter :paginator="activities" noun="logs" />
         </div>
 
         <ConfirmModal

@@ -5,8 +5,10 @@ import { computed, onMounted, nextTick } from "vue";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { usePermissions } from "@/composables/usePermissions";
+import { useI18n } from "@/composables/useI18n";
 
 const { can, isSuperAdmin } = usePermissions();
+const { t } = useI18n();
 
 onMounted(() => {
     nextTick(() => {
@@ -18,28 +20,28 @@ onMounted(() => {
     });
 });
 
-const stats = [
+const stats = computed(() => [
     {
-        title: "Open job requests",
+        title: t("dashboard.open_jobs"),
         value: "0",
         iconPath: "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6",
     },
     {
-        title: "In review (Inspections)",
+        title: t("dashboard.in_review"),
         value: "0",
         iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
     },
     {
-        title: "Trainings today",
+        title: t("dashboard.trainings"),
         value: "0",
         iconPath: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
     },
-];
+]);
 
-const allQuickActions = [
+const allQuickActions = computed(() => [
     {
-        title: "Add New User",
-        description: "Create a user account and assign a role.",
+        title: t("dashboard.add_user"),
+        description: t("dashboard.add_user_hint"),
         route: "users.create",
         permission: "create user",
         iconPath:
@@ -47,8 +49,8 @@ const allQuickActions = [
         accent: "indigo",
     },
     {
-        title: "Manage Users",
-        description: "View, edit, and manage all system users.",
+        title: t("dashboard.manage_users"),
+        description: t("dashboard.manage_users_hint"),
         route: "users.index",
         permission: "view user",
         iconPath:
@@ -56,16 +58,16 @@ const allQuickActions = [
         accent: "indigo",
     },
     {
-        title: "Add New Role",
-        description: "Define a new role with permissions.",
+        title: t("dashboard.add_role"),
+        description: t("dashboard.add_role_hint"),
         route: "roles.create",
         permission: "create role",
         iconPath: "M12 4.5v15m7.5-7.5h-15",
         accent: "indigo",
     },
     {
-        title: "Manage Roles",
-        description: "Update roles and access permissions.",
+        title: t("dashboard.manage_roles"),
+        description: t("dashboard.manage_roles_hint"),
         route: "roles.index",
         permission: "view role",
         iconPath:
@@ -73,8 +75,8 @@ const allQuickActions = [
         accent: "indigo",
     },
     {
-        title: "Activity Logs",
-        description: "Review system changes and audit history.",
+        title: t("dashboard.activity"),
+        description: t("dashboard.activity_hint"),
         route: "activity.index",
         permission: null,
         superadminOnly: true,
@@ -82,18 +84,18 @@ const allQuickActions = [
         accent: "indigo",
     },
     {
-        title: "My Profile",
-        description: "Update your account and security settings.",
+        title: t("dashboard.profile"),
+        description: t("dashboard.profile_hint"),
         route: "profile.edit",
         permission: null,
         iconPath:
             "M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z",
         accent: "indigo",
     },
-];
+]);
 
 const quickActions = computed(() =>
-    allQuickActions.filter((action) => {
+    allQuickActions.value.filter((action) => {
         if (action.superadminOnly && !isSuperAdmin.value) {
             return false;
         }
@@ -125,7 +127,7 @@ const accentStyles = {
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="t('dashboard.title')" />
 
     <AuthenticatedLayout>
         <div class="space-y-4 lg:space-y-5">
@@ -138,13 +140,12 @@ const accentStyles = {
                     <h2
                         class="text-xs lg:text-3xl font-bold opacity-90 uppercase tracking-widest"
                     >
-                        OVERVIEW whole System
+                        {{ t("dashboard.overview") }}
                     </h2>
                     <p
                         class="mt-3 text-white/80 text-sm lg:text-base max-w-lg leading-relaxed"
                     >
-                        Quick snapshot of open job requests, inspections in
-                        review and trainings scheduled for today.
+                        {{ t("dashboard.overview_text") }}
                     </p>
                 </div>
                 <!-- Decorative Circles -->
@@ -215,15 +216,21 @@ const accentStyles = {
                     class="theme-form-section-header flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
                 >
                     <div>
-                        <h3 class="theme-form-section-title">Quick Actions</h3>
+                        <h3 class="theme-form-section-title">
+                            {{ t("dashboard.quick_actions") }}
+                        </h3>
                         <p class="mt-1 text-xs text-slate-400">
-                            Jump to the most used admin workflows.
+                            {{ t("dashboard.quick_actions_hint") }}
                         </p>
                     </div>
                     <span
                         class="inline-flex w-fit items-center rounded-full bg-slate-700/60 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-300"
                     >
-                        {{ quickActions.length }} shortcuts
+                        {{
+                            t("dashboard.shortcuts", {
+                                count: quickActions.length,
+                            })
+                        }}
                     </span>
                 </div>
 
@@ -233,7 +240,7 @@ const accentStyles = {
                     >
                         <Link
                             v-for="action in quickActions"
-                            :key="action.title"
+                            :key="action.route"
                             :href="route(action.route)"
                             class="group flex items-center gap-4 bg-white p-4 lg:p-5 transition-colors hover:bg-indigo-50/80 dark:bg-slate-800 dark:hover:bg-indigo-500/10"
                         >

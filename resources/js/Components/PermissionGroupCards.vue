@@ -1,4 +1,6 @@
 <script setup>
+import { useI18n } from "@/composables/useI18n";
+
 defineProps({
     groups: {
         type: Object,
@@ -11,9 +13,13 @@ defineProps({
 });
 
 const emit = defineEmits(["update:modelValue"]);
+const { t } = useI18n();
 
 const permissionLabel = (name) => {
-    return (name || "").split(" ")[0];
+    const action = (name || "").split(" ")[0];
+    const translated = t(`permissions.${action}`);
+
+    return translated.startsWith("permissions.") ? action : translated;
 };
 
 const selectedIds = (value) => value.map((id) => Number(id));
@@ -71,7 +77,7 @@ const toggleGroup = (ids, permissions, checked) => {
                 <h3
                     class="min-w-0 truncate text-[9px] font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-200"
                 >
-                    {{ groupName }}
+                    {{ t(groupName) }}
                 </h3>
                 <label class="inline-flex shrink-0 cursor-pointer items-center">
                     <input
@@ -88,7 +94,7 @@ const toggleGroup = (ids, permissions, checked) => {
                     />
                     <span
                         class="ml-1 text-[9px] font-bold uppercase text-indigo-700 dark:text-indigo-200"
-                        >All</span
+                        >{{ t("common.all") }}</span
                     >
                 </label>
             </div>

@@ -1,10 +1,19 @@
+import { usePage } from "@inertiajs/vue3";
+import { useI18n } from "@/composables/useI18n";
+
 export function useActivityLog() {
+    const page = usePage();
+    const { t } = useI18n();
+
+    const dateLocale = () =>
+        page.props.locale === "ur" ? "ur-PK" : "en-US";
+
     const formatDate = (date) => {
         if (!date) {
             return "—";
         }
 
-        return new Date(date).toLocaleString("en-US", {
+        return new Date(date).toLocaleString(dateLocale(), {
             month: "short",
             day: "numeric",
             year: "numeric",
@@ -15,7 +24,7 @@ export function useActivityLog() {
 
     const getModelName = (type) => {
         if (!type) {
-            return "System";
+            return t("common.system");
         }
 
         return type.split("\\").pop();
@@ -51,7 +60,7 @@ export function useActivityLog() {
         }
 
         if (typeof value === "boolean") {
-            return value ? "Yes" : "No";
+            return value ? t("common.yes") : t("common.no");
         }
 
         if (typeof value === "object") {
@@ -59,6 +68,16 @@ export function useActivityLog() {
         }
 
         return String(value);
+    };
+
+    const eventLabel = (event) => {
+        const map = {
+            created: "activity.created",
+            updated: "activity.updated",
+            deleted: "activity.deleted",
+        };
+
+        return map[event] ? t(map[event]) : event;
     };
 
     const getChangeDetails = (log) => {
@@ -111,19 +130,16 @@ export function useActivityLog() {
     const changeSummary = (log) => {
         const details = getChangeDetails(log);
         if (!details.length) {
-            return "No detail recorded";
+            return t("activity.no_detail");
         }
 
         const event = log.description || log.event;
-        if (event === "created") {
-            return `${details.length} field${details.length === 1 ? "" : "s"} set`;
-        }
-        if (event === "deleted") {
-            return `${details.length} field${details.length === 1 ? "" : "s"} removed`;
-        }
+        const count =
+            event === "created" || event === "deleted"
+                ? details.length
+                : details.filter((item) => item.changed !== false).length;
 
-        const changed = details.filter((item) => item.changed !== false);
-        return `${changed.length} field${changed.length === 1 ? "" : "s"} changed`;
+        return t("activity.fields_changed", { count });
     };
 
     const actionBadgeClass = (event) => {
@@ -147,5 +163,6 @@ export function useActivityLog() {
         changeSummary,
         actionBadgeClass,
         normalizeProperties,
+        eventLabel,
     };
 }

@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="overflow-x-hidden">
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    dir="{{ \App\Support\Locales::direction() }}"
+    class="overflow-x-hidden"
+>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
         name="description"
-        content="Precision-engineered governance for unified digital media. Secure user management, media libraries, and operational transparency with Laravel, Inertia, and Vue 3."
+        content="{{ __('ui.public.home_description') }}"
     >
     <meta name="robots" content="index, follow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,7 +33,7 @@
 
     <!-- Fonts (HTTPS only; no third-party cookies) -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|noto-nastaliq-urdu:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
     @routes

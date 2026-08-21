@@ -4,6 +4,7 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
+import { useI18n } from "@/composables/useI18n";
 
 defineProps({
     mustVerifyEmail: {
@@ -14,6 +15,7 @@ defineProps({
     },
 });
 
+const { t } = useI18n();
 const user = usePage().props.auth.user;
 
 const form = useForm({
@@ -36,9 +38,9 @@ const isVerified = computed(() => !!user.email_verified_at);
 <template>
     <section class="theme-form-card overflow-hidden">
         <div class="theme-form-section-header">
-            <h2 class="theme-form-section-title">Profile information</h2>
+            <h2 class="theme-form-section-title">{{ t("profile.info") }}</h2>
             <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                Name and email used on this account.
+                {{ t("profile.info_hint") }}
             </p>
         </div>
 
@@ -65,7 +67,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                     v-if="isVerified"
                     class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300"
                 >
-                    Verified
+                    {{ t("common.verified") }}
                 </span>
             </div>
 
@@ -77,7 +79,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                     <div>
                         <InputLabel
                             for="name"
-                            value="Full name"
+                            :value="t('profile.full_name')"
                             class="theme-form-label mb-1"
                         />
                         <TextInput
@@ -95,7 +97,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                     <div>
                         <InputLabel
                             for="email"
-                            value="Email"
+                            :value="t('profile.email')"
                             class="theme-form-label mb-1"
                         />
                         <TextInput
@@ -115,7 +117,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                     class="rounded border border-indigo-200 bg-indigo-50 px-3 py-2 text-[11px] dark:border-indigo-500/30 dark:bg-indigo-500/10"
                 >
                     <p class="font-medium text-indigo-800 dark:text-indigo-200">
-                        Email is not verified.
+                        {{ t("profile.unverified") }}
                     </p>
                     <Link
                         :href="route('verification.send')"
@@ -123,13 +125,13 @@ const isVerified = computed(() => !!user.email_verified_at);
                         as="button"
                         class="mt-1 font-semibold text-indigo-600 dark:text-indigo-300"
                     >
-                        Resend link
+                        {{ t("profile.resend") }}
                     </Link>
                     <p
                         v-show="status === 'verification-link-sent'"
                         class="mt-1 text-indigo-700 dark:text-indigo-200"
                     >
-                        Verification link sent.
+                        {{ t("profile.link_sent") }}
                     </p>
                 </div>
 
@@ -144,7 +146,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                             v-if="form.recentlySuccessful"
                             class="text-[11px] font-medium text-indigo-600 dark:text-indigo-300"
                         >
-                            Saved
+                            {{ t("common.saved") }}
                         </p>
                     </Transition>
                     <button
@@ -152,7 +154,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                         :disabled="form.processing"
                         class="theme-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
                     >
-                        Save
+                        {{ t("common.save") }}
                     </button>
                 </div>
             </form>

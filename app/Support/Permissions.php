@@ -63,14 +63,14 @@ class Permissions
     public static function groups(): array
     {
         return [
-            'User Management' => [
+            'permissions.groups.users' => [
                 self::VIEW_USER,
                 self::CREATE_USER,
                 self::SHOW_USER,
                 self::EDIT_USER,
                 self::DELETE_USER,
             ],
-            'Role Management' => [
+            'permissions.groups.roles' => [
                 self::VIEW_ROLE,
                 self::CREATE_ROLE,
                 self::SHOW_ROLE,

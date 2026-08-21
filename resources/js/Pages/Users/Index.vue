@@ -6,10 +6,13 @@ import PageHeader from "@/Components/PageHeader.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { usePermissions } from "@/composables/usePermissions";
+import { useI18n } from "@/composables/useI18n";
+import PaginationFooter from "@/Components/PaginationFooter.vue";
 
 defineProps({ users: Object });
 
 const { can } = usePermissions();
+const { t } = useI18n();
 const canCreate = computed(() => can("create user"));
 const canEdit = computed(() => can("edit user"));
 const canDelete = computed(() => can("delete user"));
@@ -50,11 +53,11 @@ const confirmDelete = () => {
 
 <template>
     <AuthenticatedLayout>
-        <Head title="User Management" />
+        <Head :title="t('users.title')" />
 
         <PageHeader
-            title="User Management"
-            subtitle="Manage and monitor system access and roles."
+            :title="t('users.title')"
+            :subtitle="t('users.subtitle')"
         >
             <Link
                 v-if="canCreate"
@@ -74,7 +77,7 @@ const confirmDelete = () => {
                         stroke-linejoin="round"
                     />
                 </svg>
-                Add New
+                {{ t("common.add_new") }}
             </Link>
         </PageHeader>
 
@@ -85,13 +88,13 @@ const confirmDelete = () => {
                 <table class="theme-table">
                     <thead>
                         <tr class="theme-table-header">
-                            <th class="theme-table-header-cell">User Info</th>
-                            <th class="theme-table-header-cell">User Role</th>
+                            <th class="theme-table-header-cell">{{ t("users.info") }}</th>
+                            <th class="theme-table-header-cell">{{ t("users.role") }}</th>
                             <th
                                 v-if="showActions"
-                                class="theme-table-header-cell w-px text-right"
+                                class="theme-table-header-cell w-px text-end"
                             >
-                                Actions
+                                {{ t("common.actions") }}
                             </th>
                         </tr>
                     </thead>
@@ -148,15 +151,15 @@ const confirmDelete = () => {
                             </td>
                             <td
                                 v-if="showActions"
-                                class="theme-table-cell text-right"
+                                class="theme-table-cell text-end"
                             >
                                 <div class="theme-table-actions">
                                     <Link
                                         v-if="canEdit"
                                         :href="route('users.edit', user.id)"
                                         class="theme-table-action-btn theme-table-action-edit"
-                                        title="Edit User"
-                                        aria-label="Edit User"
+                                        :title="t('users.edit')"
+                                        :aria-label="t('users.edit')"
                                     >
                                         <svg
                                             class="h-3.5 w-3.5"
@@ -176,8 +179,8 @@ const confirmDelete = () => {
                                         v-if="canDelete"
                                         type="button"
                                         class="theme-table-action-btn theme-table-action-delete"
-                                        title="Delete User"
-                                        aria-label="Delete User"
+                                        :title="t('users.delete')"
+                                        :aria-label="t('users.delete')"
                                         @click="openDeleteModal(user)"
                                     >
                                         <svg
@@ -202,59 +205,22 @@ const confirmDelete = () => {
                                 :colspan="showActions ? 3 : 2"
                                 class="theme-table-cell py-10 text-center font-medium text-slate-400 dark:text-slate-500"
                             >
-                                No users found.
+                                {{ t("users.empty") }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div
-            <div class="theme-table-footer">
-                <div class="theme-table-footer-meta">
-                    Showing
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        users.from || 0
-                    }}</span>
-                    to
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        users.to || 0
-                    }}</span>
-                    of
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        users.total
-                    }}</span>
-                    entries
-                </div>
-                <div class="flex flex-wrap items-center justify-center gap-1">
-                    <template v-for="(link, k) in users.links" :key="k">
-                        <Link
-                            v-if="link.url"
-                            :href="link.url"
-                            class="theme-pagination-btn"
-                            :class="[
-                                link.active
-                                    ? 'theme-pagination-active'
-                                    : 'theme-pagination-inactive',
-                            ]"
-                            v-html="link.label"
-                        />
-                        <span
-                            v-else
-                            class="theme-pagination-btn cursor-not-allowed border-slate-100 bg-white text-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-600"
-                            v-html="link.label"
-                        />
-                    </template>
-                </div>
-            </div>
+            <PaginationFooter :paginator="users" noun="users" />
         </div>
 
         <ConfirmModal
             :show="isModalOpen"
-            title="Delete User Account"
-            message="Are you sure you want to permanently remove this user account from the system?"
-            confirm-label="Yes, Delete User"
-            cancel-label="No, Keep User"
+            :title="t('users.delete_title')"
+            :message="t('users.delete_message')"
+            :confirm-label="t('users.delete_confirm')"
+            :cancel-label="t('users.delete_cancel')"
             :badge="selectedUser?.name"
             :badge-initial="selectedUser?.name?.slice(0, 1)"
             @close="closeModal"

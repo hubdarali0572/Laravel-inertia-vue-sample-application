@@ -82,7 +82,7 @@ class UserController extends Controller implements HasMiddleware
             $user->addMediaFromRequest('image')->toMediaCollection('images');
         }
 
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return redirect()->route('users.index')->with('success', __('ui.flash.user_created'));
     }
 
     public function show(string $id)
@@ -150,7 +150,7 @@ class UserController extends Controller implements HasMiddleware
 
         return redirect()
             ->route('users.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', __('ui.flash.user_updated'));
     }
 
     public function destroy(string $id)
@@ -160,18 +160,18 @@ class UserController extends Controller implements HasMiddleware
         $user = User::findOrFail($id);
 
         if ($user->id === auth()->id()) {
-            return back()->with('danger', 'You cannot delete your own account.');
+            return back()->with('danger', __('ui.flash.cannot_delete_self'));
         }
 
         if ($user->isSuperAdmin()) {
-            return back()->with('danger', 'Super admin accounts cannot be deleted.');
+            return back()->with('danger', __('ui.flash.cannot_delete_superadmin'));
         }
 
         $user->delete();
 
         return redirect()
             ->route('users.index')
-            ->with('danger', 'User deleted successfully');
+            ->with('danger', __('ui.flash.user_deleted'));
     }
 
     private function assignableRoles()

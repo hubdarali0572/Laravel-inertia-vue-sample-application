@@ -23,7 +23,7 @@ class Recaptcha implements ValidationRule
 
         // Check if the response failed
         if (!isset($response['success']) || !$response['success']) {
-            $fail('The reCAPTCHA verification failed. Please try again.');
+            $fail(__('validation.custom.g-recaptcha-response.required'));
         }
     }
 }

@@ -2,11 +2,13 @@
 import { Head } from "@inertiajs/vue3";
 import PublicSiteLayout from "@/Layouts/PublicSite/PublicSiteLayout.vue";
 import { computed } from "vue";
+import { useI18n } from "@/composables/useI18n";
 
-const seoTitle = "About";
-const seoDescription =
-    "Learn about Unified Media — a production-ready platform for secure user management, rich media handling, role-based access, and complete operational transparency in one cohesive system.";
+const { t } = useI18n();
 const canonicalUrl = computed(() => route("publicSite.about"));
+const seoTitle = computed(() => t("public.about_seo"));
+const seoDescription = computed(() => t("public.about_description"));
+const socialTitle = computed(() => `${t("public.about_seo")} - ${t("app.brand")}`);
 </script>
 
 <template>
@@ -27,7 +29,7 @@ const canonicalUrl = computed(() => route("publicSite.about"));
             <meta
                 head-key="og:title"
                 property="og:title"
-                content="About - Unified Media"
+                :content="socialTitle"
             />
             <meta
                 head-key="og:description"
@@ -47,7 +49,7 @@ const canonicalUrl = computed(() => route("publicSite.about"));
             <meta
                 head-key="twitter:title"
                 name="twitter:title"
-                content="About - Unified Media"
+                :content="socialTitle"
             />
             <meta
                 head-key="twitter:description"
@@ -62,20 +64,17 @@ const canonicalUrl = computed(() => route("publicSite.about"));
                     <p
                         class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
                     >
-                        About Us
+                        {{ t("public.about_kicker") }}
                     </p>
                     <h1
                         class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
                     >
-                        Building unified digital governance
+                        {{ t("public.about_title") }}
                     </h1>
                     <p
                         class="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300"
                     >
-                        Unified Media is a production-ready platform for teams
-                        that need secure user management, rich media handling,
-                        and complete operational transparency in one cohesive
-                        system.
+                        {{ t("public.about_body") }}
                     </p>
                 </div>
 
@@ -87,14 +86,12 @@ const canonicalUrl = computed(() => route("publicSite.about"));
                         class="rounded-2xl bg-white p-8 ring-1 ring-slate-200 shadow-sm dark:bg-slate-900/60 dark:ring-slate-800"
                     >
                         <h2 class="text-lg font-bold text-slate-900 dark:text-white">
-                            Our Mission
+                            {{ t("public.about_mission") }}
                         </h2>
                         <p
                             class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
                         >
-                            Deliver a starter ecosystem that removes ambiguity
-                            from architecture decisions so teams can focus on
-                            product value instead of rebuilding foundations.
+                            {{ t("public.about_mission_body") }}
                         </p>
                     </article>
 
@@ -104,14 +101,12 @@ const canonicalUrl = computed(() => route("publicSite.about"));
                         class="rounded-2xl bg-white p-8 ring-1 ring-slate-200 shadow-sm dark:bg-slate-900/60 dark:ring-slate-800"
                     >
                         <h2 class="text-lg font-bold text-slate-900 dark:text-white">
-                            What We Provide
+                            {{ t("public.about_provide") }}
                         </h2>
                         <p
                             class="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
                         >
-                            Role-based access control, media libraries, activity
-                            logging, security hardening, and automated backups —
-                            all integrated and ready to extend.
+                            {{ t("public.about_provide_body") }}
                         </p>
                     </article>
                 </div>

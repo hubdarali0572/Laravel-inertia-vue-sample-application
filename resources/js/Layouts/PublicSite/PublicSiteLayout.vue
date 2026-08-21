@@ -3,6 +3,9 @@ import { onMounted, nextTick } from "vue";
 import AOS from "aos";
 import PublicSiteHeader from "@/Components/PublicSite/PublicSiteHeader.vue";
 import PublicSiteFooter from "@/Components/PublicSite/PublicSiteFooter.vue";
+import { useI18n } from "@/composables/useI18n";
+
+const { t } = useI18n();
 
 onMounted(() => {
     nextTick(() => {
@@ -26,7 +29,7 @@ onMounted(() => {
             href="#main-content"
             class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-indigo-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         >
-            Skip to main content
+            {{ t("public.skip_main") }}
         </a>
 
         <PublicSiteHeader />

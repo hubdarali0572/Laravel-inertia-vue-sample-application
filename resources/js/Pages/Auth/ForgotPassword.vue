@@ -5,6 +5,9 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
+
+const { t } = useI18n();
 
 defineProps({
     status: {
@@ -23,7 +26,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
+        <Head :title="t('auth.forgot_title')" />
 
         <div class="mb-6 text-center sm:mb-8">
             <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-500/15">
@@ -33,10 +36,10 @@ const submit = () => {
             </div>
 
             <h2 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
-                Forgot password?
+                {{ t('auth.forgot_title') }}
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                No worries, we'll send you reset instructions.
+                {{ t('auth.forgot_subtitle') }}
             </p>
         </div>
 
@@ -52,7 +55,7 @@ const submit = () => {
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="email" value="Email Address" />
+                <InputLabel for="email" :value="t('auth.email')" />
                 <TextInput
                     id="email"
                     type="email"
@@ -60,7 +63,7 @@ const submit = () => {
                     v-model="form.email"
                     required
                     autofocus
-                    placeholder="Enter your registered email"
+                    :placeholder="t('auth.email')"
                     autocomplete="username"
                 />
                 <InputError class="mt-2" :message="form.errors.email" />
@@ -72,9 +75,9 @@ const submit = () => {
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Sending Link...
+                    {{ t('auth.sending_link') }}
                 </span>
-                <span v-else>Email Password Reset Link</span>
+                <span v-else>{{ t('auth.send_link') }}</span>
             </PrimaryButton>
         </form>
 
@@ -86,7 +89,7 @@ const submit = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
-                Back to log in
+                {{ t('auth.back_to_login') }}
             </Link>
         </div>
     </GuestLayout>

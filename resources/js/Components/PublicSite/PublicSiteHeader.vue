@@ -3,10 +3,13 @@ import { Link, usePage } from "@inertiajs/vue3";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import PublicSiteNavLink from "@/Components/PublicSite/PublicSiteNavLink.vue";
+import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 import { useDarkMode } from "@/composables/useDarkMode";
+import { useI18n } from "@/composables/useI18n";
 
 const page = usePage();
 const { isDark, toggleDarkMode } = useDarkMode();
+const { t } = useI18n();
 
 const canLogin = computed(() => page.props.canLogin);
 const canRegister = computed(() => page.props.canRegister);
@@ -15,13 +18,13 @@ const isMobileMenuOpen = ref(false);
 /** true from 1024px up — drives menu vs hamburger (not CSS-only) */
 const isDesktop = ref(false);
 
-const navItems = [
-    { label: "Home", href: route("publicSite.home"), routeName: "publicSite.home" },
-    { label: "Features", href: `${route("publicSite.home")}#features`, routeName: null },
-    { label: "About", href: route("publicSite.about"), routeName: "publicSite.about" },
-    { label: "Tech Stack", href: `${route("publicSite.home")}#stack`, routeName: null },
-    { label: "Security", href: `${route("publicSite.home")}#security`, routeName: null },
-];
+const navItems = computed(() => [
+    { label: t("public.home"), href: route("publicSite.home"), routeName: "publicSite.home" },
+    { label: t("public.features"), href: `${route("publicSite.home")}#features`, routeName: null },
+    { label: t("public.about"), href: route("publicSite.about"), routeName: "publicSite.about" },
+    { label: t("public.stack"), href: `${route("publicSite.home")}#stack`, routeName: null },
+    { label: t("public.security"), href: `${route("publicSite.home")}#security`, routeName: null },
+]);
 
 const isActive = (item) => {
     if (!item.routeName) {
@@ -89,7 +92,7 @@ onUnmounted(() => {
             <Link
                 :href="route('publicSite.home')"
                 class="flex min-w-0 flex-1 items-center gap-2 overflow-hidden"
-                aria-label="Unified Media home"
+                :aria-label="t('app.brand')"
                 @click="closeMobileMenu"
             >
                 <ApplicationLogo
@@ -99,7 +102,7 @@ onUnmounted(() => {
                 <span
                     class="truncate text-sm font-bold tracking-tight text-slate-800 dark:text-white"
                 >
-                    Unified Media
+                    {{ t("app.brand") }}
                 </span>
             </Link>
 
@@ -122,11 +125,11 @@ onUnmounted(() => {
             <div class="ml-auto flex shrink-0 items-center gap-1">
                 <button
                     type="button"
-                    class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
+                    class="theme-header-control theme-header-control-icon"
                     :aria-label="
                         isDark
-                            ? 'Switch to light mode'
-                            : 'Switch to dark mode'
+                            ? t('header.light_mode')
+                            : t('header.dark_mode')
                     "
                     @click="toggleDarkMode"
                 >
@@ -162,6 +165,8 @@ onUnmounted(() => {
                     </svg>
                 </button>
 
+                <LanguageSwitcher />
+
                 <!-- Desktop auth only (not in DOM on mobile → no overflow) -->
                 <template v-if="isDesktop && canLogin">
                     <Link
@@ -169,21 +174,21 @@ onUnmounted(() => {
                         :href="route('dashboard')"
                         class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
                     >
-                        Dashboard
+                        {{ t("public.dashboard") }}
                     </Link>
                     <template v-else>
                         <Link
                             :href="route('login')"
                             class="inline-flex h-10 items-center rounded-lg px-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                         >
-                            Sign In
+                            {{ t("public.login") }}
                         </Link>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
                             class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
                         >
-                            Get Started
+                            {{ t("public.register") }}
                         </Link>
                     </template>
                 </template>
@@ -195,7 +200,11 @@ onUnmounted(() => {
                     class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
                     :aria-expanded="isMobileMenuOpen"
                     aria-controls="public-site-mobile-menu"
-                    :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+                    :aria-label="
+                        isMobileMenuOpen
+                            ? t('header.close_menu')
+                            : t('header.open_menu')
+                    "
                     @click="toggleMobileMenu"
                 >
                     <svg
@@ -264,7 +273,7 @@ onUnmounted(() => {
                             class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
                             @click="closeMobileMenu"
                         >
-                            Dashboard
+                            {{ t("public.dashboard") }}
                         </Link>
                     </template>
                     <template v-else>
@@ -273,7 +282,7 @@ onUnmounted(() => {
                             class="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
                             @click="closeMobileMenu"
                         >
-                            Sign In
+                            {{ t("public.login") }}
                         </Link>
                         <Link
                             v-if="canRegister"
@@ -281,7 +290,7 @@ onUnmounted(() => {
                             class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
                             @click="closeMobileMenu"
                         >
-                            Get Started
+                            {{ t("public.register") }}
                         </Link>
                     </template>
                 </div>

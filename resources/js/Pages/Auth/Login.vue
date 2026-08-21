@@ -7,6 +7,9 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { useI18n } from "@/composables/useI18n";
+
+const { t } = useI18n();
 
 defineProps({
     canResetPassword: {
@@ -96,16 +99,16 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head :title="t('auth.login')" />
 
         <div class="mb-6 text-center sm:mb-8">
             <h2
                 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
             >
-                Welcome back
+                {{ t("auth.login_title") }}
             </h2>
             <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                Please enter your details to sign in.
+                {{ t("auth.login_subtitle") }}
             </p>
         </div>
 
@@ -118,7 +121,7 @@ const submit = () => {
 
         <form @submit.prevent="submit" class="space-y-5">
             <div>
-                <InputLabel for="email" value="Email Address" />
+                <InputLabel for="email" :value="t('auth.email')" />
                 <TextInput
                     id="email"
                     type="email"
@@ -134,13 +137,13 @@ const submit = () => {
 
             <div>
                 <div class="flex items-center justify-between">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" :value="t('auth.password')" />
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
                         class="text-xs font-semibold text-indigo-600 hover:text-indigo-500 transition-colors dark:text-indigo-400"
                     >
-                        Forgot password?
+                        {{ t("auth.forgot") }}
                     </Link>
                 </div>
 
@@ -194,12 +197,12 @@ const submit = () => {
                     class="ms-2 text-sm text-slate-600 cursor-pointer select-none dark:text-slate-400"
                     @click="form.remember = !form.remember"
                 >
-                    Remember me
+                    {{ t("auth.remember") }}
                 </span>
             </div>
 
             <div class="min-w-0">
-                <InputLabel for="recaptcha" value="Verification" />
+                <InputLabel for="recaptcha" :value="t('auth.verification')" />
                 <div class="mt-1.5 w-full min-w-0 overflow-x-auto">
                     <div
                         ref="captchaContainer"
@@ -219,21 +222,21 @@ const submit = () => {
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Logging in...
+                        {{ t("auth.logging_in") }}
                     </span>
-                    <span v-else>Log in</span>
+                    <span v-else>{{ t("auth.login") }}</span>
                 </PrimaryButton>
             </div>
         </form>
 
         <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
             <p class="text-sm text-slate-500 dark:text-slate-400">
-                Don't have an account?
+                {{ t("auth.no_account") }}
                 <Link
                     :href="route('register')"
                     class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
                 >
-                    Create an account
+                    {{ t("auth.register") }}
                 </Link>
             </p>
         </div>

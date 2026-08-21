@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 require __DIR__.'/public-site.php';
+
+Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/media/{media}/{conversion?}', [MediaController::class, 'show'])

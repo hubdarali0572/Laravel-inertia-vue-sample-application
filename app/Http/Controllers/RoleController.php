@@ -55,8 +55,8 @@ class RoleController extends Controller implements HasMiddleware
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'exists:permissions,id',
         ], [
-            'permissions.required' => 'Please select at least one permission for this role.',
-            'name.unique' => 'This role name already exists.',
+            'permissions.required' => __('validation.custom.permissions.required'),
+            'name.unique' => __('validation.custom.name.unique'),
         ]);
 
         abort_if(Permissions::isSuperAdminRole($request->name), 403);
@@ -71,7 +71,7 @@ class RoleController extends Controller implements HasMiddleware
 
         return redirect()
             ->route('roles.index')
-            ->with('success', 'Role "'.strtoupper($role->name).'" created and permissions assigned successfully.');
+            ->with('success', __('ui.flash.role_created', ['name' => strtoupper($role->name)]));
     }
 
     public function show(string $id)
@@ -122,7 +122,7 @@ class RoleController extends Controller implements HasMiddleware
 
         return redirect()
             ->route('roles.index')
-            ->with('success', 'Role updated successfully');
+            ->with('success', __('ui.flash.role_updated'));
     }
 
     public function destroy(string $id)
@@ -132,14 +132,14 @@ class RoleController extends Controller implements HasMiddleware
         $role = Role::findOrFail($id);
 
         if (Permissions::isSuperAdminRole($role->name)) {
-            return back()->with('danger', 'The Super Admin role cannot be deleted.');
+            return back()->with('danger', __('ui.flash.cannot_delete_superadmin_role'));
         }
 
         $isAssigned = $role->users()->exists()
             || User::where('role_id', $role->id)->exists();
 
         if ($isAssigned) {
-            return back()->with('danger', 'This role is assigned to users and cannot be deleted.');
+            return back()->with('danger', __('ui.flash.role_assigned'));
         }
 
         $role->delete();
@@ -147,7 +147,7 @@ class RoleController extends Controller implements HasMiddleware
 
         return redirect()
             ->route('roles.index')
-            ->with('danger', 'Role deleted successfully');
+            ->with('danger', __('ui.flash.role_deleted'));
     }
 
     private function permissionGroups(): array

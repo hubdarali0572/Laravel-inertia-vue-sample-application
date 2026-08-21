@@ -1,7 +1,7 @@
 import "../css/app.css";
 import "./bootstrap";
 
-import { createInertiaApp, Link, Head } from "@inertiajs/vue3"; // 1. Import Link and Head
+import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createApp, h, nextTick } from "vue";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
@@ -10,11 +10,18 @@ import { router } from "@inertiajs/vue3";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-// Initialize AOS once
 AOS.init();
 
-// Every time an Inertia navigation happens, refresh AOS
-router.on("success", () => {
+function applyDocumentLocale(props) {
+    const locale = props?.locale || "en";
+    const dir = props?.dir || "ltr";
+    document.documentElement.lang = locale;
+    document.documentElement.dir = dir;
+    document.documentElement.classList.toggle("rtl", dir === "rtl");
+}
+
+router.on("success", (event) => {
+    applyDocumentLocale(event.detail.page.props);
     nextTick(() => {
         AOS.refresh();
     });
@@ -30,6 +37,8 @@ createInertiaApp({
             import.meta.glob("./Pages/**/*.vue"),
         ),
     setup({ el, App, props, plugin }) {
+        applyDocumentLocale(props.initialPage?.props ?? props);
+
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)

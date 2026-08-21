@@ -1,15 +1,19 @@
 <script setup>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
 import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
+import { useI18n } from "@/composables/useI18n";
 
 const { isDark, toggleDarkMode } = useDarkMode();
+const { t } = useI18n();
 
-const highlights = [
-    "Role-based access control",
-    "Media library & image processing",
-    "Activity logs & audit trails",
-];
+const highlights = computed(() => [
+    t("auth.highlight_rbac"),
+    t("auth.highlight_media"),
+    t("auth.highlight_logs"),
+]);
 </script>
 
 <template>
@@ -30,30 +34,33 @@ const highlights = [
             <div
                 class="relative z-10 flex w-full flex-col justify-between p-10 xl:p-16"
             >
-                <Link href="/" class="flex w-fit items-center gap-3">
-                    <ApplicationLogo class="h-9 w-9 shrink-0 fill-indigo-400" />
-                    <span class="text-sm font-bold tracking-tight"
-                        >Unified Media</span
-                    >
-                </Link>
+                <div class="flex items-center justify-between gap-4">
+                    <Link href="/" class="flex w-fit items-center gap-3">
+                        <ApplicationLogo class="h-9 w-9 shrink-0 fill-indigo-400" />
+                        <span class="text-sm font-bold tracking-tight">{{
+                            t("app.brand")
+                        }}</span>
+                    </Link>
+                    <LanguageSwitcher />
+                </div>
 
                 <div class="max-w-md">
                     <p
                         class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
                     >
-                        Platform
+                        {{ t("app.platform") }}
                     </p>
                     <h1
                         class="mt-3 text-3xl font-extrabold leading-tight tracking-tight xl:text-4xl"
                     >
-                        Precision-Engineered
-                        <span class="text-indigo-300">Governance</span>
-                        for Digital Media
+                        {{ t("auth.guest_heading") }}
+                        <span class="text-indigo-300">{{
+                            t("auth.guest_heading_accent")
+                        }}</span>
+                        {{ t("auth.guest_for") }}
                     </h1>
                     <p class="mt-4 text-sm leading-relaxed text-white/70">
-                        Secure user management, rich media handling, and
-                        complete operational transparency — all in one cohesive
-                        platform.
+                        {{ t("auth.guest_text") }}
                     </p>
 
                     <ul class="mt-8 space-y-3">
@@ -85,7 +92,8 @@ const highlights = [
                 </div>
 
                 <p class="text-xs text-white/40">
-                    &copy; {{ new Date().getFullYear() }} Unified Media Platform
+                    &copy; {{ new Date().getFullYear() }}
+                    {{ t("app.brand") }} {{ t("app.platform") }}
                 </p>
             </div>
         </div>
@@ -100,28 +108,29 @@ const highlights = [
                 <Link
                     href="/"
                     class="flex min-w-0 items-center gap-2 lg:invisible lg:pointer-events-none"
-                    aria-label="Unified Media home"
+                    :aria-label="t('app.brand')"
                 >
                     <ApplicationLogo
                         class="h-7 w-7 shrink-0 fill-indigo-600 sm:h-8 sm:w-8 dark:fill-indigo-400"
                     />
                     <span
                         class="truncate text-sm font-bold text-slate-800 dark:text-white"
-                        >Unified Media</span
+                        >{{ t("app.brand") }}</span
                     >
                 </Link>
 
                 <div class="flex shrink-0 items-center gap-1 sm:gap-2">
+                    <LanguageSwitcher />
                     <Link
                         href="/"
                         class="hidden h-10 items-center rounded-lg px-2 text-sm font-medium text-slate-500 transition-colors hover:text-indigo-600 sm:inline-flex dark:text-slate-400 dark:hover:text-indigo-400"
                     >
-                        &larr; Back to home
+                        &larr; {{ t("public.back_home") }}
                     </Link>
                     <Link
                         href="/"
                         class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-200/60 sm:hidden dark:text-slate-400 dark:hover:bg-slate-800"
-                        aria-label="Back to home"
+                        :aria-label="t('public.back_home')"
                     >
                         <svg
                             class="h-5 w-5"
@@ -140,11 +149,11 @@ const highlights = [
                     </Link>
                     <button
                         type="button"
-                        class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-200/60 dark:text-slate-400 dark:hover:bg-slate-800"
+                        class="theme-header-control theme-header-control-icon"
                         :aria-label="
                             isDark
-                                ? 'Switch to light mode'
-                                : 'Switch to dark mode'
+                                ? t('header.light_mode')
+                                : t('header.dark_mode')
                         "
                         @click="toggleDarkMode"
                     >

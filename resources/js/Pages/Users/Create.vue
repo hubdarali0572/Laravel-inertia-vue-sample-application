@@ -6,11 +6,14 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 
 const props = defineProps({
     roles: Array,
     user: Object, // Passed only when editing
 });
+
+const { t } = useI18n();
 
 // Determine mode
 const isEditing = computed(() => !!props.user);
@@ -54,7 +57,7 @@ const filteredRoles = computed(() => {
 
 const selectedRoleName = computed(() => {
     const role = props.roles.find(r => r.id === form.role_id);
-    return role ? role.name.toUpperCase() : 'Select a role';
+    return role ? role.name.toUpperCase() : t('common.select_role');
 });
 
 const selectRole = (role) => {
@@ -91,17 +94,17 @@ const submit = () => {
 </script>
 
 <template>
-    <Head :title="isEditing ? 'Edit User' : 'Create User'" />
+    <Head :title="t('users.create_title')" />
 
     <AuthenticatedLayout>
         <!-- Header Section -->
         <div class="theme-page-header">
             <div>
                 <h2 class="theme-page-title">
-                    {{ isEditing ? 'Edit User Account' : 'Create New User' }}
+                    {{ t('users.create_title') }}
                 </h2>
                 <p class="theme-page-subtitle">
-                    {{ isEditing ? 'Update existing user credentials and permissions.' : 'Add a new member to the system and assign their role.' }}
+                    {{ t('users.form_subtitle') }}
                 </p>
             </div>
             <Link 
@@ -109,7 +112,7 @@ const submit = () => {
                 class="theme-form-back-link"
             >
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="text-slate-900">Back to User List</span>
+                <span class="text-slate-900">{{ t('users.back') }}</span>
             </Link>
         </div>
 
@@ -123,35 +126,35 @@ const submit = () => {
                             
                             <!-- Full Name -->
                             <div class="flex flex-col">
-                                <InputLabel for="name" value="Name" class="theme-form-label ml-1" />
+                                <InputLabel for="name" :value="t('users.full_name')" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="name"
                                     type="text"
                                     class="theme-form-input"
                                     v-model="form.name"
                                     required
-                                    placeholder="e.g. John Doe"
+                                    :placeholder="t('users.placeholder_name')"
                                 />
                                 <InputError :message="form.errors.name" class="mt-2 ml-1" />
                             </div>
 
                             <!-- Email Address -->
                             <div class="flex flex-col">
-                                <InputLabel for="email" value="Email Address" class="theme-form-label ml-1" />
+                                <InputLabel for="email" :value="t('users.email')" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="email"
                                     type="email"
                                     class="theme-form-input"
                                     v-model="form.email"
                                     required
-                                    placeholder="john@example.com"
+                                    :placeholder="t('users.placeholder_email')"
                                 />
                                 <InputError :message="form.errors.email" class="mt-2 ml-1" />
                             </div>
 
                             <!-- CUSTOM SEARCHABLE DROPDOWN (Assign Role) -->
                             <div class="flex flex-col relative" ref="dropdownRef">
-                                <InputLabel for="role_id" value="Assign Role" class="theme-form-label ml-1" />
+                                <InputLabel for="role_id" :value="t('users.role_label')" class="theme-form-label ml-1" />
                                 
                                 <!-- Dropdown Trigger -->
                                 <div 
@@ -176,7 +179,7 @@ const submit = () => {
                                                     v-model="searchRole"
                                                     type="text" 
                                                     class="theme-form-input py-2.5 text-sm"
-                                                    placeholder="Search roles..."
+                                                    :placeholder="t('common.search_role')"
                                                     @click.stop
                                                 />
                                             </div>
@@ -192,7 +195,7 @@ const submit = () => {
                                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                                 </svg>
                                             </li>
-                                            <li v-if="filteredRoles.length === 0" class="px-5 py-8 text-center text-slate-400 text-xs dark:text-slate-500">No results found</li>
+                                            <li v-if="filteredRoles.length === 0" class="px-5 py-8 text-center text-slate-400 text-xs dark:text-slate-500">{{ t('common.no_roles_found') }}</li>
                                         </ul>
                                     </div>
                                 </transition>
@@ -201,7 +204,7 @@ const submit = () => {
 
                             <!-- Password -->
                             <div class="flex flex-col">
-                                <InputLabel for="password" value="Password" class="theme-form-label ml-1" />
+                                <InputLabel for="password" :value="t('users.password')" class="theme-form-label ml-1" />
                                 <div class="relative">
                                     <TextInput
                                         id="password"
@@ -209,34 +212,34 @@ const submit = () => {
                                         class="theme-form-input pr-12"
                                         v-model="form.password"
                                         :required="!isEditing"
-                                        placeholder="••••••••"
+                                        :placeholder="t('users.placeholder_password')"
                                     />
                                     <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-indigo-600 transition-colors">
                                         <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M2.036 12.322a1.012 1.012 0 0 1 0-.644C3.483 8.613 8.242 4.5 12 4.5c3.758 0 8.517 4.113 9.964 7.178.07.147.07.315 0 .462-1.447 3.065-4.206 7.178-9.964 7.178-3.758 0-8.517-4.113-9.964-7.178Z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
                                         <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21"/></svg>
                                     </button>
                                 </div>
-                                <p v-if="isEditing" class="mt-2 text-[10px] text-slate-400 font-bold italic ml-1 dark:text-slate-500">Leave blank to keep current password.</p>
+                                <p v-if="isEditing" class="mt-2 text-[10px] text-slate-400 font-bold italic ml-1 dark:text-slate-500">{{ t('users.password_keep') }}</p>
                                 <InputError :message="form.errors.password" class="mt-2 ml-1" />
                             </div>
 
                             <!-- Confirm Password -->
                             <div class="flex flex-col">
-                                <InputLabel for="password_confirmation" value="Confirm Password" class="theme-form-label ml-1" />
+                                <InputLabel for="password_confirmation" :value="t('users.password_confirm')" class="theme-form-label ml-1" />
                                 <TextInput
                                     id="password_confirmation"
                                     type="password"
                                     class="theme-form-input"
                                     v-model="form.password_confirmation"
                                     :required="!isEditing && form.password"
-                                    placeholder="••••••••"
+                                    :placeholder="t('users.placeholder_password_confirm')"
                                 />
                                 <InputError :message="form.errors.password_confirmation" class="mt-2 ml-1" />
                             </div>
 
                             <!-- Profile Image -->
                             <div class="flex flex-col">
-                                <InputLabel for="image" value="Profile Image" class="theme-form-label ml-1" />
+                                <InputLabel for="image" :value="t('users.photo')" class="theme-form-label ml-1" />
                                 
                                 <div class="flex items-center gap-5 p-4 bg-slate-50 border border-slate-200 rounded-lg dark:bg-slate-900/60 dark:border-slate-700">
                                     <!-- Image Preview Circle -->
@@ -263,9 +266,9 @@ const submit = () => {
                                             @click="$refs.imageInput.click()"
                                             class="theme-btn-secondary"
                                         >
-                                            Select New Photo
+                                            {{ t('users.select_photo') }}
                                         </button>
-                                        <p class="text-[10px] text-slate-400 font-medium ml-1 dark:text-slate-500">JPG, PNG or GIF. Max 2MB.</p>
+                                        <p class="text-[10px] text-slate-400 font-medium ml-1 dark:text-slate-500">{{ t('users.photo_hint') }}</p>
                                     </div>
                                 </div>
                                 
@@ -278,10 +281,10 @@ const submit = () => {
                 <!-- Footer Action Buttons -->
                 <div class="theme-form-actions">
                     <Link :href="route('users.index')" class="theme-btn-secondary">
-                        Cancel
+                        {{ t('common.cancel') }}
                     </Link>
                     <PrimaryButton :disabled="form.processing">
-                        {{ isEditing ? 'Update User Record' : 'Create User' }}
+                        {{ t('users.create_button') }}
                     </PrimaryButton>
                 </div>
             </form>

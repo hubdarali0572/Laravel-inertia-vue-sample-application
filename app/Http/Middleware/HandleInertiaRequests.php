@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Locales;
 use App\Support\Permissions;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -66,6 +67,10 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $user ? $user->getRoleNames()->values()->all() : [],
                 'is_superadmin' => $user?->isSuperAdmin() ?? false,
             ],
+            'locale' => app()->getLocale(),
+            'dir' => Locales::direction(),
+            'locales' => Locales::options(),
+            'translations' => trans('ui'),
             'canLogin' => fn () => Route::has('login'),
             'canRegister' => fn () => Route::has('register'),
             'laravelVersion' => fn () => Application::VERSION,

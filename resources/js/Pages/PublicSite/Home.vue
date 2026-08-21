@@ -2,91 +2,83 @@
 import { Head, usePage } from "@inertiajs/vue3";
 import PublicSiteLayout from "@/Layouts/PublicSite/PublicSiteLayout.vue";
 import { computed } from "vue";
+import { useI18n } from "@/composables/useI18n";
 
 const page = usePage();
+const { t } = useI18n();
 const laravelVersion = computed(() => page.props.laravelVersion);
 const phpVersion = computed(() => page.props.phpVersion);
 
-const seoTitle = "Home";
-const seoDescription =
-    "Precision-engineered governance for unified digital media. Secure user management, media libraries, activity logs, reCAPTCHA protection, and automated backups — built with Laravel, Inertia, and Vue 3.";
+const seoTitle = computed(() => t("public.home_seo"));
+const seoDescription = computed(() => t("public.home_description"));
 const canonicalUrl = computed(() => route("publicSite.home"));
 
-const pillars = [
+const pillars = computed(() => [
     {
-        label: "Governance",
-        description:
-            "Role-based access and full audit trails for every action.",
+        label: t("public.pillar_gov"),
+        description: t("public.pillar_gov_body"),
     },
     {
-        label: "Media",
-        description:
-            "Centralized digital assets with advanced image processing.",
+        label: t("public.pillar_media"),
+        description: t("public.pillar_media_body"),
     },
     {
-        label: "Security",
-        description: "Bot protection and automated backups for peace of mind.",
+        label: t("public.pillar_sec"),
+        description: t("public.pillar_sec_body"),
     },
-];
+]);
 
-const features = [
+const features = computed(() => [
     {
-        title: "Laravel 12 + Inertia + Vue 3",
-        category: "Core Architecture",
-        description:
-            "A high-performance single-page application stack that combines Laravel's robust backend with Vue 3 reactivity and Inertia.js for seamless, server-driven navigation without the complexity of a separate API layer.",
+        title: t("public.feat1_title"),
+        category: t("public.feat1_cat"),
+        description: t("public.feat1_body"),
         icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4",
         accent: "indigo",
     },
     {
-        title: "Spatie Media Library",
-        category: "Asset Management",
-        description:
-            "Upload, organize, and serve digital media through a unified library. Attach files to any model, generate conversions, and maintain a single source of truth for all visual assets across the platform.",
+        title: t("public.feat2_title"),
+        category: t("public.feat2_cat"),
+        description: t("public.feat2_body"),
         icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
         accent: "indigo",
     },
     {
-        title: "Image Intervention",
-        category: "Image Processing",
-        description:
-            "Resize, crop, optimize, and transform images on the fly. Ensure consistent output quality and performance for thumbnails, avatars, and media previews without relying on external services.",
+        title: t("public.feat3_title"),
+        category: t("public.feat3_cat"),
+        description: t("public.feat3_body"),
         icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
         accent: "indigo",
     },
     {
-        title: "Spatie Permissions",
-        category: "Access Control",
-        description:
-            "Granular Role-Based Access Control (RBAC) with roles, permissions, and middleware guards. Define who can view, create, edit, or delete resources at every level of the application.",
+        title: t("public.feat4_title"),
+        category: t("public.feat4_cat"),
+        description: t("public.feat4_body"),
         icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
         accent: "indigo",
     },
     {
-        title: "Spatie Activity Logs",
-        category: "Audit & Transparency",
-        description:
-            "Every meaningful change is recorded automatically. Track who did what, when, and on which resource — giving administrators complete visibility and accountability across the system.",
+        title: t("public.feat5_title"),
+        category: t("public.feat5_cat"),
+        description: t("public.feat5_body"),
         icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
         accent: "indigo",
     },
     {
-        title: "Google reCAPTCHA",
-        category: "Security Layer",
-        description:
-            "Protect authentication and public forms from automated abuse. reCAPTCHA verification is enforced server-side, blocking bots while keeping the experience frictionless for real users.",
+        title: t("public.feat6_title"),
+        category: t("public.feat6_cat"),
+        description: t("public.feat6_body"),
         icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
         accent: "indigo",
     },
     {
-        title: "Automated Database Backups",
-        category: "Data Integrity",
-        description:
-            "Scheduled daily database backups run automatically via Laravel's task scheduler. Your data is preserved on a consistent cadence, ensuring recoverability and long-term application integrity.",
+        title: t("public.feat7_title"),
+        category: t("public.feat7_cat"),
+        description: t("public.feat7_body"),
         icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4",
         accent: "indigo",
     },
-];
+]);
 
 const accentClasses = {
     indigo: {
@@ -139,7 +131,7 @@ const accentClasses = {
             <meta
                 head-key="og:title"
                 property="og:title"
-                content="Home - Unified Media"
+                :content="`${t('public.home_seo')} - ${t('app.brand')}`"
             />
             <meta
                 head-key="og:description"
@@ -159,7 +151,7 @@ const accentClasses = {
             <meta
                 head-key="twitter:title"
                 name="twitter:title"
-                content="Home - Unified Media"
+                :content="`${t('public.home_seo')} - ${t('app.brand')}`"
             />
             <meta
                 head-key="twitter:description"
@@ -210,22 +202,19 @@ const accentClasses = {
                     <h1
                         class="text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
                     >
-                        Precision-Engineered
+                        {{ t("public.hero_line1") }}
                         <span
                             class="block mt-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-clip-text text-transparent"
                         >
-                            Governance
+                            {{ t("public.hero_accent") }}
                         </span>
-                        for Unified Digital Media
+                        {{ t("public.hero_line2") }}
                     </h1>
 
                     <p
                         class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-lg sm:leading-8 dark:text-slate-300"
                     >
-                        A production-ready starter ecosystem built for teams who
-                        need secure user management, rich media handling, and
-                        complete operational transparency — all in one cohesive
-                        platform.
+                        {{ t("public.hero_body") }}
                     </p>
                 </div>
 
@@ -265,19 +254,17 @@ const accentClasses = {
                     <p
                         class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
                     >
-                        Platform Capabilities
+                        {{ t("public.features_kicker") }}
                     </p>
                     <h2
                         class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
                     >
-                        Everything defined. Nothing left ambiguous.
+                        {{ t("public.features_title") }}
                     </h2>
                     <p
                         class="mt-4 text-slate-600 leading-relaxed dark:text-slate-400"
                     >
-                        Each module in this starter is purpose-built and fully
-                        integrated — from the SPA foundation to security
-                        hardening and data protection.
+                        {{ t("public.features_body") }}
                     </p>
                 </div>
 
@@ -342,19 +329,17 @@ const accentClasses = {
                         <p
                             class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
                         >
-                            Technology Stack
+                            {{ t("public.stack_kicker") }}
                         </p>
                         <h2
                             class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
                         >
-                            Built on proven, battle-tested tools
+                            {{ t("public.stack_title") }}
                         </h2>
                         <p
                             class="mt-4 text-slate-600 leading-relaxed dark:text-slate-400"
                         >
-                            The foundation combines Laravel's expressive backend
-                            with a modern Vue 3 frontend, bridged by Inertia.js
-                            for a fluid developer and user experience.
+                            {{ t("public.stack_body") }}
                         </p>
 
                         <dl class="mt-10 space-y-6">
@@ -362,7 +347,7 @@ const accentClasses = {
                                 <dt
                                     class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
-                                    Backend
+                                    {{ t("public.backend") }}
                                 </dt>
                                 <dd
                                     class="text-sm text-slate-600 dark:text-slate-400"
@@ -375,7 +360,7 @@ const accentClasses = {
                                 <dt
                                     class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
-                                    Frontend
+                                    {{ t("public.frontend") }}
                                 </dt>
                                 <dd
                                     class="text-sm text-slate-600 dark:text-slate-400"
@@ -387,7 +372,7 @@ const accentClasses = {
                                 <dt
                                     class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
-                                    Packages
+                                    {{ t("public.packages") }}
                                 </dt>
                                 <dd
                                     class="text-sm text-slate-600 dark:text-slate-400"
@@ -400,7 +385,7 @@ const accentClasses = {
                                 <dt
                                     class="shrink-0 text-sm font-semibold text-slate-900 sm:w-28 dark:text-white"
                                 >
-                                    Tooling
+                                    {{ t("public.tooling") }}
                                 </dt>
                                 <dd
                                     class="text-sm text-slate-600 dark:text-slate-400"
@@ -426,7 +411,7 @@ const accentClasses = {
                         <p
                             class="relative text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
                         >
-                            Runtime Versions
+                            {{ t("public.runtime") }}
                         </p>
                         <div class="relative mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div
@@ -436,7 +421,7 @@ const accentClasses = {
                                     v{{ laravelVersion }}
                                 </p>
                                 <p class="mt-1 text-sm text-white/70">
-                                    Laravel Framework
+                                    {{ t("public.laravel_fw") }}
                                 </p>
                             </div>
                             <div
@@ -446,7 +431,7 @@ const accentClasses = {
                                     v{{ phpVersion }}
                                 </p>
                                 <p class="mt-1 text-sm text-white/70">
-                                    PHP Runtime
+                                    {{ t("public.php_runtime") }}
                                 </p>
                             </div>
                             <div
@@ -454,7 +439,7 @@ const accentClasses = {
                             >
                                 <p class="text-3xl font-black">Vue 3</p>
                                 <p class="mt-1 text-sm text-white/70">
-                                    Composition API
+                                    {{ t("public.composition") }}
                                 </p>
                             </div>
                             <div
@@ -462,7 +447,7 @@ const accentClasses = {
                             >
                                 <p class="text-3xl font-black">Inertia</p>
                                 <p class="mt-1 text-sm text-white/70">
-                                    SPA Bridge
+                                    {{ t("public.spa_bridge") }}
                                 </p>
                             </div>
                         </div>
@@ -495,17 +480,13 @@ const accentClasses = {
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
                             >
-                                Security & Reliability
+                                {{ t("public.security_kicker") }}
                             </p>
                             <h2 class="mt-3 text-3xl font-bold tracking-tight">
-                                Protected by design, backed up by default
+                                {{ t("public.security_title") }}
                             </h2>
                             <p class="mt-4 text-white/75 leading-relaxed">
-                                Authentication flows are guarded with Google
-                                reCAPTCHA verification. Activity is logged for
-                                full auditability. Database backups run
-                                automatically every day — so your data stays
-                                safe even when things go wrong.
+                                {{ t("public.security_body") }}
                             </p>
                         </div>
 
@@ -532,11 +513,10 @@ const accentClasses = {
                                 </span>
                                 <div>
                                     <p class="font-semibold">
-                                        Google reCAPTCHA
+                                        {{ t("public.recaptcha") }}
                                     </p>
                                     <p class="mt-1 text-sm text-white/70">
-                                        Server-side bot verification on
-                                        sensitive forms and login.
+                                        {{ t("public.recaptcha_hint") }}
                                     </p>
                                 </div>
                             </li>
@@ -562,11 +542,10 @@ const accentClasses = {
                                 </span>
                                 <div>
                                     <p class="font-semibold">
-                                        Activity Audit Trail
+                                        {{ t("public.audit") }}
                                     </p>
                                     <p class="mt-1 text-sm text-white/70">
-                                        Complete log of user actions for
-                                        compliance and debugging.
+                                        {{ t("public.audit_hint") }}
                                     </p>
                                 </div>
                             </li>
@@ -592,11 +571,10 @@ const accentClasses = {
                                 </span>
                                 <div>
                                     <p class="font-semibold">
-                                        Daily Database Backups
+                                        {{ t("public.backups") }}
                                     </p>
                                     <p class="mt-1 text-sm text-white/70">
-                                        Automated scheduled backups via Laravel
-                                        task scheduler.
+                                        {{ t("public.backups_hint") }}
                                     </p>
                                 </div>
                             </li>

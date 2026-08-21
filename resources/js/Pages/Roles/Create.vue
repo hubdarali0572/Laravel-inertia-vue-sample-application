@@ -7,6 +7,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PermissionGroupCards from '@/Components/PermissionGroupCards.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 
 const props = defineProps({
     permissionGroups: Object, // Contains 'User Management' and 'Role Management'
@@ -14,6 +15,7 @@ const props = defineProps({
     rolePermissions: Array
 });
 
+const { t } = useI18n();
 const isEditing = computed(() => !!props.role);
 
 const form = useForm({
@@ -31,23 +33,23 @@ const submit = () => {
 </script>
 
 <template>
-    <Head :title="isEditing ? 'Edit Role' : 'Create Role'" />
+    <Head :title="t('roles.create_title')" />
 
     <AuthenticatedLayout>
         <!-- Header -->
         <div class="theme-page-header">
             <div>
                 <h2 class="theme-page-title">
-                    {{ isEditing ? 'Edit Role Authority' : 'Create System Role' }}
+                    {{ t('roles.create_title') }}
                 </h2>
-                <p class="theme-page-subtitle">Configure access levels for Users and Roles.</p>
+                <p class="theme-page-subtitle">{{ t('roles.form_subtitle') }}</p>
             </div>
             <Link 
                 :href="route('roles.index')" 
                 class="theme-form-back-link"
             >
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Back to Role List
+                {{ t('roles.back') }}
             </Link>
         </div>
 
@@ -56,11 +58,11 @@ const submit = () => {
             <!-- Role Identity Card -->
             <div class="theme-form-card">
                 <div class="theme-form-body max-w-md">
-                    <InputLabel for="name" value="Role Name" class="theme-form-label" />
+                    <InputLabel for="name" :value="t('roles.name')" class="theme-form-label" />
                     <TextInput 
                         id="name" v-model="form.name" type="text" required 
                         class="theme-form-input"
-                        placeholder="Create New Role ..."
+                        :placeholder="t('roles.placeholder_name')"
                     />
                     <InputError :message="form.errors.name" class="mt-2" />
                 </div>
@@ -75,10 +77,10 @@ const submit = () => {
             <!-- Submit Action -->
             <div class="theme-form-actions">
                 <Link :href="route('roles.index')" class="theme-btn-secondary">
-                    Cancel
+                    {{ t('common.cancel') }}
                 </Link>
                 <PrimaryButton :disabled="form.processing">
-                    {{ isEditing ? 'Save Changes' : 'Create Role' }}
+                    {{ t('roles.create_button') }}
                 </PrimaryButton>
             </div>
         </form>

@@ -6,10 +6,13 @@ import PageHeader from "@/Components/PageHeader.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { usePermissions } from "@/composables/usePermissions";
+import { useI18n } from "@/composables/useI18n";
+import PaginationFooter from "@/Components/PaginationFooter.vue";
 
 defineProps({ roles: Object });
 
 const { can } = usePermissions();
+const { t } = useI18n();
 const canCreate = computed(() => can("create role"));
 const canEdit = computed(() => can("edit role"));
 const canDelete = computed(() => can("delete role"));
@@ -41,12 +44,12 @@ const confirmDelete = () => {
 </script>
 
 <template>
-    <Head title="Role Management" />
+    <Head :title="t('roles.title')" />
 
     <AuthenticatedLayout>
         <PageHeader
-            title="Role Management"
-            subtitle="Manage and monitor system access and roles."
+            :title="t('roles.title')"
+            :subtitle="t('roles.subtitle')"
         >
             <Link
                 v-if="canCreate"
@@ -66,7 +69,7 @@ const confirmDelete = () => {
                         stroke-linejoin="round"
                     />
                 </svg>
-                Add New
+                {{ t("common.add_new") }}
             </Link>
         </PageHeader>
 
@@ -77,12 +80,12 @@ const confirmDelete = () => {
                 <table class="theme-table">
                     <thead>
                         <tr class="theme-table-header">
-                            <th class="theme-table-header-cell">Role Name</th>
+                            <th class="theme-table-header-cell">{{ t("roles.name") }}</th>
                             <th
                                 v-if="showActions"
-                                class="theme-table-header-cell w-px text-right"
+                                class="theme-table-header-cell w-px text-end"
                             >
-                                Actions
+                                {{ t("common.actions") }}
                             </th>
                         </tr>
                     </thead>
@@ -100,15 +103,15 @@ const confirmDelete = () => {
                             </td>
                             <td
                                 v-if="showActions"
-                                class="theme-table-cell text-right"
+                                class="theme-table-cell text-end"
                             >
                                 <div class="theme-table-actions">
                                     <Link
                                         v-if="canEdit"
                                         :href="route('roles.edit', role.id)"
                                         class="theme-table-action-btn theme-table-action-edit"
-                                        title="Edit Role"
-                                        aria-label="Edit Role"
+                                        :title="t('roles.edit')"
+                                        :aria-label="t('roles.edit')"
                                     >
                                         <svg
                                             class="h-3.5 w-3.5"
@@ -128,8 +131,8 @@ const confirmDelete = () => {
                                         v-if="canDelete"
                                         type="button"
                                         class="theme-table-action-btn theme-table-action-delete"
-                                        title="Delete Role"
-                                        aria-label="Delete Role"
+                                        :title="t('roles.delete')"
+                                        :aria-label="t('roles.delete')"
                                         @click="openDeleteModal(role)"
                                     >
                                         <svg
@@ -154,58 +157,22 @@ const confirmDelete = () => {
                                 :colspan="showActions ? 2 : 1"
                                 class="theme-table-cell py-10 text-center font-medium italic text-slate-400 dark:text-slate-500"
                             >
-                                No roles available.
+                                {{ t("roles.empty") }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="theme-table-footer">
-                <div class="theme-table-footer-meta">
-                    Showing
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        roles.from || 0
-                    }}</span>
-                    to
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        roles.to || 0
-                    }}</span>
-                    of
-                    <span class="text-slate-900 dark:text-slate-200">{{
-                        roles.total
-                    }}</span>
-                    roles
-                </div>
-                <div class="flex flex-wrap items-center justify-center gap-1">
-                    <template v-for="(link, k) in roles.links" :key="k">
-                        <Link
-                            v-if="link.url"
-                            :href="link.url"
-                            class="theme-pagination-btn"
-                            :class="[
-                                link.active
-                                    ? 'theme-pagination-active'
-                                    : 'theme-pagination-inactive',
-                            ]"
-                            v-html="link.label"
-                        />
-                        <span
-                            v-else
-                            class="theme-pagination-btn cursor-not-allowed border-slate-100 bg-white text-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-600"
-                            v-html="link.label"
-                        />
-                    </template>
-                </div>
-            </div>
+            <PaginationFooter :paginator="roles" noun="roles" />
         </div>
 
         <ConfirmModal
             :show="isModalOpen"
-            title="Delete System Role"
-            message="Are you sure you want to permanently remove this role from the system?"
-            confirm-label="Yes, Delete Role"
-            cancel-label="No, Keep Role"
+            :title="t('roles.delete_title')"
+            :message="t('roles.delete_message')"
+            :confirm-label="t('roles.delete_confirm')"
+            :cancel-label="t('roles.delete_cancel')"
             :badge="selectedRole?.name"
             :badge-initial="selectedRole?.name?.slice(0, 1)"
             @close="closeModal"

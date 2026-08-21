@@ -4,7 +4,9 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { useI18n } from "@/composables/useI18n";
 
+const { t } = useI18n();
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
 
@@ -35,9 +37,9 @@ const updatePassword = () => {
 <template>
     <section class="theme-form-card overflow-hidden">
         <div class="theme-form-section-header">
-            <h2 class="theme-form-section-title">Password</h2>
+            <h2 class="theme-form-section-title">{{ t("profile.password") }}</h2>
             <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
-                Change the password for this account.
+                {{ t("profile.password_hint") }}
             </p>
         </div>
 
@@ -45,7 +47,7 @@ const updatePassword = () => {
             <div>
                 <InputLabel
                     for="current_password"
-                    value="Current password"
+                    :value="t('profile.current_password')"
                     class="theme-form-label mb-1"
                 />
                 <TextInput
@@ -66,7 +68,7 @@ const updatePassword = () => {
                 <div>
                     <InputLabel
                         for="password"
-                        value="New password"
+                        :value="t('profile.new_password')"
                         class="theme-form-label mb-1"
                     />
                     <TextInput
@@ -83,7 +85,7 @@ const updatePassword = () => {
                 <div>
                     <InputLabel
                         for="password_confirmation"
-                        value="Confirm password"
+                        :value="t('profile.confirm_password')"
                         class="theme-form-label mb-1"
                     />
                     <TextInput
@@ -111,7 +113,7 @@ const updatePassword = () => {
                         v-if="form.recentlySuccessful"
                         class="text-[11px] font-medium text-indigo-600 dark:text-indigo-300"
                     >
-                        Updated
+                        {{ t("common.updated") }}
                     </p>
                 </Transition>
                 <button
@@ -119,7 +121,7 @@ const updatePassword = () => {
                     :disabled="form.processing"
                     class="theme-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                    Update
+                    {{ t("common.update") }}
                 </button>
             </div>
         </form>
