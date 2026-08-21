@@ -26,18 +26,14 @@ const isAnchor = computed(
 const classes = computed(() => {
     if (props.mobile) {
         return [
-            "block w-full rounded-lg px-4 py-3 text-base font-medium transition-colors",
-            props.active
-                ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/50 dark:text-indigo-400"
-                : "text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800/80",
+            "theme-public-nav-mobile",
+            props.active ? "is-active" : "",
         ];
     }
 
     return [
-        "inline-flex items-center whitespace-nowrap text-sm font-medium transition-colors",
-        props.active
-            ? "text-indigo-600 dark:text-indigo-400"
-            : "text-slate-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400",
+        "theme-public-nav inline-flex items-center",
+        props.active ? "is-active" : "",
     ];
 });
 </script>

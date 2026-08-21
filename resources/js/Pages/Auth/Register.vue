@@ -33,11 +33,11 @@ const submit = () => {
 
         <div class="mb-6 text-center sm:mb-8">
             <h2
-                class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
+                class="theme-heading text-xl font-bold tracking-tight sm:text-2xl"
             >
                 {{ t('auth.register_title') }}
             </h2>
-            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            <p class="theme-text-muted mt-2 text-sm">
                 {{ t('auth.register_subtitle') }}
             </p>
         </div>
@@ -86,7 +86,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 transition-colors dark:hover:text-indigo-400"
+                        class="theme-text-muted absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-[var(--color-heading)]"
                         @click="showPassword = !showPassword"
                     >
                         <svg v-if="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -115,7 +115,7 @@ const submit = () => {
                     />
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 transition-colors dark:hover:text-indigo-400"
+                        class="theme-text-muted absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-[var(--color-heading)]"
                         @click="showConfirmPassword = !showConfirmPassword"
                     >
                         <svg v-if="!showConfirmPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -145,11 +145,11 @@ const submit = () => {
         </form>
 
         <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+            <p class="theme-text-muted text-sm">
                 {{ t('auth.have_account') }}
                 <Link
                     :href="route('login')"
-                    class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
+                    class="theme-link hover:underline"
                 >
                     {{ t('auth.login') }}
                 </Link>

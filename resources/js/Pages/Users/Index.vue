@@ -57,7 +57,6 @@ const confirmDelete = () => {
 
         <PageHeader
             :title="t('users.title')"
-            :subtitle="t('users.subtitle')"
         >
             <Link
                 v-if="canCreate"
@@ -98,7 +97,7 @@ const confirmDelete = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    <tbody class="theme-table-divide">
                         <tr
                             v-for="user in users.data"
                             :key="user.id"
@@ -131,12 +130,12 @@ const confirmDelete = () => {
                                     </div>
                                     <div class="min-w-0">
                                         <div
-                                            class="truncate text-sm font-bold tracking-tight text-slate-800 dark:text-slate-100"
+                        class="theme-heading truncate text-sm font-bold tracking-tight"
                                         >
                                             {{ user.name }}
                                         </div>
                                         <div
-                                            class="truncate text-xs font-medium text-slate-500 dark:text-slate-400"
+                                            class="theme-text-muted truncate text-xs font-medium"
                                         >
                                             {{ user.email }}
                                         </div>
@@ -144,10 +143,9 @@ const confirmDelete = () => {
                                 </div>
                             </td>
                             <td class="theme-table-cell">
-                                <span
-                                    class="text-sm font-bold capitalize tracking-tight text-slate-800 dark:text-slate-100"
-                                    >{{ user.role?.name }}</span
-                                >
+                                <span class="theme-user-role">{{
+                                    user.role?.name
+                                }}</span>
                             </td>
                             <td
                                 v-if="showActions"
@@ -203,7 +201,7 @@ const confirmDelete = () => {
                         <tr v-if="users.data.length === 0">
                             <td
                                 :colspan="showActions ? 3 : 2"
-                                class="theme-table-cell py-10 text-center font-medium text-slate-400 dark:text-slate-500"
+                                class="theme-table-empty"
                             >
                                 {{ t("users.empty") }}
                             </td>

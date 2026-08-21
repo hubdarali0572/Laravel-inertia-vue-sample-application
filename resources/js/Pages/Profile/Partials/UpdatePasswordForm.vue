@@ -111,7 +111,7 @@ const updatePassword = () => {
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-[11px] font-medium text-indigo-600 dark:text-indigo-300"
+                        class="theme-link text-[11px]"
                     >
                         {{ t("common.updated") }}
                     </p>

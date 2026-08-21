@@ -163,13 +163,16 @@ return [
         'placeholder_name' => 'رول کا نام درج کریں',
         'create_button' => 'رول بنائیں',
         'update_button' => 'تبدیلیاں محفوظ کریں',
+        'details' => 'رول کی تفصیل',
+        'permissions_title' => 'ماڈیول اجازتیں',
+        'permissions_hint' => 'ہر ماڈیول میں اس رول کے لیے اجازتیں منتخب کریں۔',
     ],
 
     'activity' => [
         'title' => 'سرگرمی لاگز',
         'page_title' => 'سسٹم سرگرمی لاگز',
         'subtitle' => 'تمام سسٹم تبدیلیوں کا تفصیلی ریکارڈ۔',
-        'clear_all' => 'تمام لاگز صاف کریں',
+        'clear_all' => 'لاگز صاف کریں',
         'user' => 'صارف',
         'action' => 'عمل',
         'module' => 'ماڈیول',

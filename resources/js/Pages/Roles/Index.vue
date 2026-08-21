@@ -49,7 +49,6 @@ const confirmDelete = () => {
     <AuthenticatedLayout>
         <PageHeader
             :title="t('roles.title')"
-            :subtitle="t('roles.subtitle')"
         >
             <Link
                 v-if="canCreate"
@@ -89,7 +88,7 @@ const confirmDelete = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    <tbody class="theme-table-divide">
                         <tr
                             v-for="role in roles.data"
                             :key="role.id"
@@ -155,7 +154,7 @@ const confirmDelete = () => {
                         <tr v-if="roles.data.length === 0">
                             <td
                                 :colspan="showActions ? 2 : 1"
-                                class="theme-table-cell py-10 text-center font-medium italic text-slate-400 dark:text-slate-500"
+                                class="theme-table-empty"
                             >
                                 {{ t("roles.empty") }}
                             </td>

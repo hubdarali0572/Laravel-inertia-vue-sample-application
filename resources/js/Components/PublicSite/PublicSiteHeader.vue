@@ -82,7 +82,7 @@ onUnmounted(() => {
 
 <template>
     <header
-        class="fixed inset-x-0 top-0 z-50 w-full max-w-[100vw] border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/95"
+                    class="theme-public-header fixed inset-x-0 top-0 z-50 w-full max-w-[100vw]"
     >
         <nav
             class="mx-auto flex h-14 w-full max-w-7xl items-center gap-2 px-3 sm:h-16 sm:px-6 lg:px-8"
@@ -96,7 +96,7 @@ onUnmounted(() => {
                 @click="closeMobileMenu"
             >
                 <ApplicationLogo
-                    class="h-7 w-7 shrink-0 fill-indigo-600 sm:h-8 sm:w-8 dark:fill-indigo-400"
+                    class="theme-icon-brand h-7 w-7 shrink-0 sm:h-8 sm:w-8"
                     aria-hidden="true"
                 />
                 <span
@@ -172,21 +172,21 @@ onUnmounted(() => {
                     <Link
                         v-if="$page.props.auth.user"
                         :href="route('dashboard')"
-                        class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
+                        class="theme-btn-primary hidden lg:inline-flex"
                     >
                         {{ t("public.dashboard") }}
                     </Link>
                     <template v-else>
                         <Link
                             :href="route('login')"
-                            class="inline-flex h-10 items-center rounded-lg px-3 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                            class="theme-btn-ghost hidden lg:inline-flex h-10"
                         >
                             {{ t("public.login") }}
                         </Link>
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="inline-flex h-10 items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
+                            class="theme-btn-primary hidden lg:inline-flex"
                         >
                             {{ t("public.register") }}
                         </Link>
@@ -245,7 +245,7 @@ onUnmounted(() => {
         <div
             v-if="!isDesktop && isMobileMenuOpen"
             id="public-site-mobile-menu"
-            class="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950"
+            class="theme-surface border-t"
         >
             <div
                 class="mx-auto max-h-[calc(100dvh-3.5rem)] max-w-7xl overflow-y-auto px-3 py-3 sm:px-6"
@@ -270,7 +270,7 @@ onUnmounted(() => {
                     <template v-if="$page.props.auth.user">
                         <Link
                             :href="route('dashboard')"
-                            class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
+                            class="theme-btn-primary inline-flex min-h-11 items-center justify-center"
                             @click="closeMobileMenu"
                         >
                             {{ t("public.dashboard") }}
@@ -279,7 +279,7 @@ onUnmounted(() => {
                     <template v-else>
                         <Link
                             :href="route('login')"
-                            class="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-200 px-4 text-sm font-semibold text-slate-700 dark:border-slate-700 dark:text-slate-200"
+                            class="theme-btn-secondary inline-flex min-h-11 items-center justify-center"
                             @click="closeMobileMenu"
                         >
                             {{ t("public.login") }}
@@ -287,7 +287,7 @@ onUnmounted(() => {
                         <Link
                             v-if="canRegister"
                             :href="route('register')"
-                            class="inline-flex min-h-11 items-center justify-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white"
+                            class="theme-btn-primary inline-flex min-h-11 items-center justify-center"
                             @click="closeMobileMenu"
                         >
                             {{ t("public.register") }}

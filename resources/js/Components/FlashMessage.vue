@@ -37,12 +37,8 @@ watch(
     <transition name="fade">
         <div
             v-if="visible && message"
-            class="mb-5 flex items-center rounded-r-xl border-l-4 p-4 shadow-sm"
-            :class="
-                isSuccess
-                    ? 'border-indigo-500 bg-indigo-50 text-indigo-800 dark:bg-indigo-500/10 dark:text-indigo-200'
-                    : 'border-slate-400 bg-slate-100 text-slate-700 dark:bg-slate-700/80 dark:text-slate-200'
-            "
+            class="theme-flash"
+            :class="{ 'theme-flash-danger': !isSuccess }"
         >
             <div class="shrink-0">
                 <svg

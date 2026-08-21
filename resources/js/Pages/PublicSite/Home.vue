@@ -82,32 +82,32 @@ const features = computed(() => [
 
 const accentClasses = {
     indigo: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-400",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     violet: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     sky: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     emerald: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     amber: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     rose: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
     cyan: {
-        icon: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white dark:bg-indigo-500/15 dark:text-indigo-300",
-        ring: "group-hover:ring-indigo-200 dark:group-hover:ring-indigo-500/30",
+        icon: "theme-quick-action-icon",
+        ring: "",
     },
 };
 
@@ -169,7 +169,7 @@ const accentClasses = {
                 aria-hidden="true"
             >
                 <div
-                    class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-indigo-500 to-slate-300 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                    class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-border)] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
                 ></div>
             </div>
             <div
@@ -177,7 +177,7 @@ const accentClasses = {
                 aria-hidden="true"
             >
                 <div
-                    class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-indigo-500 to-slate-300 opacity-15 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                    class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[var(--color-accent)] to-[var(--color-border)] opacity-15 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
                 ></div>
             </div>
 
@@ -187,7 +187,7 @@ const accentClasses = {
                         <span
                             class="rounded-full px-4 py-1.5 text-xs font-semibold ring-1 ring-slate-900/10 bg-white/70 backdrop-blur dark:ring-white/10 dark:bg-slate-900/70"
                         >
-                            <span class="text-indigo-600 dark:text-indigo-400"
+                            <span class="theme-accent-text"
                                 >Laravel v{{ laravelVersion }}</span
                             >
                             + Inertia + Vue 3
@@ -204,7 +204,7 @@ const accentClasses = {
                     >
                         {{ t("public.hero_line1") }}
                         <span
-                            class="block mt-2 bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 bg-clip-text text-transparent"
+                            class="theme-heading mt-2 block"
                         >
                             {{ t("public.hero_accent") }}
                         </span>
@@ -230,7 +230,7 @@ const accentClasses = {
                         class="rounded-2xl bg-white p-6 text-center ring-1 ring-slate-200 shadow-sm dark:bg-slate-900/60 dark:ring-slate-800"
                     >
                         <p
-                            class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
+                            class="text-xs font-bold uppercase tracking-[0.2em] theme-accent-text"
                         >
                             {{ pillar.label }}
                         </p>
@@ -252,7 +252,7 @@ const accentClasses = {
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center" data-aos="fade-up">
                     <p
-                        class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
+                        class="text-xs font-bold uppercase tracking-[0.2em] theme-accent-text"
                     >
                         {{ t("public.features_kicker") }}
                     </p>
@@ -327,7 +327,7 @@ const accentClasses = {
                 <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
                     <div data-aos="fade-up">
                         <p
-                            class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400"
+                            class="text-xs font-bold uppercase tracking-[0.2em] theme-accent-text"
                         >
                             {{ t("public.stack_kicker") }}
                         </p>
@@ -399,17 +399,17 @@ const accentClasses = {
 
                     <div
                         data-aos="fade-up"
-                        class="relative rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 p-8 lg:p-10 text-white shadow-2xl overflow-hidden"
+                        class="theme-welcome relative overflow-hidden p-8 lg:p-10"
                     >
                         <div
                             class="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"
                         ></div>
                         <div
-                            class="absolute right-20 bottom-0 w-24 h-24 bg-indigo-400/20 rounded-full blur-xl"
+                            class="absolute right-20 bottom-0 w-24 h-24 bg-[var(--color-accent)]/20 rounded-full blur-xl"
                         ></div>
 
                         <p
-                            class="relative text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
+                            class="relative text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]"
                         >
                             {{ t("public.runtime") }}
                         </p>
@@ -464,13 +464,13 @@ const accentClasses = {
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     data-aos="fade-up"
-                    class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-900 px-6 py-12 sm:px-8 sm:py-16 lg:px-16 lg:py-20 text-white shadow-2xl"
+                    class="theme-welcome relative overflow-hidden px-6 py-12 sm:px-8 sm:py-16 lg:px-16 lg:py-20"
                 >
                     <div
-                        class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"
+                        class="absolute -right-16 -top-16 w-64 h-64 bg-[var(--color-accent)]/20 rounded-full blur-3xl"
                     ></div>
                     <div
-                        class="absolute -left-10 bottom-0 w-40 h-40 bg-indigo-500/15 rounded-full blur-2xl"
+                        class="absolute -left-10 bottom-0 w-40 h-40 bg-[var(--color-accent)]/15 rounded-full blur-2xl"
                     ></div>
 
                     <div
@@ -478,7 +478,7 @@ const accentClasses = {
                     >
                         <div>
                             <p
-                                class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
+                                class="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]"
                             >
                                 {{ t("public.security_kicker") }}
                             </p>
@@ -495,10 +495,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-indigo-300"
+                                        class="w-4 h-4 text-[var(--color-accent)]"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -524,10 +524,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-indigo-300"
+                                        class="w-4 h-4 text-[var(--color-accent)]"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -553,10 +553,10 @@ const accentClasses = {
                                 class="flex items-start gap-4 rounded-xl bg-white/10 backdrop-blur p-5 ring-1 ring-white/10"
                             >
                                 <span
-                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center"
+                                    class="flex-shrink-0 mt-0.5 w-8 h-8 rounded-lg bg-[var(--color-accent)]/20 flex items-center justify-center"
                                 >
                                     <svg
-                                        class="w-4 h-4 text-indigo-300"
+                                        class="w-4 h-4 text-[var(--color-accent)]"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"

@@ -104,24 +104,23 @@ const handleModalConfirm = () => {
 
         <PageHeader
             :title="t('activity.page_title')"
-            :subtitle="t('activity.subtitle')"
         >
             <button
                 v-if="canDelete"
                 type="button"
-                class="theme-btn-secondary"
+                class="theme-btn-primary"
                 @click="isClearModalOpen = true"
             >
                 <svg
-                    class="h-4 w-4"
+                    class="h-3.5 w-3.5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    stroke-width="2"
                 >
                     <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        stroke-width="2.5"
                         d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                 </svg>
@@ -146,7 +145,7 @@ const handleModalConfirm = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+                    <tbody class="theme-table-divide">
                         <tr
                             v-for="log in activities.data"
                             :key="log.id"
@@ -242,7 +241,7 @@ const handleModalConfirm = () => {
                         <tr v-if="activities.data.length === 0">
                             <td
                                 colspan="6"
-                                class="theme-table-cell py-10 text-center font-medium text-slate-400 dark:text-slate-500"
+                                class="theme-table-empty"
                             >
                                 {{ t("activity.empty") }}
                             </td>

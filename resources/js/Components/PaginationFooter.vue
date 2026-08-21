@@ -43,7 +43,7 @@ const { t } = useI18n();
                 />
                 <span
                     v-else
-                    class="theme-pagination-btn cursor-not-allowed border-slate-100 bg-white text-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-600"
+                    class="theme-pagination-btn theme-pagination-disabled"
                     v-html="link.label"
                 />
             </template>

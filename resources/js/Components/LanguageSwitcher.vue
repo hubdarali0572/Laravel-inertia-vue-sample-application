@@ -29,12 +29,8 @@ const switchLocale = (code) => {
             v-for="item in locales"
             :key="item.code"
             type="button"
-            class="inline-flex h-full min-w-9 items-center justify-center px-2.5 text-[11px] font-semibold tracking-wide transition-colors"
-            :class="
-                locale === item.code
-                    ? 'bg-indigo-600 text-white'
-                    : 'text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10'
-            "
+            class="theme-lang-btn"
+            :class="{ 'is-active': locale === item.code }"
             :title="item.name"
             :aria-label="item.name"
             :aria-pressed="locale === item.code"

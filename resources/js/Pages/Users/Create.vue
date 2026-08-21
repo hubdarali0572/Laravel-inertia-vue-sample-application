@@ -103,16 +103,13 @@ const submit = () => {
                 <h2 class="theme-page-title">
                     {{ t('users.create_title') }}
                 </h2>
-                <p class="theme-page-subtitle">
-                    {{ t('users.form_subtitle') }}
-                </p>
             </div>
             <Link 
                 :href="route('users.index')" 
                 class="theme-form-back-link"
             >
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="text-slate-900">{{ t('users.back') }}</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                {{ t('users.back') }}
             </Link>
         </div>
 
@@ -172,8 +169,8 @@ const submit = () => {
 
                                 <!-- Dropdown Menu -->
                                 <transition name="pop">
-                                    <div v-if="isDropdownOpen" class="absolute z-50 w-full mt-24 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden dark:bg-slate-800 dark:border-slate-700">
-                                        <div class="p-3 border-b border-slate-100 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-900/40">
+                                    <div v-if="isDropdownOpen" class="theme-dropdown absolute z-50 mt-24 w-full">
+                                        <div class="theme-dropdown-search">
                                             <div class="relative">
                                                 <input 
                                                     v-model="searchRole"
@@ -187,11 +184,11 @@ const submit = () => {
                                         <ul class="max-h-56 overflow-y-auto py-2">
                                             <li v-for="role in filteredRoles" :key="role.id"
                                                 @click="selectRole(role)"
-                                                class="px-5 py-3 text-xs font-bold text-slate-600 cursor-pointer flex items-center justify-between hover:bg-indigo-50 hover:text-indigo-700 transition-colors dark:text-slate-300 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300"
-                                                :class="{'bg-indigo-50 text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-300': form.role_id === role.id}"
+                                                class="theme-dropdown-option"
+                                                :class="{ 'is-selected': form.role_id === role.id }"
                                             >
                                                 {{ role.name.toUpperCase() }}
-                                                <svg v-if="form.role_id === role.id" class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg v-if="form.role_id === role.id" class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                                 </svg>
                                             </li>
@@ -214,7 +211,7 @@ const submit = () => {
                                         :required="!isEditing"
                                         :placeholder="t('users.placeholder_password')"
                                     />
-                                    <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-indigo-600 transition-colors">
+                                    <button type="button" @click="showPassword = !showPassword" class="theme-text-muted absolute inset-y-0 right-0 flex items-center pr-4 transition-colors hover:text-[var(--color-heading)]">
                                         <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M2.036 12.322a1.012 1.012 0 0 1 0-.644C3.483 8.613 8.242 4.5 12 4.5c3.758 0 8.517 4.113 9.964 7.178.07.147.07.315 0 .462-1.447 3.065-4.206 7.178-9.964 7.178-3.758 0-8.517-4.113-9.964-7.178Z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
                                         <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21"/></svg>
                                     </button>

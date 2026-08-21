@@ -102,19 +102,17 @@ const submit = () => {
         <Head :title="t('auth.login')" />
 
         <div class="mb-6 text-center sm:mb-8">
-            <h2
-                class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white"
-            >
+            <h2 class="theme-heading text-xl font-bold tracking-tight sm:text-2xl">
                 {{ t("auth.login_title") }}
             </h2>
-            <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            <p class="theme-text-muted mt-2 text-sm">
                 {{ t("auth.login_subtitle") }}
             </p>
         </div>
 
         <div
             v-if="status"
-            class="mb-4 p-3 bg-indigo-50 border border-indigo-200 rounded-lg text-sm font-medium text-indigo-700 dark:bg-indigo-500/10 dark:border-indigo-500/30 dark:text-indigo-200"
+            class="theme-alert mb-4"
         >
             {{ status }}
         </div>
@@ -141,7 +139,7 @@ const submit = () => {
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="text-xs font-semibold text-indigo-600 hover:text-indigo-500 transition-colors dark:text-indigo-400"
+                        class="theme-link text-xs"
                     >
                         {{ t("auth.forgot") }}
                     </Link>
@@ -160,7 +158,7 @@ const submit = () => {
 
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 focus:outline-none transition-colors dark:hover:text-indigo-400"
+                        class="theme-text-muted absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-[var(--color-heading)] focus:outline-none"
                         @click="showPassword = !showPassword"
                     >
                         <svg
@@ -229,12 +227,12 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
-            <p class="text-sm text-slate-500 dark:text-slate-400">
+        <div class="theme-border mt-8 border-t pt-6 text-center">
+            <p class="theme-text-muted text-sm">
                 {{ t("auth.no_account") }}
                 <Link
                     :href="route('register')"
-                    class="font-semibold text-indigo-600 hover:text-indigo-500 underline-offset-4 hover:underline dark:text-indigo-400"
+                    class="theme-link hover:underline"
                 >
                     {{ t("auth.register") }}
                 </Link>

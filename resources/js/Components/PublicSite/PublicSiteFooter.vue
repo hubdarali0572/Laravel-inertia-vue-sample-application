@@ -69,14 +69,14 @@ const isAnchor = (href) => href.startsWith("#") || href.includes("#");
                             <a
                                 v-if="isAnchor(item.href)"
                                 :href="item.href"
-                                class="inline-flex min-h-12 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+                                class="theme-public-nav inline-flex min-h-12 items-center"
                             >
                                 {{ item.label }}
                             </a>
                             <Link
                                 v-else
                                 :href="item.href"
-                                class="inline-flex min-h-12 items-center text-sm text-slate-600 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400"
+                                class="theme-public-nav inline-flex min-h-12 items-center"
                             >
                                 {{ item.label }}
                             </Link>

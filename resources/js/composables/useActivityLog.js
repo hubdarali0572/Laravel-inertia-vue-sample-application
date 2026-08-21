@@ -144,14 +144,14 @@ export function useActivityLog() {
 
     const actionBadgeClass = (event) => {
         if (event === "created") {
-            return "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-200";
+            return "theme-badge theme-badge-accent";
         }
 
         if (event === "deleted") {
-            return "bg-slate-200 text-slate-700 dark:bg-slate-600 dark:text-slate-200";
+            return "theme-badge theme-badge-muted";
         }
 
-        return "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-200";
+        return "theme-badge";
     };
 
     return {

@@ -21,22 +21,13 @@ const highlights = computed(() => [
         class="theme-app-bg flex min-h-screen w-full max-w-[100vw] flex-col overflow-x-hidden lg:flex-row"
     >
         <!-- Branding panel (desktop only) -->
-        <div
-            class="relative hidden w-full overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-indigo-900 text-white lg:flex lg:w-[45%] xl:w-1/2"
-        >
-            <div
-                class="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-indigo-500/20 blur-3xl"
-            />
-            <div
-                class="absolute -left-10 bottom-20 h-48 w-48 rounded-full bg-indigo-500/15 blur-2xl"
-            />
-
+        <div class="theme-guest-brand hidden w-full lg:flex lg:w-[45%] xl:w-1/2">
             <div
                 class="relative z-10 flex w-full flex-col justify-between p-10 xl:p-16"
             >
                 <div class="flex items-center justify-between gap-4">
                     <Link href="/" class="flex w-fit items-center gap-3">
-                        <ApplicationLogo class="h-9 w-9 shrink-0 fill-indigo-400" />
+                        <ApplicationLogo class="theme-icon-brand h-9 w-9 shrink-0" />
                         <span class="text-sm font-bold tracking-tight">{{
                             t("app.brand")
                         }}</span>
@@ -45,16 +36,14 @@ const highlights = computed(() => [
                 </div>
 
                 <div class="max-w-md">
-                    <p
-                        class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-300"
-                    >
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">
                         {{ t("app.platform") }}
                     </p>
                     <h1
                         class="mt-3 text-3xl font-extrabold leading-tight tracking-tight xl:text-4xl"
                     >
                         {{ t("auth.guest_heading") }}
-                        <span class="text-indigo-300">{{
+                        <span class="text-[var(--color-accent)]">{{
                             t("auth.guest_heading_accent")
                         }}</span>
                         {{ t("auth.guest_for") }}
@@ -70,10 +59,10 @@ const highlights = computed(() => [
                             class="flex items-center gap-3 text-sm text-white/80"
                         >
                             <span
-                                class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-indigo-500/30"
+                                class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/20"
                             >
                                 <svg
-                                    class="h-3 w-3 text-indigo-300"
+                                    class="h-3 w-3 text-[var(--color-accent)]"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -111,10 +100,10 @@ const highlights = computed(() => [
                     :aria-label="t('app.brand')"
                 >
                     <ApplicationLogo
-                        class="h-7 w-7 shrink-0 fill-indigo-600 sm:h-8 sm:w-8 dark:fill-indigo-400"
+                        class="theme-icon-brand h-7 w-7 shrink-0 sm:h-8 sm:w-8"
                     />
                     <span
-                        class="truncate text-sm font-bold text-slate-800 dark:text-white"
+                        class="theme-heading truncate text-sm font-bold"
                         >{{ t("app.brand") }}</span
                     >
                 </Link>
@@ -123,13 +112,13 @@ const highlights = computed(() => [
                     <LanguageSwitcher />
                     <Link
                         href="/"
-                        class="hidden h-10 items-center rounded-lg px-2 text-sm font-medium text-slate-500 transition-colors hover:text-indigo-600 sm:inline-flex dark:text-slate-400 dark:hover:text-indigo-400"
+                        class="theme-form-back-link hidden sm:inline-flex"
                     >
                         &larr; {{ t("public.back_home") }}
                     </Link>
                     <Link
                         href="/"
-                        class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-200/60 sm:hidden dark:text-slate-400 dark:hover:bg-slate-800"
+                        class="theme-header-control theme-header-control-icon sm:hidden"
                         :aria-label="t('public.back_home')"
                     >
                         <svg
@@ -193,9 +182,7 @@ const highlights = computed(() => [
                 class="flex flex-1 items-start justify-center px-4 pb-8 pt-2 sm:items-center sm:px-6 sm:pb-10 lg:px-10"
             >
                 <div class="w-full max-w-md min-w-0">
-                    <div
-                        class="rounded-2xl bg-white p-5 shadow-xl shadow-slate-200/50 ring-1 ring-slate-200 sm:p-8 dark:bg-slate-900 dark:shadow-none dark:ring-slate-800"
-                    >
+                    <div class="theme-guest-card">
                         <slot />
                     </div>
                 </div>

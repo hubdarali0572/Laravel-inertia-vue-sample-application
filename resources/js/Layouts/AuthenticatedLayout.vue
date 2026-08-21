@@ -141,15 +141,11 @@ const pageTitle = computed(() => {
                     : 'max-lg:-translate-x-full max-lg:rtl:translate-x-full'
             "
         >
-            <div
-                class="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-4 dark:border-slate-700"
-            >
+            <div class="theme-sidebar-brand">
                 <div class="flex items-center gap-3">
-                    <div
-                        class="rounded-lg bg-indigo-600 p-2 shadow-lg shadow-indigo-600/30"
-                    >
+                    <div class="theme-sidebar-logo">
                         <svg
-                            class="h-5 w-5 text-white"
+                            class="h-4 w-4"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                         >
@@ -158,14 +154,13 @@ const pageTitle = computed(() => {
                             ></path>
                         </svg>
                     </div>
-                    <span
-                        class="text-sm font-bold tracking-wide text-slate-800 lg:text-base dark:text-white"
-                        >{{ t("app.name") }}</span
-                    >
+                    <span class="theme-sidebar-brand-name">{{
+                        t("app.name")
+                    }}</span>
                 </div>
                 <button
                     type="button"
-                    class="p-2 text-slate-700 lg:hidden dark:text-white"
+                    class="theme-sidebar-close lg:hidden"
                     @click="isSidebarOpen = false"
                 >
                     <svg
@@ -192,7 +187,7 @@ const pageTitle = computed(() => {
                     <div v-else class="px-2.5">
                         <Link
                             :href="route(item.route)"
-                            class="group mb-0.5 flex items-center rounded-lg px-3 py-2 transition-all duration-200 ease-in-out"
+                            class="theme-sidebar-nav-item"
                             :class="
                                 item.active
                                     ? 'theme-sidebar-nav-active'
@@ -200,7 +195,6 @@ const pageTitle = computed(() => {
                             "
                         >
                             <svg
-                                class="mr-2.5 h-4 w-4 shrink-0 transition-colors duration-200"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -212,9 +206,7 @@ const pageTitle = computed(() => {
                                     stroke-linejoin="round"
                                 />
                             </svg>
-                            <span class="text-sm font-semibold tracking-wide">
-                                {{ item.name }}
-                            </span>
+                            <span>{{ item.name }}</span>
                         </Link>
                     </div>
                 </template>
@@ -231,23 +223,21 @@ const pageTitle = computed(() => {
                 >
                     <div
                         v-if="isProfileMenuOpen"
-                        class="absolute bottom-full left-2 right-2 z-[60] mb-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-700"
+                        class="theme-dropdown-panel absolute bottom-full left-2 right-2 z-[60] mb-1"
                     >
-                        <div
-                            class="border-b border-slate-200 px-2.5 py-1.5 dark:border-slate-600"
-                        >
+                        <div class="theme-dropdown-header">
                             <p
-                                class="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                                class="theme-text-muted text-[9px] font-bold uppercase tracking-wider"
                             >
                                 {{ t("header.signed_in_as") }}
                             </p>
                             <p
-                                class="truncate text-[11px] font-semibold leading-tight text-slate-800 dark:text-white"
+                                class="theme-heading truncate text-[11px] font-semibold leading-tight"
                             >
                                 {{ $page.props.auth.user.name }}
                             </p>
                             <p
-                                class="truncate text-[10px] leading-tight text-slate-500 dark:text-slate-400"
+                                class="theme-text-muted truncate text-[10px] leading-tight"
                             >
                                 {{ $page.props.auth.user.email }}
                             </p>
@@ -256,21 +246,10 @@ const pageTitle = computed(() => {
                         <div class="p-1">
                             <Link
                                 :href="route('profile.edit')"
-                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-semibold transition-colors"
-                                :class="
-                                    isProfileActive()
-                                        ? 'bg-indigo-600 text-white'
-                                        : 'text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200'
-                                "
+                                class="theme-dropdown-item"
+                                :class="{ 'is-active': isProfileActive() }"
                             >
-                                <span
-                                    class="flex h-6 w-6 items-center justify-center rounded"
-                                    :class="
-                                        isProfileActive()
-                                            ? 'bg-indigo-500/40 text-white'
-                                            : 'bg-slate-100 text-indigo-600 dark:bg-slate-600 dark:text-indigo-300'
-                                    "
-                                >
+                                <span class="theme-dropdown-icon">
                                     <svg
                                         class="h-3.5 w-3.5"
                                         fill="none"
@@ -292,11 +271,9 @@ const pageTitle = computed(() => {
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
-                                class="mt-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-semibold text-slate-700 transition-colors hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200"
+                                class="theme-dropdown-item mt-0.5"
                             >
-                                <span
-                                    class="flex h-6 w-6 items-center justify-center rounded bg-slate-100 text-indigo-600 dark:bg-slate-600/70 dark:text-indigo-300"
-                                >
+                                <span class="theme-dropdown-icon">
                                     <svg
                                         class="h-3.5 w-3.5"
                                         fill="none"
@@ -319,31 +296,25 @@ const pageTitle = computed(() => {
 
                 <button
                     type="button"
-                    class="group flex h-full w-full items-center gap-1.5 px-2 transition-colors hover:bg-indigo-500/10"
-                    :class="{
-                        'bg-indigo-500/10': isProfileMenuOpen,
-                    }"
+                    class="theme-sidebar-profile-btn"
+                    :class="{ 'is-open': isProfileMenuOpen }"
                     @click="isProfileMenuOpen = !isProfileMenuOpen"
                 >
-                    <div
-                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[9px] font-bold text-white"
-                    >
+                    <div class="theme-sidebar-avatar">
                         {{ userInitials() }}
                     </div>
-                    <div
-                        class="min-w-0 flex-1 overflow-hidden text-left text-slate-800 dark:text-white"
-                    >
+                    <div class="min-w-0 flex-1 overflow-hidden text-left">
                         <p class="truncate text-[10px] font-semibold leading-none">
                             {{ $page.props.auth.user.name }}
                         </p>
                         <p
-                            class="mt-px truncate text-[9px] capitalize leading-none text-slate-500 dark:text-slate-400"
+                            class="mt-px truncate text-[9px] capitalize leading-none opacity-70"
                         >
                             {{ roleName }}
                         </p>
                     </div>
                     <svg
-                        class="h-3 w-3 shrink-0 text-slate-400 transition-transform duration-200"
+                        class="h-3 w-3 shrink-0 opacity-60 transition-transform duration-200"
                         :class="{ 'rotate-180': isProfileMenuOpen }"
                         fill="none"
                         stroke="currentColor"
@@ -358,13 +329,11 @@ const pageTitle = computed(() => {
 
         <!-- MAIN CONTENT AREA -->
         <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
-            <header
-                class="z-30 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm transition-colors sm:px-5 lg:px-6 dark:border-slate-700 dark:bg-slate-800"
-            >
+            <header class="theme-header">
                 <div class="flex min-w-0 items-center">
                     <button
                         type="button"
-                        class="-ms-2 me-3 p-2 text-gray-500 lg:hidden dark:text-slate-300"
+                        class="theme-header-menu-btn -ms-2 lg:hidden"
                         @click="isSidebarOpen = true"
                     >
                         <svg
@@ -378,9 +347,7 @@ const pageTitle = computed(() => {
                         </svg>
                     </button>
                     <div class="min-w-0">
-                        <h1
-                            class="truncate text-sm font-bold leading-none text-slate-800 lg:text-lg dark:text-slate-100"
-                        >
+                        <h1 class="theme-header-title">
                             {{ pageTitle }}
                         </h1>
                     </div>
@@ -465,9 +432,7 @@ const pageTitle = computed(() => {
             </main>
 
             <footer class="theme-page-footer">
-                <div class="font-bold uppercase tracking-widest">
-                    {{ t("app.footer") }}
-                </div>
+                <div>{{ t("app.footer") }}</div>
             </footer>
         </div>
     </div>

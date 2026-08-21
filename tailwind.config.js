@@ -11,28 +11,29 @@ export default {
 
   theme: {
     extend: {
-      // Custom colors
       colors: {
+        primary: '#001619',
+        accent: '#C7F8FE',
+        background: '#F5FAFA',
+        surface: '#FFFFFF',
+        border: '#DCEBED',
         brand: {
-          DEFAULT: '#4f46e5', // Main brand color
-          dark: '#4338ca',    // Dark version
-          light: '#818cf8',   // Light version
+          DEFAULT: '#001619',
+          dark: '#0a2e32',
+          light: '#C7F8FE',
         },
-
         sidebar: {
-          DEFAULT: '#0f172a', // Sidebar background
-          hover: '#1e293b',   // Hover color
-          border: '#1e293b',  // Border color
+          DEFAULT: '#001619',
+          hover: 'rgba(199, 248, 254, 0.12)',
+          border: 'rgba(220, 235, 237, 0.12)',
         },
       },
 
-      // Default font for the project
       fontFamily: {
         sans: ['Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
     },
   },
 
-  // Add Tailwind plugins here if needed
   plugins: [],
 }

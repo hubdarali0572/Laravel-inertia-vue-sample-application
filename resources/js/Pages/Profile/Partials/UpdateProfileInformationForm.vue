@@ -47,7 +47,7 @@ const isVerified = computed(() => !!user.email_verified_at);
         <div class="space-y-3 p-4">
             <div class="flex items-center gap-3">
                 <div
-                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[11px] font-bold text-white"
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-primary)] text-[11px] font-bold text-[var(--color-on-primary)]"
                 >
                     {{ initials }}
                 </div>
@@ -65,7 +65,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                 </div>
                 <span
                     v-if="isVerified"
-                    class="shrink-0 text-[10px] font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300"
+                    class="theme-accent-text shrink-0 text-[10px] font-semibold uppercase tracking-wide"
                 >
                     {{ t("common.verified") }}
                 </span>
@@ -114,22 +114,22 @@ const isVerified = computed(() => !!user.email_verified_at);
 
                 <div
                     v-if="mustVerifyEmail && user.email_verified_at === null"
-                    class="rounded border border-indigo-200 bg-indigo-50 px-3 py-2 text-[11px] dark:border-indigo-500/30 dark:bg-indigo-500/10"
+                    class="theme-alert text-[11px]"
                 >
-                    <p class="font-medium text-indigo-800 dark:text-indigo-200">
+                    <p class="font-medium">
                         {{ t("profile.unverified") }}
                     </p>
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="mt-1 font-semibold text-indigo-600 dark:text-indigo-300"
+                        class="theme-link mt-1"
                     >
                         {{ t("profile.resend") }}
                     </Link>
                     <p
                         v-show="status === 'verification-link-sent'"
-                        class="mt-1 text-indigo-700 dark:text-indigo-200"
+                        class="theme-text mt-1"
                     >
                         {{ t("profile.link_sent") }}
                     </p>
@@ -144,7 +144,7 @@ const isVerified = computed(() => !!user.email_verified_at);
                     >
                         <p
                             v-if="form.recentlySuccessful"
-                            class="text-[11px] font-medium text-indigo-600 dark:text-indigo-300"
+                            class="theme-link text-[11px]"
                         >
                             {{ t("common.saved") }}
                         </p>

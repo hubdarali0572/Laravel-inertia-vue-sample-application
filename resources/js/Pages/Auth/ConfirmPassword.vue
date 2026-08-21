@@ -36,13 +36,13 @@ const goBack = () => {
         <Head :title="t('auth.confirm_title')" />
 
         <div class="mb-6 text-center sm:mb-8">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 mb-4 dark:bg-indigo-500/15">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-600 dark:text-indigo-300">
+            <div class="theme-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
                 </svg>
             </div>
 
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
+            <h2 class="theme-heading text-xl font-bold tracking-tight sm:text-2xl">
                 {{ t('auth.confirm_title') }}
             </h2>
             <p class="mt-2 text-sm text-slate-500 px-2 dark:text-slate-400">
@@ -68,7 +68,7 @@ const goBack = () => {
 
                     <button
                         type="button"
-                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-indigo-600 transition-colors dark:hover:text-indigo-400"
+                        class="theme-text-muted absolute inset-y-0 right-0 flex items-center pr-3 transition-colors hover:text-[var(--color-heading)]"
                         @click="showPassword = !showPassword"
                     >
                         <svg v-if="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -100,7 +100,7 @@ const goBack = () => {
             <button
                 type="button"
                 @click="goBack"
-                class="text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center dark:text-slate-400 dark:hover:text-indigo-400"
+                class="theme-link inline-flex items-center text-sm"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />

@@ -97,11 +97,11 @@ const { t } = useI18n();
                             <div v-if="badge" class="theme-modal-badge">
                                 <div
                                     v-if="badgeInitial"
-                                    class="w-6 h-6 rounded-full bg-slate-800 text-[10px] text-white flex items-center justify-center font-bold mr-2 uppercase shrink-0"
+                                    class="theme-avatar theme-avatar-sm mr-2 uppercase"
                                 >
                                     {{ badgeInitial }}
                                 </div>
-                                <span class="truncate text-xs font-semibold text-slate-800 dark:text-slate-100">{{ badge }}</span>
+                                <span class="theme-heading truncate text-xs font-semibold">{{ badge }}</span>
                             </div>
 
                             <p class="theme-modal-warning">{{ t('common.irreversible') }}</p>

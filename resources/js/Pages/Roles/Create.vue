@@ -42,7 +42,6 @@ const submit = () => {
                 <h2 class="theme-page-title">
                     {{ t('roles.create_title') }}
                 </h2>
-                <p class="theme-page-subtitle">{{ t('roles.form_subtitle') }}</p>
             </div>
             <Link 
                 :href="route('roles.index')" 

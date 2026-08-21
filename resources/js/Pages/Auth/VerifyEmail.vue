@@ -29,13 +29,13 @@ const verificationLinkSent = computed(
         <Head :title="t('auth.verify_title')" />
 
         <div class="mb-6 text-center sm:mb-8">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 mb-4 dark:bg-indigo-500/15">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-indigo-600 dark:text-indigo-400">
+            <div class="theme-icon-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                 </svg>
             </div>
 
-            <h2 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
+            <h2 class="theme-heading text-xl font-bold tracking-tight sm:text-2xl">
                 {{ t('auth.verify_title') }}
             </h2>
             <p class="mt-3 text-sm text-slate-500 leading-relaxed dark:text-slate-400">
@@ -45,9 +45,9 @@ const verificationLinkSent = computed(
 
         <div
             v-if="verificationLinkSent"
-            class="mb-6 p-4 bg-indigo-50 border border-indigo-200 rounded-xl text-sm font-medium text-indigo-700 flex items-start dark:bg-indigo-500/10 dark:border-indigo-500/30 dark:text-indigo-200"
+            class="theme-alert"
         >
-            <svg class="h-5 w-5 text-indigo-500 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="mr-3 h-5 w-5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             <span>{{ t('auth.verify_sent') }}</span>
@@ -72,7 +72,7 @@ const verificationLinkSent = computed(
                         :href="route('logout')"
                         method="post"
                         as="button"
-                        class="font-semibold text-indigo-600 hover:text-indigo-500 underline underline-offset-4 dark:text-indigo-400"
+                        class="theme-link underline underline-offset-4"
                     >
                         {{ t('header.log_out') }}
                     </Link>

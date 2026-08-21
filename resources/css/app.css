@@ -2,38 +2,141 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   GLOBAL THEME VARIABLES
+   Controls colors, spacing, typography, radius, shadows, etc.
+   Change values here to restyle the entire application.
+   Light Mode = :root    |    Dark Mode = html.dark / .dark
+   ============================================================ */
+
 @layer base {
     :root {
-        --theme-light-bg: #d7dce6;
-        --theme-light-text: #1f2937;
-        --theme-dark-bg: #1f2937;
-        --theme-dark-text: #f8fafc;
-        --theme-content-light-bg: #ffffff;
-        --theme-content-dark-bg: #334155;
-        --theme-page-pad-x: 1.25rem;
-        --theme-page-pad-y: 1.25rem;
-        --theme-control-height: 2.5rem;
-        --theme-control-radius: 0.5rem;
-        --theme-control-gap: 0.5rem;
+        /* Brand — Thin Air (#C7F8FE) + Blue Charcoal (#001619) */
+        --color-primary: #001619;
+        --color-accent: #c7f8fe;
+        --color-background: #ffffff;
+        --color-surface: #ffffff;
+        --color-text: #001619;
+        --color-heading: #001619;
+        --color-text-muted: #3d5558;
+        --color-text-disabled: #7a9598;
+        --color-border: rgba(0, 22, 25, 0.08);
+        --color-on-primary: #c7f8fe;
+        --color-on-accent: #001619;
+
+        /* Surfaces & chrome — light mode stays light, not charcoal */
+        --color-sidebar: #ffffff;
+        --color-sidebar-border: rgba(0, 22, 25, 0.08);
+        --color-sidebar-text: #001619;
+        --color-sidebar-text-muted: #3d5558;
+        --color-sidebar-hover: #c7f8fe;
+        --color-sidebar-active: #c7f8fe;
+        --color-sidebar-active-text: #001619;
+        --color-header: #ffffff;
+        --color-footer: #ffffff;
+        --color-footer-text: #001619;
+        --color-input-bg: #ffffff;
+        --color-row-hover: #c7f8fe;
+        --color-row-stripe: #f5fafa;
+        --color-table-header: var(--color-accent);
+        --color-table-header-text: var(--color-on-accent);
+        --color-table-footer: var(--color-sidebar);
+        --color-table-footer-text: var(--color-sidebar-text);
+        --color-overlay: rgba(0, 22, 25, 0.45);
+        --color-btn-primary-hover: #0a2e32;
+        --color-placeholder: #5f7c80;
+        --color-focus: #c7f8fe;
+        --color-danger: #7a3b3b;
+        --color-danger-bg: #f6ecec;
+        --color-success-bg: #c7f8fe;
+        --color-success-text: #001619;
+        --color-badge-bg: #c7f8fe;
+        --color-badge-text: #001619;
+
+        /* Shape & spacing */
+        --radius-sm: 6px;
+        --radius-md: 8px;
+        --radius-btn: 8px;
+        --spacing-page: 24px;
+        --spacing-card: 20px;
+        --control-height: 2.25rem;
+        --control-height-sm: 1.75rem;
+        --header-height: 3rem;
+        --footer-height: 2.5rem;
+        --sidebar-width: 15rem;
+        --font-page-title: 1.375rem;
+        --font-section: 1.0625rem;
+        --font-body: 0.875rem;
+        --font-table: 0.8125rem;
+        --font-helper: 0.75rem;
+        --shadow-card: 0 1px 2px rgba(0, 22, 25, 0.05);
+        --shadow-modal: 0 10px 30px rgba(0, 22, 25, 0.16);
+        --focus-ring: 0 0 0 3px var(--color-accent);
+        --icon-size: 1rem;
+        --icon-gap: 0.5rem;
+        --color-scheme: light;
+    }
+
+    .dark {
+        --color-primary: #001619;
+        --color-accent: #c7f8fe;
+        --color-background: #0b1719;
+        --color-surface: #122326;
+        --color-text: #f5fafa;
+        --color-heading: #f5fafa;
+        --color-text-muted: #b5c5c7;
+        --color-text-disabled: #6b8083;
+        --color-border: rgba(199, 248, 254, 0.12);
+        --color-on-primary: #c7f8fe;
+        --color-on-accent: #001619;
+
+        --color-sidebar: #122326;
+        --color-sidebar-border: rgba(199, 248, 254, 0.12);
+        --color-sidebar-text: #c7f8fe;
+        --color-sidebar-text-muted: #8eb8bc;
+        --color-sidebar-hover: rgba(199, 248, 254, 0.1);
+        --color-sidebar-active: #c7f8fe;
+        --color-sidebar-active-text: #001619;
+        --color-header: #122326;
+        --color-footer: #122326;
+        --color-footer-text: #c7f8fe;
+        --color-input-bg: #163033;
+        --color-row-hover: rgba(199, 248, 254, 0.08);
+        --color-row-stripe: #102022;
+        --color-table-header: var(--color-accent);
+        --color-table-header-text: var(--color-on-accent);
+        --color-table-footer: var(--color-sidebar);
+        --color-table-footer-text: var(--color-sidebar-text);
+        --color-overlay: rgba(0, 0, 0, 0.62);
+        --color-btn-primary-hover: #0a2e32;
+        --color-placeholder: #7d9396;
+        --color-focus: #c7f8fe;
+        --color-danger: #e8b4b4;
+        --color-danger-bg: #2a1c1c;
+        --color-success-bg: rgba(199, 248, 254, 0.12);
+        --color-success-text: #c7f8fe;
+        --color-badge-bg: #163033;
+        --color-badge-text: #f5fafa;
+
+        --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
+        --shadow-modal: 0 12px 32px rgba(0, 0, 0, 0.5);
+        --color-scheme: dark;
     }
 
     html {
         overflow-x: hidden;
         max-width: 100%;
+        color-scheme: var(--color-scheme);
     }
 
     body {
         @apply antialiased;
-        background-color: var(--theme-light-bg);
-        color: var(--theme-light-text);
+        background-color: var(--color-background);
+        color: var(--color-text);
+        font-size: var(--font-body);
         overflow-x: hidden;
         max-width: 100%;
         position: relative;
-    }
-
-    .dark body {
-        background-color: var(--theme-dark-bg);
-        color: var(--theme-dark-text);
     }
 
     /* Keep Google reCAPTCHA within narrow mobile viewports */
@@ -41,305 +144,1913 @@
     .g-recaptcha > div {
         max-width: 100%;
     }
+
+    option {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+    }
 }
+
+/* ============================================================
+   SHARED TEXT / SURFACE UTILITIES
+   Controls common readable text, muted copy, and surfaces
+   used across modules instead of hardcoded Tailwind colors.
+   ============================================================ */
 
 @layer components {
     .theme-app-bg {
-        background-color: var(--theme-light-bg);
-        color: var(--theme-light-text);
-    }
-
-    .dark .theme-app-bg {
-        background-color: var(--theme-dark-bg);
-        color: var(--theme-dark-text);
+        background-color: var(--color-background);
+        color: var(--color-text);
     }
 
     .theme-content-bg {
-        background-color: var(--theme-content-light-bg);
+        background-color: var(--color-background);
+        color: var(--color-text);
     }
 
-    .dark .theme-content-bg {
-        background-color: var(--theme-content-dark-bg);
+    .theme-text {
+        color: var(--color-text);
     }
 
-    /* Shared page shell — applied by the authenticated layout for every module */
-    .theme-page-shell {
-        @apply mx-auto w-full min-w-0 max-w-full px-4 py-5 sm:px-5 lg:px-6 lg:py-6;
+    .theme-heading {
+        color: var(--color-heading);
     }
 
-    .theme-page-header {
-        @apply mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+    .theme-text-muted {
+        color: var(--color-text-muted);
     }
 
-    .theme-page-title {
-        @apply text-xl font-bold tracking-tight text-slate-800 dark:text-slate-100;
+    .theme-text-disabled {
+        color: var(--color-text-disabled);
     }
 
-    .theme-page-subtitle {
-        @apply mt-0.5 text-sm font-medium text-slate-500 dark:text-slate-400;
+    .theme-surface {
+        background-color: var(--color-surface);
+        color: var(--color-text);
     }
 
-    .theme-page-actions {
-        @apply flex shrink-0 flex-wrap items-center gap-2;
+    .theme-border {
+        border-color: var(--color-border);
     }
 
-    .theme-form-actions {
-        @apply flex flex-wrap items-center justify-end gap-2 pt-1;
+    .theme-icon-brand {
+        fill: var(--color-primary);
+        color: var(--color-primary);
     }
 
-    /* Sidebar */
+    .dark .theme-icon-brand {
+        fill: var(--color-accent);
+        color: var(--color-accent);
+    }
+
+    .theme-link {
+        font-weight: 600;
+        color: var(--color-heading);
+        transition: color 0.15s ease;
+    }
+
+    .theme-link:hover {
+        color: var(--color-text-muted);
+    }
+
+    .theme-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        margin: 0 auto 1rem;
+        border-radius: var(--radius-md);
+        background-color: var(--color-background);
+        color: var(--color-heading);
+    }
+
+    .theme-alert {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-success-bg);
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-success-text);
+    }
+
+    .theme-accent-text {
+        color: var(--color-heading);
+    }
+
+    .dark .theme-accent-text {
+        color: var(--color-accent);
+    }
+
+    /* ============================================================
+       SIDEBAR
+       Controls sidebar background, menu items, icons,
+       active state, hover state, dropdowns, and spacing.
+       ============================================================ */
+
     .theme-sidebar {
-        @apply border-r border-slate-200 bg-slate-100 text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100;
+        background-color: var(--color-sidebar);
+        color: var(--color-sidebar-text);
+        border-right: 1px solid var(--color-sidebar-border);
     }
 
-    .theme-sidebar-nav-active {
-        @apply bg-indigo-600 text-white shadow-md shadow-indigo-600/25;
+    [dir="rtl"] .theme-sidebar {
+        border-right: 0;
+        border-left: 1px solid var(--color-sidebar-border);
     }
 
-    .theme-sidebar-nav-inactive {
-        @apply text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-300 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200;
+    .theme-sidebar-brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        height: var(--header-height);
+        padding: 0 1rem;
+        border-bottom: 1px solid var(--color-sidebar-border);
+    }
+
+    .theme-sidebar-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: var(--radius-sm);
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-sidebar-logo svg {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+
+    .theme-sidebar-brand-name {
+        font-size: 0.8125rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1;
+        color: var(--color-sidebar-text);
+    }
+
+    .theme-sidebar-close {
+        padding: 0.375rem;
+        color: var(--color-sidebar-text);
     }
 
     .theme-sidebar-category {
-        @apply text-slate-500 dark:text-slate-400;
+        padding: 0.75rem 1.125rem 0.375rem;
+        font-size: 0.625rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--color-sidebar-text-muted);
+    }
+
+    .theme-sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        margin-bottom: 0.125rem;
+        padding: 0.4375rem 0.75rem;
+        border-radius: var(--radius-md);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1.25;
+        color: var(--color-sidebar-text);
+        text-decoration: none;
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .theme-sidebar-nav-item svg {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        flex-shrink: 0;
+    }
+
+    .theme-sidebar-nav-inactive {
+        color: var(--color-sidebar-text);
+    }
+
+    .theme-sidebar-nav-inactive:hover {
+        background-color: var(--color-sidebar-hover);
+        color: var(--color-sidebar-text);
+    }
+
+    .theme-sidebar-nav-inactive:hover svg {
+        color: var(--color-sidebar-text);
+    }
+
+    .theme-sidebar-nav-active {
+        background-color: var(--color-sidebar-active);
+        color: var(--color-sidebar-active-text);
+    }
+
+    .theme-sidebar-nav-active svg {
+        color: var(--color-sidebar-active-text);
     }
 
     .theme-sidebar-footer {
-        @apply h-10 border-t border-slate-200 bg-slate-100/95 dark:border-slate-700 dark:bg-slate-800/95;
+        position: relative;
+        flex-shrink: 0;
+        height: var(--footer-height);
+        border-top: 1px solid var(--color-sidebar-border);
+        background-color: var(--color-sidebar);
     }
 
-    .theme-page-footer {
-        @apply flex h-10 shrink-0 items-center justify-center border-t border-slate-200 bg-white px-4 text-center text-[10px] leading-none text-slate-500 sm:px-5 lg:px-6 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-500;
+    .theme-sidebar-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        width: 100%;
+        height: 100%;
+        padding: 0 0.5rem;
+        color: var(--color-sidebar-text);
+        transition: background-color 0.15s ease;
     }
 
-    /* Tables */
-    .theme-table-card {
-        @apply overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-800;
+    .theme-sidebar-profile-btn:hover,
+    .theme-sidebar-profile-btn.is-open {
+        background-color: var(--color-sidebar-hover);
     }
 
-    .theme-table-wrap {
-        @apply w-full max-w-full overflow-x-auto;
+    .theme-sidebar-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        flex-shrink: 0;
+        border-radius: 9999px;
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+        font-size: 9px;
+        font-weight: 700;
     }
 
-    .theme-table {
-        @apply w-full min-w-max border-collapse text-left;
+    .theme-dropdown-panel {
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-modal);
+        color: var(--color-text);
     }
 
-    .theme-table-header {
-        @apply border-b border-indigo-100 bg-indigo-50 dark:border-indigo-400/20 dark:bg-indigo-500/10;
+    .theme-dropdown-header {
+        padding: 0.375rem 0.625rem;
+        border-bottom: 1px solid var(--color-border);
     }
 
-    .theme-table-header-cell {
-        @apply whitespace-nowrap px-4 py-1.5 text-left text-xs font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-200;
+    .theme-dropdown-item {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: var(--radius-sm);
+        padding: 0.375rem 0.5rem;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--color-text);
+        text-align: start;
+        transition: background-color 0.15s ease, color 0.15s ease;
     }
 
-    .theme-table-cell {
-        @apply whitespace-nowrap px-4 py-1 align-middle text-sm text-slate-700 dark:text-slate-200;
+    .theme-dropdown-item:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
-    .theme-table-cell-wrap {
-        @apply whitespace-normal break-words align-top;
+    .theme-dropdown-item.is-active {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
-    .theme-table-row {
-        @apply transition-colors hover:bg-indigo-50/60 dark:hover:bg-indigo-500/10;
+    .theme-dropdown-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: var(--radius-sm);
+        background-color: var(--color-background);
+        color: var(--color-heading);
     }
 
-    .theme-table-card tbody .theme-table-row:nth-child(odd) {
-        @apply bg-white dark:bg-slate-800;
+    .theme-dropdown-item.is-active .theme-dropdown-icon {
+        background-color: rgba(0, 22, 25, 0.12);
+        color: var(--color-on-accent);
     }
 
-    .theme-table-card tbody .theme-table-row:nth-child(even) {
-        @apply bg-indigo-50/70 dark:bg-indigo-500/10;
+    /* ============================================================
+       NAVBAR / HEADER
+       Controls the top navigation/header styling.
+       ============================================================ */
+
+    .theme-header {
+        z-index: 30;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: space-between;
+        height: var(--header-height);
+        padding: 0 1rem;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-header);
+        color: var(--color-text);
     }
 
-    .theme-table-footer {
-        @apply flex flex-row flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-slate-200 bg-indigo-50 px-4 py-1 dark:border-indigo-400/20 dark:bg-indigo-500/10;
+    .theme-header-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-heading);
     }
 
-    .theme-table-footer-meta {
-        @apply text-[10px] font-bold uppercase leading-none tracking-widest text-indigo-700 dark:text-slate-400;
+    .theme-header-menu-btn {
+        margin-inline-end: 0.5rem;
+        padding: 0.375rem;
+        color: var(--color-text-muted);
     }
+
+    .theme-header-control {
+        display: inline-flex;
+        height: 1.75rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-input-bg);
+        padding: 0 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+        transition: background-color 0.15s ease, border-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    .theme-header-control:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-header-control:hover svg {
+        color: var(--color-on-accent);
+    }
+
+    .theme-header-control:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    .theme-header-control-icon {
+        width: 1.75rem;
+        padding: 0;
+    }
+
+    .theme-lang-btn {
+        display: inline-flex;
+        height: 100%;
+        min-width: 2.25rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0 0.625rem;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        color: var(--color-text-muted);
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .theme-lang-btn:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-lang-btn.is-active {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ============================================================
+       MAIN CONTENT
+       Controls the main page container, page spacing,
+       margins, padding, and overall content layout.
+       ============================================================ */
+
+    .theme-page-shell {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        padding: 1.25rem 1rem 1.5rem;
+    }
+
+    /* ============================================================
+       PAGE HEADER
+       Controls page title, subtitle, and right-aligned actions.
+       ============================================================ */
+
+    .theme-page-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .theme-page-title {
+        font-size: var(--font-page-title);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: var(--color-heading);
+    }
+
+    .theme-page-subtitle {
+        margin-top: 0.125rem;
+        font-size: var(--font-helper);
+        font-weight: 500;
+        color: var(--color-text-muted);
+    }
+
+    .theme-page-actions {
+        display: flex;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .theme-form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding-top: 0.5rem;
+    }
+
+    /* ============================================================
+       BUTTONS
+       Controls all primary, secondary, action, edit,
+       delete, save, cancel, and other buttons.
+       ============================================================ */
+
+    .theme-btn,
+    .theme-btn-primary,
+    .theme-btn-secondary,
+    .theme-btn-accent,
+    .theme-btn-danger,
+    .theme-btn-ghost {
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+        height: var(--control-height);
+        min-width: 7.5rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        border-radius: var(--radius-btn);
+        padding: 0 1.125rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+        box-sizing: border-box;
+        transition: background-color 0.15s ease, border-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    .theme-btn:focus,
+    .theme-btn-primary:focus,
+    .theme-btn-secondary:focus,
+    .theme-btn-accent:focus,
+    .theme-btn-danger:focus,
+    .theme-btn-ghost:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    .theme-btn:active,
+    .theme-btn-primary:active,
+    .theme-btn-secondary:active,
+    .theme-btn-accent:active,
+    .theme-btn-danger:active {
+        opacity: 0.92;
+    }
+
+    .theme-btn:disabled,
+    .theme-btn-primary:disabled,
+    .theme-btn-secondary:disabled,
+    .theme-btn-danger:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    .theme-btn svg,
+    .theme-btn-primary svg,
+    .theme-btn-secondary svg,
+    .theme-btn-accent svg,
+    .theme-btn-danger svg,
+    .theme-btn-ghost svg {
+        width: 0.875rem;
+        height: 0.875rem;
+        flex-shrink: 0;
+        color: currentColor;
+    }
+
+    .theme-btn-primary {
+        border: 1px solid var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
+    }
+
+    .theme-btn-accent {
+        border: 1px solid var(--color-accent);
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-btn-secondary {
+        border: 1px solid rgba(0, 22, 25, 0.22);
+        background-color: var(--color-surface);
+        color: var(--color-text);
+    }
+
+    .theme-btn-danger {
+        border: 1px solid var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
+    }
+
+    .theme-btn-ghost {
+        border: 1px solid transparent;
+        background-color: transparent;
+        color: var(--color-text-muted);
+        min-width: 0;
+    }
+
+    .dark .theme-btn-primary,
+    .dark .theme-btn-danger {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+    }
+
+    .dark .theme-btn-secondary {
+        border-color: rgba(199, 248, 254, 0.45);
+        color: var(--color-heading);
+    }
+
+    a.theme-btn-primary:hover,
+    button.theme-btn-primary:hover,
+    .theme-btn-primary:hover,
+    a.theme-btn-secondary:hover,
+    button.theme-btn-secondary:hover,
+    .theme-btn-secondary:hover,
+    .theme-btn-accent:hover,
+    .theme-btn-ghost:hover,
+    .theme-btn-danger:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+        filter: none;
+    }
+
+    a.theme-btn-primary:hover svg,
+    button.theme-btn-primary:hover svg,
+    .theme-btn-primary:hover svg,
+    a.theme-btn-secondary:hover svg,
+    button.theme-btn-secondary:hover svg,
+    .theme-btn-secondary:hover svg,
+    .theme-btn-accent:hover svg,
+    .theme-btn-ghost:hover svg,
+    .theme-btn-danger:hover svg {
+        color: var(--color-on-accent);
+        stroke: currentColor;
+    }
+
+    /* ============================================================
+       ACTION BUTTONS
+       Controls compact table row actions (view / edit / delete).
+       ============================================================ */
 
     .theme-table-actions {
-        @apply inline-flex items-center justify-end gap-1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.25rem;
     }
 
     .theme-table-action-btn {
-        @apply inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:ring-offset-1 active:scale-95;
+        display: inline-flex;
+        width: 1.75rem;
+        height: 1.75rem;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--color-border);
+        transition: background-color 0.15s ease, border-color 0.15s ease,
+            color 0.15s ease, transform 0.1s ease;
+    }
+
+    .theme-table-action-btn:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    .theme-table-action-btn:active {
+        transform: scale(0.95);
+    }
+
+    .theme-table-action-btn svg {
+        width: 0.875rem;
+        height: 0.875rem;
     }
 
     .theme-table-action-edit,
     .theme-table-action-view {
-        @apply border-indigo-200 bg-indigo-50 text-indigo-600 hover:border-indigo-600 hover:bg-indigo-600 hover:text-white focus:ring-indigo-500/40 dark:border-indigo-400/30 dark:bg-indigo-500/10 dark:text-indigo-300;
+        background-color: var(--color-background);
+        color: var(--color-heading);
+    }
+
+    a.theme-table-action-edit:hover,
+    button.theme-table-action-edit:hover,
+    a.theme-table-action-view:hover,
+    button.theme-table-action-view:hover,
+    .theme-table-action-edit:hover,
+    .theme-table-action-view:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    a.theme-table-action-edit:hover svg,
+    button.theme-table-action-edit:hover svg,
+    a.theme-table-action-view:hover svg,
+    button.theme-table-action-view:hover svg,
+    .theme-table-action-edit:hover svg,
+    .theme-table-action-view:hover svg {
+        color: var(--color-on-accent);
+        stroke: currentColor;
     }
 
     .theme-table-action-delete {
-        @apply border-slate-200 bg-slate-100 text-slate-600 hover:border-indigo-600 hover:bg-indigo-600 hover:text-white focus:ring-indigo-500/30 dark:border-slate-600 dark:bg-slate-700/80 dark:text-slate-200;
+        background-color: var(--color-surface);
+        color: var(--color-text-muted);
     }
 
-    /* Buttons — shared height, padding, radius, type, and icon gap */
-    .theme-btn {
-        @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-semibold leading-none transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:ring-offset-1 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-slate-900;
+    .theme-table-action-delete:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
-    .theme-btn-primary {
-        @apply theme-btn border border-transparent bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 hover:bg-indigo-700;
+    .theme-table-action-delete:hover svg {
+        color: var(--color-on-accent);
+        stroke: currentColor;
     }
 
-    .theme-btn-secondary {
-        @apply theme-btn border border-slate-200 bg-white text-slate-700 hover:border-indigo-200 hover:bg-indigo-50/60 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-indigo-400/30 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300;
-    }
+    /* ============================================================
+       FORMS / INPUTS
+       Controls input fields, select boxes, labels,
+       validation messages, and form layouts.
+       ============================================================ */
 
-    .theme-btn-danger {
-        @apply theme-btn border border-transparent bg-indigo-600 text-white shadow-sm shadow-indigo-600/20 hover:bg-indigo-700;
-    }
-
-    .theme-btn-ghost {
-        @apply theme-btn border border-transparent bg-transparent text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700;
-    }
-
-    .theme-header-control {
-        @apply inline-flex h-9 items-center justify-center gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-2.5 text-xs font-semibold text-slate-600 transition-colors hover:bg-indigo-50 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300;
-    }
-
-    .theme-header-control-icon {
-        @apply w-9 px-0;
-    }
-
-    /* Pagination */
-    .theme-pagination-active {
-        @apply border-indigo-600 bg-indigo-600 text-white shadow-sm;
-    }
-
-    .theme-pagination-inactive {
-        @apply border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700;
-    }
-
-    .theme-pagination-btn {
-        @apply inline-flex h-6 min-w-[24px] items-center justify-center whitespace-nowrap rounded border px-1.5 text-[11px] font-bold leading-none transition-all duration-200;
-    }
-
-    /* Forms */
     .theme-form-card {
-        @apply overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-800;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-card);
+        color: var(--color-text);
     }
 
     .theme-form-body {
-        @apply p-5 sm:p-6;
+        padding: var(--spacing-card);
     }
 
     .theme-form-label {
-        @apply mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300;
+        display: block;
+        margin-bottom: 0.375rem;
+        font-size: var(--font-helper);
+        font-weight: 600;
+        color: var(--color-text);
     }
 
     .theme-form-input {
-        @apply block w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-800 placeholder:text-slate-400 transition-all focus:bg-white focus:!border-indigo-500 focus:!ring-4 focus:!ring-indigo-500/10 dark:border-slate-600 dark:bg-slate-700/60 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:bg-slate-700;
+        display: block;
+        width: 100%;
+        height: var(--control-height);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-input-bg);
+        padding: 0 0.75rem;
+        font-size: var(--font-body);
+        font-weight: 500;
+        color: var(--color-text);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease,
+            background-color 0.15s ease;
+    }
+
+    .theme-form-input::placeholder {
+        color: var(--color-placeholder);
+    }
+
+    .theme-form-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        background-color: var(--color-surface);
+        box-shadow: var(--focus-ring);
+    }
+
+    textarea.theme-form-input {
+        height: auto;
+        min-height: 6rem;
+        padding: 0.5rem 0.75rem;
     }
 
     .theme-form-select {
-        @apply flex w-full cursor-pointer items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 transition-all hover:border-indigo-200 dark:border-slate-600 dark:bg-slate-700/60 dark:hover:border-indigo-400/30;
+        display: flex;
+        width: 100%;
+        height: var(--control-height);
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-input-bg);
+        padding: 0 0.75rem;
+        color: var(--color-text);
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .theme-form-select:hover {
+        border-color: var(--color-primary);
     }
 
     .theme-form-select-open {
-        @apply border-indigo-500 bg-white ring-4 ring-indigo-500/10 dark:bg-slate-700;
+        border-color: var(--color-primary);
+        background-color: var(--color-surface);
+        box-shadow: var(--focus-ring);
     }
 
     .theme-form-back-link {
-        @apply inline-flex h-10 items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 transition-colors hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400;
+        display: inline-flex;
+        height: var(--control-height);
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: var(--radius-sm);
+        padding: 0 0.5rem;
+        font-size: var(--font-helper);
+        font-weight: 600;
+        color: var(--color-heading);
+        transition: color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .theme-form-back-link svg {
+        color: currentColor;
+        stroke: currentColor;
+    }
+
+    .theme-form-back-link:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
     .theme-form-checkbox {
-        @apply cursor-pointer rounded border-slate-300 text-indigo-600 transition-all focus:ring-indigo-500 dark:border-slate-600 dark:bg-slate-700;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        border-color: var(--color-border);
+        color: var(--color-primary);
+        accent-color: var(--color-primary);
+        background-color: var(--color-input-bg);
+    }
+
+    .theme-form-checkbox:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
     }
 
     .theme-form-section-header {
-        @apply border-b border-indigo-100 bg-indigo-50 px-5 py-3.5 dark:border-indigo-400/20 dark:bg-indigo-500/10 sm:px-6;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-background);
+        padding: 0.75rem 1.25rem;
     }
 
     .theme-form-section-title {
-        @apply text-xs font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-200;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--color-heading);
     }
 
-    /* Modals */
+    .theme-form-error {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--color-danger);
+    }
+
+    .theme-form-helper {
+        font-size: var(--font-helper);
+        color: var(--color-text-muted);
+    }
+
+    .theme-dropdown {
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-card);
+    }
+
+    .theme-dropdown-search {
+        padding: 0.5rem;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-background);
+    }
+
+    .theme-dropdown-option {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0.875rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .theme-dropdown-option:hover,
+    .theme-dropdown-option.is-selected {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-filter-bar {
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    /* ============================================================
+       TABLES
+       Controls table headers, rows, cells, spacing,
+       responsive behavior, and action columns.
+       ============================================================ */
+
+    .theme-table-card {
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-card);
+    }
+
+    .theme-table-wrap {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-border) transparent;
+    }
+
+    .theme-table-wrap::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .theme-table-wrap::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .theme-table-wrap::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 9999px;
+    }
+
+    .theme-table {
+        width: 100%;
+        min-width: max-content;
+        border-collapse: collapse;
+        text-align: start;
+        font-size: var(--font-table);
+        color: var(--color-text);
+    }
+
+    .theme-table-header {
+        background-color: var(--color-table-header);
+        color: var(--color-table-header-text);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .theme-table-header-cell {
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+        text-align: start;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        background-color: var(--color-table-header);
+        color: var(--color-table-header-text);
+    }
+
+    .theme-table-cell {
+        white-space: nowrap;
+        padding: 0.4375rem 1rem;
+        vertical-align: middle;
+        text-align: start;
+        font-size: var(--font-table);
+        color: var(--color-text);
+    }
+
+    .theme-table-cell-wrap {
+        white-space: normal;
+        overflow-wrap: break-word;
+        vertical-align: top;
+    }
+
+    .theme-table-row {
+        background-color: var(--color-surface);
+    }
+
+    .theme-table-card tbody .theme-table-row:nth-child(even) {
+        background-color: var(--color-surface);
+    }
+
+    .theme-table-empty {
+        padding: 2.5rem 1rem;
+        text-align: center;
+        font-weight: 500;
+        color: var(--color-text-muted);
+        white-space: normal;
+    }
+
+    .theme-table-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem 0.75rem;
+        border-top: 1px solid var(--color-border);
+        background-color: var(--color-table-footer);
+        padding: 0.375rem 1rem;
+    }
+
+    .theme-table-footer-meta {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--color-table-footer-text);
+    }
+
+    .theme-table-divide > tr {
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .theme-table-divide > tr:last-child {
+        border-bottom: 0;
+    }
+
+    .theme-avatar {
+        display: flex;
+        height: 2.25rem;
+        width: 2.25rem;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 9999px;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-background);
+        color: var(--color-text-muted);
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .theme-avatar-sm {
+        height: 1.5rem;
+        width: 1.5rem;
+        font-size: 9px;
+    }
+
+    /* ============================================================
+       CARDS
+       Controls dashboard cards and common content cards.
+       ============================================================ */
+
+    .theme-card {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-card);
+        padding: var(--spacing-card);
+        color: var(--color-text);
+    }
+
+    .theme-stat-card {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-card);
+        padding: 1.125rem 1.25rem;
+    }
+
+    .theme-stat-label {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+    }
+
+    .theme-stat-value {
+        margin-top: 0.375rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: var(--color-heading);
+    }
+
+    .theme-stat-meta {
+        margin-top: 0.25rem;
+        font-size: var(--font-helper);
+        color: var(--color-text-muted);
+    }
+
+    .theme-stat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        flex-shrink: 0;
+        border-radius: var(--radius-md);
+        background-color: var(--color-background);
+        color: var(--color-heading);
+    }
+
+    .theme-welcome {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        padding: 1.25rem 1.5rem;
+        color: var(--color-text);
+        box-shadow: var(--shadow-card);
+    }
+
+    .theme-welcome-title {
+        font-size: var(--font-page-title);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--color-heading);
+    }
+
+    .theme-welcome-text {
+        margin-top: 0.5rem;
+        max-width: 36rem;
+        font-size: var(--font-body);
+        line-height: 1.55;
+        color: var(--color-text-muted);
+    }
+
+    .theme-quick-action {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background-color: var(--color-surface);
+        padding: 1rem 1.125rem;
+        color: var(--color-text);
+        transition: background-color 0.15s ease;
+    }
+
+    .theme-quick-action:hover {
+        background-color: var(--color-row-hover);
+    }
+
+    .theme-quick-action-icon {
+        display: flex;
+        height: 2.5rem;
+        width: 2.5rem;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        background-color: var(--color-background);
+        color: var(--color-heading);
+    }
+
+    .theme-quick-action:hover .theme-quick-action-icon {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ============================================================
+       MODALS
+       Controls modal size, spacing, header, body,
+       footer, buttons, and responsive behavior.
+       ============================================================ */
+
     .theme-modal-overlay {
-        @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
     }
 
     .theme-modal-backdrop {
-        @apply fixed inset-0 bg-slate-900/40 backdrop-blur-sm;
+        position: fixed;
+        inset: 0;
+        background-color: var(--color-overlay);
     }
 
     .theme-modal-panel {
-        @apply relative z-10 w-[20rem] max-w-[calc(100vw-2rem)] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800;
+        position: relative;
+        z-index: 10;
+        width: 20rem;
+        max-width: calc(100vw - 2rem);
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-surface);
+        box-shadow: var(--shadow-modal);
+        color: var(--color-text);
     }
 
     .theme-modal-header {
-        @apply flex items-center justify-between gap-3 border-b border-indigo-100 bg-indigo-50 px-3.5 py-2 dark:border-indigo-400/20 dark:bg-indigo-500/10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-background);
+        padding: 0.5rem 0.875rem;
     }
 
     .theme-modal-title {
-        @apply truncate text-[11px] font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-200;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        color: var(--color-heading);
     }
 
     .theme-modal-close {
-        @apply rounded p-0.5 text-slate-400 transition-colors hover:bg-indigo-100 hover:text-indigo-700 dark:text-slate-300 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200;
+        border-radius: var(--radius-sm);
+        padding: 0.125rem;
+        color: var(--color-text-muted);
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .theme-modal-close:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
     .theme-modal-body {
-        @apply px-3.5 py-3.5 text-center;
+        padding: 0.875rem;
+        text-align: center;
     }
 
     .theme-modal-icon {
-        @apply mx-auto mb-2.5 flex h-9 w-9 items-center justify-center rounded-full;
+        display: flex;
+        width: 2.25rem;
+        height: 2.25rem;
+        margin: 0 auto 0.625rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
     }
 
-    .theme-modal-icon-danger {
-        @apply bg-indigo-100 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300;
-    }
-
+    .theme-modal-icon-danger,
     .theme-modal-icon-warning {
-        @apply bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-200;
+        background-color: var(--color-background);
+        color: var(--color-heading);
     }
 
     .theme-modal-message {
-        @apply text-[13px] font-medium leading-snug text-slate-600 dark:text-slate-300;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.45;
+        color: var(--color-text-muted);
     }
 
     .theme-modal-badge {
-        @apply mt-2.5 inline-flex max-w-full items-center rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 dark:border-slate-700 dark:bg-slate-900/60;
+        display: inline-flex;
+        max-width: 100%;
+        align-items: center;
+        margin-top: 0.625rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-background);
+        padding: 0.25rem 0.625rem;
+        color: var(--color-text);
     }
 
     .theme-modal-warning {
-        @apply mt-2 text-[10px] font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-300;
+        margin-top: 0.5rem;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: var(--color-text-muted);
     }
 
     .theme-modal-footer {
-        @apply grid grid-cols-2 gap-2 border-t border-slate-200 bg-slate-50 px-3.5 py-2.5 dark:border-slate-700 dark:bg-slate-800/60;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        border-top: 1px solid var(--color-border);
+        background-color: var(--color-background);
+        padding: 0.625rem 0.875rem;
     }
 
     .theme-modal-btn-cancel,
     .theme-modal-btn-danger {
-        @apply inline-flex h-9 w-full items-center justify-center rounded-md px-2 text-xs font-semibold leading-none transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40 active:scale-[0.98];
+        display: inline-flex;
+        height: 2.25rem;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-sm);
+        padding: 0 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1;
+        transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .theme-modal-btn-cancel:focus,
+    .theme-modal-btn-danger:focus {
+        outline: none;
+        box-shadow: var(--focus-ring);
+    }
+
+    .theme-modal-btn-cancel:active,
+    .theme-modal-btn-danger:active {
+        transform: scale(0.98);
     }
 
     .theme-modal-btn-cancel {
-        @apply border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-surface);
+        color: var(--color-text);
+    }
+
+    .theme-modal-btn-cancel:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
     }
 
     .theme-modal-btn-danger {
-        @apply border border-transparent bg-indigo-600 text-white hover:bg-indigo-700;
+        border: 1px solid transparent;
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
+    }
+
+    .theme-modal-btn-danger:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ============================================================
+       TABS
+       Controls compact tab bars and the active/inactive states.
+       ============================================================ */
+
+    .theme-tabs {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-background);
+        padding: 0.25rem;
+    }
+
+    .theme-tab {
+        display: inline-flex;
+        height: 1.875rem;
+        align-items: center;
+        border-radius: var(--radius-sm);
+        padding: 0 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+        background-color: transparent;
+    }
+
+    .theme-tab:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-tab.is-active,
+    .theme-tab-active {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ============================================================
+       PAGINATION
+       Controls pagination buttons, active state,
+       spacing, and responsive behavior.
+       ============================================================ */
+
+    .theme-pagination-btn {
+        display: inline-flex;
+        height: 1.5rem;
+        min-width: 24px;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--color-border);
+        padding: 0 0.375rem;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1;
+        transition: background-color 0.15s ease, border-color 0.15s ease,
+            color 0.15s ease;
+    }
+
+    .theme-pagination-active {
+        border-color: var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-on-primary);
+    }
+
+    .theme-pagination-inactive {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+    }
+
+    .theme-pagination-inactive:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-pagination-disabled {
+        cursor: not-allowed;
+        background-color: var(--color-surface);
+        border-color: var(--color-border);
+        color: var(--color-text-disabled);
+    }
+
+    /* ============================================================
+       STATUS BADGES
+       Controls compact status chips used in tables and forms.
+       ============================================================ */
+
+    .theme-badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--radius-sm);
+        background-color: var(--color-badge-bg);
+        padding: 0.125rem 0.5rem;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--color-badge-text);
+    }
+
+    .theme-badge-accent {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-badge-muted {
+        background-color: var(--color-background);
+        color: var(--color-text-muted);
+        border: 1px solid var(--color-border);
+    }
+
+    .theme-flash {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.25rem;
+        border-left: 4px solid var(--color-primary);
+        background-color: var(--color-success-bg);
+        padding: 0.75rem 1rem;
+        color: var(--color-success-text);
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        box-shadow: var(--shadow-card);
+        font-size: var(--font-body);
+        font-weight: 600;
+    }
+
+    .theme-flash-danger {
+        border-left-color: var(--color-danger);
+        background-color: var(--color-danger-bg);
+        color: var(--color-danger);
+    }
+
+    /* ============================================================
+       FOOTER
+       Controls footer background, text, spacing,
+       alignment, height, and positioning.
+       ============================================================ */
+
+    .theme-page-footer {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        height: var(--footer-height);
+        padding: 0 1rem;
+        border-top: 1px solid var(--color-sidebar-border);
+        background-color: var(--color-footer);
+        text-align: center;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        color: var(--color-footer-text);
+    }
+
+    /* ============================================================
+       AUTH / GUEST LAYOUT
+       Controls the login/register split layout so it uses
+       the same brand colors as the admin panel.
+       ============================================================ */
+
+    .theme-guest-brand {
+        position: relative;
+        overflow: hidden;
+        background-color: var(--color-sidebar);
+        color: var(--color-on-primary);
+    }
+
+    .theme-guest-brand .theme-header-control {
+        background-color: transparent;
+        border-color: var(--color-sidebar-border);
+        color: var(--color-sidebar-text);
+    }
+
+    .theme-guest-brand .theme-header-control:hover {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-guest-brand .theme-lang-btn {
+        color: var(--color-sidebar-text-muted);
+    }
+
+    .theme-guest-brand .theme-lang-btn:hover,
+    .theme-guest-brand .theme-lang-btn.is-active {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-guest-card {
+        width: 100%;
+        max-width: 28rem;
+        min-width: 0;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-surface);
+        padding: 1.25rem;
+        box-shadow: var(--shadow-card);
+        color: var(--color-text);
+    }
+
+    .theme-public-header {
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-header);
+        color: var(--color-text);
+    }
+
+    .theme-public-nav {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-muted);
+        transition: color 0.15s ease;
+        white-space: nowrap;
+    }
+
+    .theme-public-nav:hover {
+        color: var(--color-heading);
+    }
+
+    .theme-public-nav.is-active {
+        color: var(--color-heading);
+    }
+
+    .theme-public-nav-mobile {
+        display: block;
+        width: 100%;
+        border-radius: var(--radius-md);
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--color-text);
+    }
+
+    .theme-public-nav-mobile:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-public-nav-mobile.is-active {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ============================================================
+       MODULE-SPECIFIC STYLES
+       Controls styles required for individual modules.
+       Example: Users, Products, Sales, Purchases, Inventory, etc.
+       Keep unique rules here so global tokens stay untouched.
+       ============================================================ */
+
+    /* USER MANAGEMENT MODULE */
+    .theme-user-role {
+        font-size: var(--font-body);
+        font-weight: 700;
+        text-transform: capitalize;
+        color: var(--color-heading);
+    }
+
+    /* ROLE / PERMISSION MODULE */
+    .theme-perm-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 10.75rem);
+        justify-content: start;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .theme-perm-card {
+        width: 10.75rem;
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-surface);
+    }
+
+    .theme-perm-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.5rem;
+        border-bottom: 1px solid var(--color-border);
+        background-color: var(--color-table-header);
+        padding: 0.5rem 0.625rem;
+    }
+
+    .theme-perm-card-title {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--color-table-header-text);
+    }
+
+    .theme-perm-all {
+        display: inline-flex;
+        flex-shrink: 0;
+        cursor: pointer;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.625rem;
+        font-weight: 700;
+        color: var(--color-table-header-text);
+    }
+
+    .theme-perm-count {
+        font-size: 0.625rem;
+        font-weight: 600;
+        color: var(--color-table-header-text);
+        opacity: 0.72;
+    }
+
+    .theme-perm-body {
+        display: flex;
+        flex-direction: column;
+        padding: 0.25rem;
+    }
+
+    .theme-perm-row {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: var(--radius-sm);
+        padding: 0.375rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .theme-perm-row:hover {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    .theme-perm-row.is-checked {
+        background-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* ACTIVITY LOG MODULE */
+    .theme-log-page .theme-page-header {
+        margin-bottom: 0.45rem;
+    }
+
+    .theme-log-meta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.625rem 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .theme-log-meta-footer {
+        border-top: 1px solid var(--color-border);
+        background-color: var(--color-background);
+        padding: 0.625rem 1rem;
+    }
+
+    .theme-log-meta-item {
+        min-width: 0;
+    }
+
+    .theme-log-meta-item dt {
+        margin-bottom: 0.125rem;
+        font-size: 0.625rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+    }
+
+    .theme-log-meta-item dd {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1.35;
+        color: var(--color-heading);
+        overflow-wrap: anywhere;
+    }
+
+    .theme-log-meta-sub {
+        margin-top: 0.125rem;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        color: var(--color-text-muted);
+    }
+
+    .theme-log-meta-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .theme-log-section {
+        border-top: 1px solid var(--color-border);
+        padding: 0.625rem 1rem 0.75rem;
+    }
+
+    .theme-log-section-title {
+        margin-bottom: 0.5rem;
+        font-size: 0.625rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+    }
+
+    .theme-log-empty {
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--color-text-muted);
+    }
+
+    .theme-change-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+
+    .theme-change-block {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.375rem 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-sm);
+        background-color: var(--color-background);
+        padding: 0.375rem 0.625rem;
+    }
+
+    .theme-change-label {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: var(--color-heading);
+    }
+
+    .theme-change-values {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem;
+    }
+
+    .theme-change-arrow {
+        width: 0.875rem;
+        height: 0.875rem;
+        flex-shrink: 0;
+        color: var(--color-text-muted);
+    }
+
+    .theme-change-old {
+        border-radius: var(--radius-sm);
+        background-color: var(--color-surface);
+        padding: 0.125rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--color-text-muted);
+        text-decoration: line-through;
+    }
+
+    .theme-change-new {
+        border-radius: var(--radius-sm);
+        background-color: var(--color-accent);
+        padding: 0.125rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--color-on-accent);
+    }
+
+    /* PRODUCT MANAGEMENT MODULE */
+    /* SALES MODULE */
+    /* PURCHASE MODULE */
+    /* INVENTORY MODULE */
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   Controls tablet, mobile, and small-screen layouts.
+   ============================================================ */
+
+@media (min-width: 640px) {
+    .theme-page-shell {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .theme-page-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .theme-header {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .theme-page-footer {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .theme-guest-card {
+        padding: 2rem;
+    }
+
+    .theme-filter-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: end;
+    }
+
+    .theme-header-title {
+        font-size: 1.0625rem;
+    }
+
+    .theme-perm-grid {
+        grid-template-columns: repeat(2, 10.75rem);
+    }
+
+    .theme-log-meta {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .theme-log-meta-footer {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
+@media (min-width: 1024px) {
+    .theme-page-shell {
+        padding: 1.5rem 1.5rem 1.75rem;
+    }
+
+    .theme-header {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .theme-page-footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .theme-filter-bar {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .theme-stat-value {
+        font-size: 1.875rem;
+    }
+
+    .theme-perm-grid {
+        grid-template-columns: repeat(4, 10.75rem);
+    }
+
+    .theme-log-meta-footer {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 639px) {
+    .theme-form-body {
+        padding: 1rem;
+    }
+
+    .theme-welcome {
+        padding: 1rem 1.125rem;
+    }
+
+    .theme-modal-panel {
+        width: 100%;
+    }
+
+    .theme-page-title {
+        font-size: 1.25rem;
+    }
+
+    .theme-perm-grid {
+        grid-template-columns: repeat(1, 10.75rem);
+    }
+}
+
+/* ============================================================
+   RTL SUPPORT
+   Controls right-to-left typography and form alignment.
+   ============================================================ */
+
 @layer base {
     [dir="rtl"] body {
-        font-family: "Noto Nastaliq Urdu", Figtree, ui-sans-serif, system-ui, sans-serif;
+        font-family: "Noto Nastaliq Urdu", Figtree, ui-sans-serif, system-ui,
+            sans-serif;
     }
 
     [dir="rtl"] input,
     [dir="rtl"] textarea,
     [dir="rtl"] select {
         text-align: right;
+    }
+
+    [dir="rtl"] .theme-table {
+        text-align: right;
+    }
+
+    [dir="rtl"] .theme-table-header-cell,
+    [dir="rtl"] .theme-table-cell {
+        text-align: right;
+    }
+
+    [dir="rtl"] .theme-flash {
+        border-left: 0;
+        border-right: 4px solid var(--color-primary);
+        border-radius: var(--radius-sm) 0 0 var(--radius-sm);
     }
 }

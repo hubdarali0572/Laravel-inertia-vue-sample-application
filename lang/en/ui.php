@@ -114,7 +114,6 @@ return [
 
     'users' => [
         'title' => 'User Management',
-        'subtitle' => 'Manage and monitor system access and roles.',
         'info' => 'User Info',
         'role' => 'User Role',
         'empty' => 'No users found.',
@@ -147,7 +146,6 @@ return [
 
     'roles' => [
         'title' => 'Role Management',
-        'subtitle' => 'Manage and monitor system access and roles.',
         'name' => 'Role Name',
         'empty' => 'No roles available.',
         'edit' => 'Edit Role',
@@ -163,13 +161,15 @@ return [
         'placeholder_name' => 'Enter role name',
         'create_button' => 'Create Role',
         'update_button' => 'Save Changes',
+        'details' => 'Role details',
+        'permissions_title' => 'Module permissions',
+        'permissions_hint' => 'Select the actions this role can perform in each module.',
     ],
 
     'activity' => [
         'title' => 'Activity Logs',
         'page_title' => 'System Activity Logs',
-        'subtitle' => 'Detailed tracking of all system changes.',
-        'clear_all' => 'Clear All System Logs',
+        'clear_all' => 'Clear all logs',
         'user' => 'User',
         'action' => 'Action',
         'module' => 'Module',
