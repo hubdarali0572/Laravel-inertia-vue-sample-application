@@ -3,7 +3,7 @@ import "./bootstrap";
 
 import { createInertiaApp, Link, Head } from "@inertiajs/vue3"; // 1. Import Link and Head
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
-import { createApp, h } from "vue";
+import { createApp, h, nextTick } from "vue";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 
 import { router } from "@inertiajs/vue3";

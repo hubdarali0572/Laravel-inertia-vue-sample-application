@@ -69,7 +69,7 @@ const emit = defineEmits(['close', 'confirm']);
                                 aria-label="Close"
                                 @click="emit('close')"
                             >
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
@@ -81,10 +81,10 @@ const emit = defineEmits(['close', 'confirm']);
                                 class="theme-modal-icon"
                                 :class="icon === 'warning' ? 'theme-modal-icon-warning' : 'theme-modal-icon-danger'"
                             >
-                                <svg v-if="icon === 'delete'" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <svg v-if="icon === 'delete'" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
-                                <svg v-else class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
                             </div>
@@ -94,11 +94,11 @@ const emit = defineEmits(['close', 'confirm']);
                             <div v-if="badge" class="theme-modal-badge">
                                 <div
                                     v-if="badgeInitial"
-                                    class="w-7 h-7 rounded-full bg-slate-800 text-[10px] text-white flex items-center justify-center font-bold mr-2.5 uppercase shrink-0"
+                                    class="w-6 h-6 rounded-full bg-slate-800 text-[10px] text-white flex items-center justify-center font-bold mr-2 uppercase shrink-0"
                                 >
                                     {{ badgeInitial }}
                                 </div>
-                                <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">{{ badge }}</span>
+                                <span class="truncate text-xs font-semibold text-slate-800 dark:text-slate-100">{{ badge }}</span>
                             </div>
 
                             <p class="theme-modal-warning">This action is irreversible</p>

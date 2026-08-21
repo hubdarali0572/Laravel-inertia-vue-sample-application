@@ -1,16 +1,39 @@
 <script setup>
-import { ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
 import { useDarkMode } from "@/composables/useDarkMode";
+import { usePermissions } from "@/composables/usePermissions";
 
 const { isDark, toggleDarkMode } = useDarkMode();
+const { can, roleName, isSuperAdmin } = usePermissions();
+const page = usePage();
 
 const isSidebarOpen = ref(false);
 const isProfileMenuOpen = ref(false);
+const profileMenuRef = ref(null);
 
-// Close sidebar and profile menu when navigating
+const closeProfileMenuOnOutsideClick = (event) => {
+    if (!isProfileMenuOpen.value) {
+        return;
+    }
+
+    if (profileMenuRef.value?.contains(event.target)) {
+        return;
+    }
+
+    isProfileMenuOpen.value = false;
+};
+
+onMounted(() => {
+    document.addEventListener("mousedown", closeProfileMenuOnOutsideClick);
+});
+
+onUnmounted(() => {
+    document.removeEventListener("mousedown", closeProfileMenuOnOutsideClick);
+});
+
 watch(
-    () => usePage().url,
+    () => page.url,
     () => {
         isSidebarOpen.value = false;
         isProfileMenuOpen.value = false;
@@ -18,7 +41,7 @@ watch(
 );
 
 const userInitials = () => {
-    const name = usePage().props.auth.user.name;
+    const name = page.props.auth.user.name;
     return name
         .split(" ")
         .map((part) => part[0])
@@ -29,39 +52,66 @@ const userInitials = () => {
 
 const isProfileActive = () => route().current("profile.edit");
 
-// Dynamic Navigation with "Active" state detection
-const navItems = [
+const allNavItems = computed(() => [
     {
         name: "Dashboard",
         icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
         route: "dashboard",
         active: route().current("dashboard"),
+        show: true,
     },
     { category: "MAIN MODULES" },
     {
         name: "User Management",
         icon: "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z",
         route: "users.index",
-        active: route().current("users.*"), // Active for index, edit, create
+        active: route().current("users.*"),
+        show: can("view user"),
     },
     {
         name: "Roles & Permissions",
         icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z",
         route: "roles.index",
-        active: route().current("roles.*"), // Active for index, edit, create
+        active: route().current("roles.*"),
+        show: can("view role"),
     },
     {
         name: "Activity Logs",
         icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
         route: "activity.index",
         active: route().current("activity.*"),
+        show: isSuperAdmin.value,
     },
-];
+]);
+
+const navItems = computed(() => {
+    const visible = allNavItems.value.filter(
+        (item) => item.category || item.show,
+    );
+
+    return visible.filter((item, index, items) => {
+        if (!item.category) {
+            return true;
+        }
+
+        const next = items[index + 1];
+        return next && !next.category;
+    });
+});
+
+const pageTitle = computed(() => {
+    if (route().current("dashboard")) return "Dashboard";
+    if (route().current("users.*")) return "User Management";
+    if (route().current("roles.*")) return "Roles & Permissions";
+    if (route().current("activity.*")) return "Activity Logs";
+    if (route().current("profile.*")) return "Profile";
+    return "Dashboard";
+});
 </script>
 
 <template>
     <div
-        class="theme-app-bg h-screen flex overflow-hidden font-sans transition-colors"
+        class="theme-app-bg flex h-screen overflow-hidden font-sans transition-colors"
     >
         <!-- MOBILE OVERLAY -->
         <transition
@@ -74,26 +124,25 @@ const navItems = [
         >
             <div
                 v-if="isSidebarOpen"
+                class="fixed inset-0 z-40 bg-black/60 lg:hidden"
                 @click="isSidebarOpen = false"
-                class="fixed inset-0 bg-black/60 z-40 lg:hidden"
             ></div>
         </transition>
 
         <!-- SIDEBAR -->
         <aside
-            class="theme-sidebar fixed inset-y-0 left-0 z-50 w-72 lg:w-64 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0"
+            class="theme-sidebar fixed inset-y-0 left-0 z-50 flex w-72 flex-col transition-transform duration-300 ease-in-out lg:static lg:inset-0 lg:w-64 lg:translate-x-0"
             :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
-            <!-- Sidebar Header -->
             <div
-                class="p-6 border-b border-slate-200 shrink-0 flex items-center justify-between dark:border-slate-700"
+                class="flex shrink-0 items-center justify-between border-b border-slate-200 px-4 py-4 dark:border-slate-700"
             >
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center gap-3">
                     <div
-                        class="bg-indigo-600 p-2 rounded-lg shadow-lg shadow-indigo-600/30"
+                        class="rounded-lg bg-indigo-600 p-2 shadow-lg shadow-indigo-600/30"
                     >
                         <svg
-                            class="w-6 h-6 text-white"
+                            class="h-5 w-5 text-white"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                         >
@@ -103,16 +152,17 @@ const navItems = [
                         </svg>
                     </div>
                     <span
-                        class="font-bold text-sm lg:text-base tracking-wide text-slate-800 dark:text-white"
+                        class="text-sm font-bold tracking-wide text-slate-800 lg:text-base dark:text-white"
                         >Sample Project</span
                     >
                 </div>
                 <button
+                    type="button"
+                    class="p-2 text-slate-700 lg:hidden dark:text-white"
                     @click="isSidebarOpen = false"
-                    class="lg:hidden p-2 text-slate-700 dark:text-white"
                 >
                     <svg
-                        class="w-6 h-6"
+                        class="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -123,32 +173,27 @@ const navItems = [
                 </button>
             </div>
 
-            <!-- Scrollable Nav Links -->
-            <nav class="flex-1 overflow-y-auto py-4 custom-scrollbar">
-                <template v-for="item in navItems" :key="item.name">
-                    <!-- Category Header: Styled with better contrast and spacing -->
+            <nav class="custom-scrollbar flex-1 overflow-y-auto py-3">
+                <template v-for="item in navItems" :key="item.name || item.category">
                     <div
                         v-if="item.category"
-                        class="theme-sidebar-category px-7 pt-3 pb-3 text-[10px] font-semibold tracking-[0.15em] uppercase"
+                        class="theme-sidebar-category px-5 pb-1.5 pt-3 text-[10px] font-semibold uppercase tracking-[0.15em]"
                     >
                         {{ item.category }}
                     </div>
 
-                    <!-- Navigation Link -->
-                    <div v-else class="px-3 mb-2">
-                        <!-- Wrapper to handle horizontal spacing -->
+                    <div v-else class="px-2.5">
                         <Link
                             :href="route(item.route)"
-                            class="group flex items-center px-4 py-3 rounded-xl transition-all duration-200 ease-in-out"
+                            class="group mb-0.5 flex items-center rounded-lg px-3 py-2 transition-all duration-200 ease-in-out"
                             :class="
                                 item.active
                                     ? 'theme-sidebar-nav-active'
                                     : 'theme-sidebar-nav-inactive'
                             "
                         >
-                            <!-- Icon: Group hover ensures icon color follows text -->
                             <svg
-                                class="w-5 h-5 mr-3 transition-colors duration-200"
+                                class="mr-2.5 h-4 w-4 shrink-0 transition-colors duration-200"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -160,8 +205,6 @@ const navItems = [
                                     stroke-linejoin="round"
                                 />
                             </svg>
-
-                            <!-- Label -->
                             <span class="text-sm font-semibold tracking-wide">
                                 {{ item.name }}
                             </span>
@@ -170,9 +213,7 @@ const navItems = [
                 </template>
             </nav>
 
-            <!-- Fixed Bottom Profile -->
-            <div class="theme-sidebar-footer relative p-4 shrink-0">
-                <!-- Dropdown Menu -->
+            <div ref="profileMenuRef" class="theme-sidebar-footer relative shrink-0">
                 <transition
                     enter-active-class="transition ease-out duration-200"
                     enter-from-class="opacity-0 translate-y-2 scale-95"
@@ -183,40 +224,40 @@ const navItems = [
                 >
                     <div
                         v-if="isProfileMenuOpen"
-                        class="absolute bottom-full left-3 right-3 mb-3 z-[60] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-300/40 ring-1 ring-slate-200 dark:border-slate-600/90 dark:bg-slate-700 dark:shadow-slate-900/30 dark:ring-slate-500/20"
+                        class="absolute bottom-full left-2 right-2 z-[60] mb-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-700"
                     >
                         <div
-                            class="border-b border-slate-200 bg-slate-50 px-4 py-4 dark:border-slate-600 dark:bg-slate-700/90"
+                            class="border-b border-slate-200 px-2.5 py-1.5 dark:border-slate-600"
                         >
                             <p
-                                class="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400"
+                                class="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400"
                             >
                                 Signed in as
                             </p>
                             <p
-                                class="mt-1 truncate text-sm font-bold text-slate-800 dark:text-white"
+                                class="truncate text-[11px] font-semibold leading-tight text-slate-800 dark:text-white"
                             >
                                 {{ $page.props.auth.user.name }}
                             </p>
                             <p
-                                class="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400"
+                                class="truncate text-[10px] leading-tight text-slate-500 dark:text-slate-400"
                             >
                                 {{ $page.props.auth.user.email }}
                             </p>
                         </div>
 
-                        <div class="p-2">
+                        <div class="p-1">
                             <Link
                                 :href="route('profile.edit')"
-                                class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors"
+                                class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-semibold transition-colors"
                                 :class="
                                     isProfileActive()
-                                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
+                                        ? 'bg-indigo-600 text-white'
                                         : 'text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200'
                                 "
                             >
                                 <span
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg"
+                                    class="flex h-6 w-6 items-center justify-center rounded"
                                     :class="
                                         isProfileActive()
                                             ? 'bg-indigo-500/40 text-white'
@@ -224,7 +265,7 @@ const navItems = [
                                     "
                                 >
                                     <svg
-                                        class="h-4 w-4"
+                                        class="h-3.5 w-3.5"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -244,13 +285,13 @@ const navItems = [
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
-                                class="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200"
+                                class="mt-0.5 flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-semibold text-slate-700 transition-colors hover:bg-indigo-50 hover:text-indigo-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200"
                             >
                                 <span
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-indigo-600 dark:bg-slate-600/70 dark:text-indigo-300"
+                                    class="flex h-6 w-6 items-center justify-center rounded bg-slate-100 text-indigo-600 dark:bg-slate-600/70 dark:text-indigo-300"
                                 >
                                     <svg
-                                        class="h-4 w-4"
+                                        class="h-3.5 w-3.5"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -270,28 +311,32 @@ const navItems = [
                 </transition>
 
                 <button
-                    @click="isProfileMenuOpen = !isProfileMenuOpen"
-                    class="group flex w-full items-center space-x-3 rounded-xl p-3 transition-colors hover:bg-indigo-500/10"
+                    type="button"
+                    class="group flex h-full w-full items-center gap-1.5 px-2 transition-colors hover:bg-indigo-500/10"
                     :class="{
-                        'bg-indigo-500/10 ring-1 ring-indigo-500/40':
-                            isProfileMenuOpen,
+                        'bg-indigo-500/10': isProfileMenuOpen,
                     }"
+                    @click="isProfileMenuOpen = !isProfileMenuOpen"
                 >
                     <div
-                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-indigo-400/40 bg-indigo-600 text-xs font-bold text-white shadow-md shadow-indigo-600/25"
+                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-[9px] font-bold text-white"
                     >
                         {{ userInitials() }}
                     </div>
-                    <div class="flex-1 overflow-hidden text-left text-slate-800 dark:text-white">
-                        <p class="truncate text-xs font-semibold leading-none">
+                    <div
+                        class="min-w-0 flex-1 overflow-hidden text-left text-slate-800 dark:text-white"
+                    >
+                        <p class="truncate text-[10px] font-semibold leading-none">
                             {{ $page.props.auth.user.name }}
                         </p>
-                        <p class="mt-1 text-[10px] text-slate-500 dark:text-slate-400">
-                            Administrator
+                        <p
+                            class="mt-px truncate text-[9px] capitalize leading-none text-slate-500 dark:text-slate-400"
+                        >
+                            {{ roleName }}
                         </p>
                     </div>
                     <svg
-                        class="h-4 w-4 text-slate-400 transition-transform duration-200"
+                        class="h-3 w-3 shrink-0 text-slate-400 transition-transform duration-200"
                         :class="{ 'rotate-180': isProfileMenuOpen }"
                         fill="none"
                         stroke="currentColor"
@@ -305,18 +350,18 @@ const navItems = [
         </aside>
 
         <!-- MAIN CONTENT AREA -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            <!-- HEADER -->
+        <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
             <header
-                class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 lg:px-8 shrink-0 z-30 shadow-sm transition-colors dark:bg-slate-800 dark:border-slate-700"
+                class="z-30 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm transition-colors sm:px-5 lg:px-6 dark:border-slate-700 dark:bg-slate-800"
             >
-                <div class="flex items-center">
+                <div class="flex min-w-0 items-center">
                     <button
+                        type="button"
+                        class="-ml-2 mr-3 p-2 text-gray-500 lg:hidden dark:text-slate-300"
                         @click="isSidebarOpen = true"
-                        class="p-2 -ml-2 mr-3 text-gray-500 lg:hidden dark:text-slate-300"
                     >
                         <svg
-                            class="w-7 h-7"
+                            class="h-7 w-7"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -325,26 +370,19 @@ const navItems = [
                             <path d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <div>
+                    <div class="min-w-0">
                         <h1
-                            class="text-sm lg:text-lg font-bold text-slate-800 leading-none dark:text-slate-100"
+                            class="truncate text-sm font-bold leading-none text-slate-800 lg:text-lg dark:text-slate-100"
                         >
-                            Dashboard
+                            {{ pageTitle }}
                         </h1>
-                        <p
-                            class="hidden sm:block text-[10px] text-slate-400 uppercase tracking-widest mt-1 dark:text-slate-500"
-                        >
-                            Laravel Inertia Vue Admin
-                        </p>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <!-- Light / Dark Mode Toggle -->
+                <div class="flex items-center gap-3 sm:gap-4">
                     <button
-                        @click="toggleDarkMode"
                         type="button"
-                        class="relative inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:border-slate-600 dark:bg-slate-700 dark:text-indigo-200 dark:hover:bg-slate-600"
+                        class="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:border-slate-600 dark:bg-slate-700 dark:text-indigo-200 dark:hover:bg-slate-600"
                         :title="
                             isDark
                                 ? 'Switch to light mode'
@@ -355,11 +393,11 @@ const navItems = [
                                 ? 'Switch to light mode'
                                 : 'Switch to dark mode'
                         "
+                        @click="toggleDarkMode"
                     >
-                        <!-- Sun (shown in dark mode, click to go light) -->
                         <svg
                             v-if="isDark"
-                            class="w-5 h-5"
+                            class="h-5 w-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -371,10 +409,9 @@ const navItems = [
                                 d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
                             />
                         </svg>
-                        <!-- Moon (shown in light mode, click to go dark) -->
                         <svg
                             v-else
-                            class="w-5 h-5"
+                            class="h-5 w-5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -391,7 +428,7 @@ const navItems = [
                         href="/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="group hidden sm:inline-flex items-center gap-2 bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200  hover:bg-indigo-50 hover:text-indigo-700 hover:shadow dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:border-indigo-400/40 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300"
+                        class="group hidden h-10 items-center gap-2 bg-slate-100 px-3 text-xs font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 hover:shadow sm:inline-flex dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-300"
                     >
                         <span
                             class="flex h-5 w-5 items-center justify-center rounded-md bg-white text-slate-500 transition-colors group-hover:text-indigo-600 dark:bg-slate-800 dark:text-slate-300 dark:group-hover:text-indigo-300"
@@ -412,37 +449,23 @@ const navItems = [
                         </span>
                         View Site
                     </a>
-                    <span
-                        class="hidden md:block text-sm font-semibold text-slate-700 dark:text-slate-200"
-                        >{{ $page.props.auth.user.name }} ( {{ $page.props.auth.user.user_type }})</span
-                    >
-                    <div
-                        class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold uppercase shadow-sm"
-                    >
-                        {{ userInitials() }}
-                    </div>
                 </div>
             </header>
 
-            <!-- SCROLLABLE MAIN & FOOTER -->
             <main
-                class="theme-content-bg flex-1 overflow-y-auto p-4 lg:p-8 custom-scrollbar flex flex-col transition-colors"
+                class="theme-content-bg custom-scrollbar min-h-0 flex-1 overflow-x-hidden overflow-y-auto transition-colors"
             >
-                <div class="flex-1 max-w-[1600px] mx-auto w-full">
-                    <!-- This SLOT is where your specific page content will appear -->
+                <div class="theme-page-shell">
                     <slot />
                 </div>
-
-                <!-- FOOTER -->
-                <footer
-                    class="mt-1 pt-8 pb-3 border-t border-slate-200 text-center text-slate-500 text-[10px] lg:text-xs dark:border-slate-700 dark:text-slate-500"
-                >
-                    <div class="uppercase tracking-widest font-bold">
-                        Sample Project for Laravel Inertia Vue3 Admin Dashboard
-                        Layout
-                    </div>
-                </footer>
             </main>
+
+            <footer class="theme-page-footer">
+                <div class="font-bold uppercase tracking-widest">
+                    Sample Project for Laravel Inertia Vue3 Admin Dashboard
+                    Layout
+                </div>
+            </footer>
         </div>
     </div>
 </template>

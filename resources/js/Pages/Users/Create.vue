@@ -95,12 +95,12 @@ const submit = () => {
 
     <AuthenticatedLayout>
         <!-- Header Section -->
-        <div class="max-w-8xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="theme-page-header">
             <div>
-                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight dark:text-slate-100">
+                <h2 class="theme-page-title">
                     {{ isEditing ? 'Edit User Account' : 'Create New User' }}
                 </h2>
-                <p class="text-sm text-slate-800 mt-1 font-medium dark:text-slate-400">
+                <p class="theme-page-subtitle">
                     {{ isEditing ? 'Update existing user credentials and permissions.' : 'Add a new member to the system and assign their role.' }}
                 </p>
             </div>
@@ -113,12 +113,12 @@ const submit = () => {
             </Link>
         </div>
 
-        <div class="max-w-8xl mx-auto pb-24">
+        <div class="w-full">
             <form @submit.prevent="submit" class="space-y-6">
                 
                 <!-- Main Information Card -->
                 <div class="theme-form-card">
-                   <div class="p-8 md:p-10">
+                    <div class="theme-form-body">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
                             
                             <!-- Full Name -->
@@ -261,7 +261,7 @@ const submit = () => {
                                         <button 
                                             type="button" 
                                             @click="$refs.imageInput.click()"
-                                            class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-[12px] font-bold uppercase tracking-wider text-slate-700 hover:bg-indigo-50 hover:border-indigo-200 hover:text-indigo-600 transition-all shadow-sm dark:bg-slate-800 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-indigo-500/10 dark:hover:border-indigo-500/40 dark:hover:text-indigo-300"
+                                            class="theme-btn-secondary"
                                         >
                                             Select New Photo
                                         </button>
@@ -276,12 +276,11 @@ const submit = () => {
                 </div>
 
                 <!-- Footer Action Buttons -->
-                <div class="flex items-center justify-center pt-4">
-                    <PrimaryButton
-                        class="theme-btn-primary px-12 py-4 rounded-full text-white font-black text-xs uppercase tracking-widest active:scale-95"
-                        :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
-                        :disabled="form.processing"
-                    >
+                <div class="theme-form-actions">
+                    <Link :href="route('users.index')" class="theme-btn-secondary">
+                        Cancel
+                    </Link>
+                    <PrimaryButton :disabled="form.processing">
                         {{ isEditing ? 'Update User Record' : 'Create User' }}
                     </PrimaryButton>
                 </div>

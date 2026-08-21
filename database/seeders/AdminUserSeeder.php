@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Support\Permissions;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -10,23 +11,26 @@ use Spatie\Permission\Models\Role;
 
 class AdminUserSeeder extends Seeder
 {
-     use WithoutModelEvents;
-    /**
-     * Run the database seeds.
-     */
+    use WithoutModelEvents;
+
     public function run(): void
     {
-        // Find super admin role
-        $AdminRole = Role::firstOrCreate(['name' => 'superadmin']);
-
-        // Create super admin user and assign role
-        $AdminUser = User::firstOrCreate([
-            'name' => 'Super Admin',
-            'email' => 'test@example.com',
-            'user_type' => 'superadmin',
-            'role_id' => $AdminRole->id,
-            'password' => Hash::make('password'),
+        $adminRole = Role::firstOrCreate([
+            'name' => Permissions::SUPERADMIN_ROLE,
+            'guard_name' => 'web',
         ]);
-        $AdminUser->assignRole($AdminRole);
+
+        $adminUser = User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Super Admin',
+                'user_type' => Permissions::SUPERADMIN_ROLE,
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $adminUser->user_type = Permissions::SUPERADMIN_ROLE;
+        $adminUser->syncAssignedRole($adminRole);
     }
 }

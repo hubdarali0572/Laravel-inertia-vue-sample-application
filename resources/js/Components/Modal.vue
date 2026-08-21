@@ -8,7 +8,7 @@ const props = defineProps({
     },
     maxWidth: {
         type: String,
-        default: '2xl',
+        default: 'sm',
     },
     closeable: {
         type: Boolean,
@@ -81,7 +81,7 @@ const maxWidthClass = computed(() => {
     >
         <div
             v-show="showSlot"
-            class="fixed inset-0 z-50 flex min-h-full items-center justify-center p-4 sm:p-6"
+            class="fixed inset-0 z-50 flex min-h-full items-center justify-center p-3 sm:p-4"
         >
             <Transition
                 enter-active-class="ease-out duration-300"
@@ -110,7 +110,7 @@ const maxWidthClass = computed(() => {
             >
                 <div
                     v-show="show"
-                    class="relative z-10 w-full transform overflow-hidden rounded-2xl bg-white shadow-2xl border border-slate-200 transition-all dark:bg-slate-800 dark:border-slate-700"
+                    class="relative z-10 w-[20rem] max-w-[calc(100vw-2rem)] max-h-[90vh] shrink-0 transform overflow-hidden rounded-lg bg-white shadow-xl border border-slate-200 transition-all dark:bg-slate-800 dark:border-slate-700"
                     :class="maxWidthClass"
                     role="dialog"
                     aria-modal="true"

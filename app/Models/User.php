@@ -3,20 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Support\Permissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Activitylog\Traits\LogsActivity; // <--- Add this
-use Spatie\Activitylog\LogOptions;  
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, HasRoles, InteractsWithMedia, LogsActivity;
+    use HasFactory, HasRoles, InteractsWithMedia, LogsActivity, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +28,9 @@ class User extends Authenticatable implements HasMedia
         'name',
         'email',
         'password',
-        'image'
+        'image',
+        'role_id',
+        'user_type',
     ];
 
     /**
@@ -58,6 +61,23 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->user_type === Permissions::SUPERADMIN_ROLE
+            || $this->hasRole(Permissions::SUPERADMIN_ROLE);
+    }
+
+    public function syncAssignedRole(Role $role): void
+    {
+        $this->role_id = $role->id;
+        $this->save();
+        $this->syncRoles([$role]);
+        $this->unsetRelation('roles');
+        $this->unsetRelation('permissions');
+        $this->unsetRelation('role');
+        $this->forgetCachedPermissions();
+    }
+
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
@@ -65,7 +85,7 @@ class User extends Authenticatable implements HasMedia
             ->useDisk('public');
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('optimized')
             ->width(400)

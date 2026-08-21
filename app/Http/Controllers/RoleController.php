@@ -2,117 +2,123 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Support\Permissions;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:'.Permissions::VIEW_ROLE, only: ['index', 'show']),
+            new Middleware('permission:'.Permissions::CREATE_ROLE, only: ['create', 'store']),
+            new Middleware('permission:'.Permissions::EDIT_ROLE, only: ['edit', 'update']),
+            new Middleware('permission:'.Permissions::DELETE_ROLE, only: ['destroy']),
+        ];
+    }
 
     public function index()
     {
-        // 1. Fetch paginated roles
-        $roles = Role::where('name', '!=', 'superadmin')->latest()->paginate(10);
+        $this->authorize(Permissions::VIEW_ROLE);
 
-        // 2. Pass the 'roles' variable to the view
+        $roles = Role::whereRaw('LOWER(name) != ?', [Permissions::SUPERADMIN_ROLE])
+            ->latest()
+            ->paginate(10);
+
         return Inertia::render('Roles/Index', [
-            'roles' => $roles
+            'roles' => $roles,
         ]);
     }
 
     public function create()
     {
-        $allPermissions = Permission::all();
-
-        // Grouping specifically into two categories
-        $groups = [
-            'User Management' => $allPermissions->filter(function ($p) {
-                return str_contains($p->name, 'user');
-            })->values(),
-            'Role Management' => $allPermissions->filter(function ($p) {
-                return str_contains($p->name, 'role');
-            })->values(),
-        ];
+        $this->authorize(Permissions::CREATE_ROLE);
 
         return Inertia::render('Roles/Create', [
-            'permissionGroups' => $groups
+            'permissionGroups' => $this->permissionGroups(),
         ]);
     }
 
     public function store(Request $request)
     {
-        // 1. Validate the request
+        $this->authorize(Permissions::CREATE_ROLE);
+
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name',
             'permissions' => 'required|array|min:1',
             'permissions.*' => 'exists:permissions,id',
         ], [
-            // Custom error messages
             'permissions.required' => 'Please select at least one permission for this role.',
-            'name.unique' => 'This role name already exists.'
+            'name.unique' => 'This role name already exists.',
         ]);
 
-        // 2. Create the Role
-        // Note: 'web' is the default guard.
+        abort_if(Permissions::isSuperAdminRole($request->name), 403);
+
         $role = Role::create([
             'name' => $request->name,
-            'guard_name' => 'web'
+            'guard_name' => 'web',
         ]);
 
-        // 3. Sync Permissions
-        // Spatie's syncPermissions accepts an array of IDs, names, or models.
-        if ($request->has('permissions')) {
-            $role->syncPermissions($request->permissions);
-        }
+        $role->syncPermissions($this->assignablePermissionIds($request->permissions));
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        // 4. Redirect with flash message
         return redirect()
             ->route('roles.index')
-            ->with('success', 'Role "' . strtoupper($role->name) . '" created and permissions assigned successfully.');
+            ->with('success', 'Role "'.strtoupper($role->name).'" created and permissions assigned successfully.');
     }
 
     public function show(string $id)
     {
-        //
+        $this->authorize(Permissions::SHOW_ROLE);
+
+        return $this->edit($id);
     }
 
     public function edit(string $id)
     {
-        // 1. Find the role
+        $this->authorize(Permissions::EDIT_ROLE);
+
         $role = Role::findOrFail($id);
 
-        // 2. Fetch and Group Permissions (Exactly like the create page)
-        $allPermissions = Permission::all();
-        $groups = [
-            'User Management' => $allPermissions->filter(fn($p) => str_contains($p->name, 'user'))->values(),
-            'Role Management' => $allPermissions->filter(fn($p) => str_contains($p->name, 'role'))->values(),
-        ];
-
-        // 3. Get currently assigned permission IDs
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        abort_if(Permissions::isSuperAdminRole($role->name), 403);
 
         return Inertia::render('Roles/Edit', [
             'role' => $role,
-            'permissionGroups' => $groups,
-            'rolePermissions' => $rolePermissions,
+            'permissionGroups' => $this->permissionGroups(),
+            'rolePermissions' => $role->permissions
+                ->whereIn('name', Permissions::assignable())
+                ->pluck('id')
+                ->values()
+                ->all(),
         ]);
     }
 
     public function update(Request $request, string $id)
     {
+        $this->authorize(Permissions::EDIT_ROLE);
+
         $role = Role::findOrFail($id);
 
+        abort_if(Permissions::isSuperAdminRole($role->name), 403);
+
         $request->validate([
-            // Allow same name for this specific role, but unique against others
-            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
+            'name' => 'required|string|max:255|unique:roles,name,'.$role->id,
             'permissions' => 'required|array|min:1',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
-        $role->update(['name' => $request->name]);
+        abort_if(Permissions::isSuperAdminRole($request->name), 403);
 
-        // This replaces old permissions with new ones automatically
-        $role->syncPermissions($request->permissions);
+        $role->update(['name' => $request->name]);
+        $role->syncPermissions($this->assignablePermissionIds($request->permissions));
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         return redirect()
             ->route('roles.index')
@@ -121,6 +127,50 @@ class RoleController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $this->authorize(Permissions::DELETE_ROLE);
+
+        $role = Role::findOrFail($id);
+
+        if (Permissions::isSuperAdminRole($role->name)) {
+            return back()->with('danger', 'The Super Admin role cannot be deleted.');
+        }
+
+        $isAssigned = $role->users()->exists()
+            || User::where('role_id', $role->id)->exists();
+
+        if ($isAssigned) {
+            return back()->with('danger', 'This role is assigned to users and cannot be deleted.');
+        }
+
+        $role->delete();
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        return redirect()
+            ->route('roles.index')
+            ->with('danger', 'Role deleted successfully');
+    }
+
+    private function permissionGroups(): array
+    {
+        $allPermissions = Permission::all()->keyBy('name');
+        $groups = [];
+
+        foreach (Permissions::groups() as $groupName => $names) {
+            $groups[$groupName] = collect($names)
+                ->map(fn ($name) => $allPermissions->get($name))
+                ->filter()
+                ->values();
+        }
+
+        return $groups;
+    }
+
+    private function assignablePermissionIds(array $permissionIds): array
+    {
+        return Permission::query()
+            ->whereIn('id', $permissionIds)
+            ->whereIn('name', Permissions::assignable())
+            ->pluck('id')
+            ->all();
     }
 }

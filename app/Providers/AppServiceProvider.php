@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
             // 'product' => 'App\Models\Product',
             // Add other models here as needed
         ]);
+
+        Gate::before(function ($user, ?string $ability = null) {
+            return $user instanceof User && $user->isSuperAdmin() ? true : null;
+        });
     }
 
     private function shouldForceHttps(): bool

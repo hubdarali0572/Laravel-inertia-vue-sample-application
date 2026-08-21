@@ -33,108 +33,95 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section class="theme-form-card flex h-full flex-col overflow-hidden">
+    <section class="theme-form-card overflow-hidden">
         <div class="theme-form-section-header">
-            <h2 class="theme-form-section-title">Update Password</h2>
-            <p class="mt-1 text-xs text-slate-400">
-                Use a strong, unique password to keep your account secure.
+            <h2 class="theme-form-section-title">Password</h2>
+            <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+                Change the password for this account.
             </p>
         </div>
 
-        <div class="flex flex-1 flex-col p-6 md:p-8">
-            <form
-                @submit.prevent="updatePassword"
-                class="flex flex-1 flex-col space-y-5"
-            >
-                <div>
-                    <InputLabel for="current_password" value="Current Password" />
-                    <TextInput
-                        id="current_password"
-                        ref="currentPasswordInput"
-                        v-model="form.current_password"
-                        type="password"
-                        class="mt-1 block w-full"
-                        autocomplete="current-password"
-                        placeholder="Enter current password"
-                    />
-                    <InputError
-                        :message="form.errors.current_password"
-                        class="mt-2"
-                    />
-                </div>
+        <form class="space-y-3 p-4" @submit.prevent="updatePassword">
+            <div>
+                <InputLabel
+                    for="current_password"
+                    value="Current password"
+                    class="theme-form-label mb-1"
+                />
+                <TextInput
+                    id="current_password"
+                    ref="currentPasswordInput"
+                    v-model="form.current_password"
+                    type="password"
+                    class="theme-form-input"
+                    autocomplete="current-password"
+                />
+                <InputError
+                    :message="form.errors.current_password"
+                    class="mt-1"
+                />
+            </div>
 
+            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
-                    <InputLabel for="password" value="New Password" />
+                    <InputLabel
+                        for="password"
+                        value="New password"
+                        class="theme-form-label mb-1"
+                    />
                     <TextInput
                         id="password"
                         ref="passwordInput"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-full"
+                        class="theme-form-input"
                         autocomplete="new-password"
-                        placeholder="Enter new password"
                     />
-                    <InputError :message="form.errors.password" class="mt-2" />
+                    <InputError :message="form.errors.password" class="mt-1" />
                 </div>
 
                 <div>
                     <InputLabel
                         for="password_confirmation"
-                        value="Confirm Password"
+                        value="Confirm password"
+                        class="theme-form-label mb-1"
                     />
                     <TextInput
                         id="password_confirmation"
                         v-model="form.password_confirmation"
                         type="password"
-                        class="mt-1 block w-full"
+                        class="theme-form-input"
                         autocomplete="new-password"
-                        placeholder="Confirm new password"
                     />
                     <InputError
                         :message="form.errors.password_confirmation"
-                        class="mt-2"
+                        class="mt-1"
                     />
                 </div>
+            </div>
 
-                <div
-                    class="mt-auto flex flex-col gap-4 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between dark:border-slate-700"
+            <div class="flex items-center justify-end gap-3">
+                <Transition
+                    enter-active-class="transition ease-in-out duration-200"
+                    enter-from-class="opacity-0"
+                    leave-active-class="transition ease-in-out duration-200"
+                    leave-to-class="opacity-0"
                 >
-                    <Transition
-                        enter-active-class="transition ease-in-out duration-300"
-                        enter-from-class="opacity-0"
-                        leave-active-class="transition ease-in-out duration-300"
-                        leave-to-class="opacity-0"
+                    <p
+                        v-if="form.recentlySuccessful"
+                        class="text-[11px] font-medium text-indigo-600 dark:text-indigo-300"
                     >
-                        <p
-                            v-if="form.recentlySuccessful"
-                            class="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-300"
-                        >
-                            <svg
-                                class="h-4 w-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                            </svg>
-                            Password updated
-                        </p>
-                    </Transition>
-
-                    <button
-                        type="submit"
-                        :disabled="form.processing"
-                        class="theme-btn-primary w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Update Password
-                    </button>
-                </div>
-            </form>
-        </div>
+                        Updated
+                    </p>
+                </Transition>
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="theme-btn-primary disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                    Update
+                </button>
+            </div>
+        </form>
     </section>
 </template>
