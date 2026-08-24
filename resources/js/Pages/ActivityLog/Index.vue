@@ -104,6 +104,7 @@ const handleModalConfirm = () => {
 
         <PageHeader
             :title="t('activity.page_title')"
+            :subtitle="t('activity.subtitle')"
         >
             <button
                 v-if="canDelete"

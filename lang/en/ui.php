@@ -114,6 +114,7 @@ return [
 
     'users' => [
         'title' => 'User Management',
+        'subtitle' => 'Manage and monitor system access and roles.',
         'info' => 'User Info',
         'role' => 'User Role',
         'empty' => 'No users found.',
@@ -146,6 +147,7 @@ return [
 
     'roles' => [
         'title' => 'Role Management',
+        'subtitle' => 'Manage and monitor system access and roles.',
         'name' => 'Role Name',
         'empty' => 'No roles available.',
         'edit' => 'Edit Role',
@@ -169,6 +171,7 @@ return [
     'activity' => [
         'title' => 'Activity Logs',
         'page_title' => 'System Activity Logs',
+        'subtitle' => 'Detailed tracking of all system changes.',
         'clear_all' => 'Clear all logs',
         'user' => 'User',
         'action' => 'Action',

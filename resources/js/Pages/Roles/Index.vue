@@ -49,6 +49,7 @@ const confirmDelete = () => {
     <AuthenticatedLayout>
         <PageHeader
             :title="t('roles.title')"
+            :subtitle="t('roles.subtitle')"
         >
             <Link
                 v-if="canCreate"

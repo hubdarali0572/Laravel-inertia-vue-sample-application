@@ -57,6 +57,7 @@ const confirmDelete = () => {
 
         <PageHeader
             :title="t('users.title')"
+            :subtitle="t('users.subtitle')"
         >
             <Link
                 v-if="canCreate"

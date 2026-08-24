@@ -25,30 +25,25 @@ const highlights = computed(() => [
             <div
                 class="relative z-10 flex w-full flex-col justify-between p-10 xl:p-16"
             >
-                <div class="flex items-center justify-between gap-4">
-                    <Link href="/" class="flex w-fit items-center gap-3">
-                        <ApplicationLogo class="theme-icon-brand h-9 w-9 shrink-0" />
-                        <span class="text-sm font-bold tracking-tight">{{
-                            t("app.brand")
-                        }}</span>
-                    </Link>
-                    <LanguageSwitcher />
-                </div>
+                <Link href="/" class="flex w-fit items-center gap-3">
+                    <ApplicationLogo class="theme-icon-brand h-9 w-9 shrink-0" />
+                    <span class="text-sm font-bold tracking-tight">{{
+                        t("app.brand")
+                    }}</span>
+                </Link>
 
                 <div class="max-w-md">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-accent)]">
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] theme-guest-brand-muted">
                         {{ t("app.platform") }}
                     </p>
                     <h1
                         class="mt-3 text-3xl font-extrabold leading-tight tracking-tight xl:text-4xl"
                     >
                         {{ t("auth.guest_heading") }}
-                        <span class="text-[var(--color-accent)]">{{
-                            t("auth.guest_heading_accent")
-                        }}</span>
+                        <span>{{ t("auth.guest_heading_accent") }}</span>
                         {{ t("auth.guest_for") }}
                     </h1>
-                    <p class="mt-4 text-sm leading-relaxed text-white/70">
+                    <p class="theme-guest-brand-muted mt-4 text-sm leading-relaxed">
                         {{ t("auth.guest_text") }}
                     </p>
 
@@ -56,13 +51,13 @@ const highlights = computed(() => [
                         <li
                             v-for="item in highlights"
                             :key="item"
-                            class="flex items-center gap-3 text-sm text-white/80"
+                            class="theme-guest-brand-muted flex items-center gap-3 text-sm"
                         >
                             <span
                                 class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/20"
                             >
                                 <svg
-                                    class="h-3 w-3 text-[var(--color-accent)]"
+                                    class="h-3 w-3"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -80,7 +75,7 @@ const highlights = computed(() => [
                     </ul>
                 </div>
 
-                <p class="text-xs text-white/40">
+                <p class="theme-guest-brand-faint text-xs">
                     &copy; {{ new Date().getFullYear() }}
                     {{ t("app.brand") }} {{ t("app.platform") }}
                 </p>
