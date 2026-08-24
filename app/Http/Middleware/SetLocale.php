@@ -12,6 +12,15 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next): Response
     {
+        $routeName = $request->route()?->getName();
+
+        if (is_string($routeName) && str_starts_with($routeName, 'publicSite.')) {
+            app()->setLocale('en');
+            Carbon::setLocale('en');
+
+            return $next($request);
+        }
+
         $locale = Locales::sanitize(
             $request->session()->get('locale')
             ?? $request->cookie(config('locales.cookie'))

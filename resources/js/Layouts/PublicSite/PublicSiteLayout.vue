@@ -1,46 +1,49 @@
 <script setup>
-import { onMounted, nextTick } from "vue";
+import { Head, usePage } from "@inertiajs/vue3";
+import { onMounted, nextTick, computed } from "vue";
 import AOS from "aos";
 import PublicSiteHeader from "@/Components/PublicSite/PublicSiteHeader.vue";
 import PublicSiteFooter from "@/Components/PublicSite/PublicSiteFooter.vue";
-import { useI18n } from "@/composables/useI18n";
 
-const { t } = useI18n();
+const cms = computed(() => usePage().props.institution || {});
+const favicon = computed(() => cms.value.favicon_url || "/images/logo.jpeg");
 
 onMounted(() => {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
+
     nextTick(() => {
         AOS.init({
-            duration: 700,
+            duration: 550,
             once: true,
-            offset: 60,
-            disable: false,
-            // Avoid horizontal transforms that cause mobile x-scroll
-            mirror: false,
+            offset: 48,
+            easing: "ease-out",
         });
     });
 });
 </script>
 
 <template>
-    <div
-        class="theme-app-bg flex min-h-screen w-full max-w-full flex-col overflow-x-hidden"
-    >
-        <a
-            href="#main-content"
-            class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-[var(--color-primary)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
-        >
-            {{ t("public.skip_main") }}
-        </a>
-
+    <div class="ps-site">
+        <Head>
+            <link
+                head-key="icon"
+                rel="icon"
+                type="image/jpeg"
+                :href="favicon"
+            />
+            <link
+                head-key="apple-touch-icon"
+                rel="apple-touch-icon"
+                :href="favicon"
+            />
+        </Head>
+        <a href="#main-content" class="ps-skip">Skip to main content</a>
         <PublicSiteHeader />
-
-        <main
-            id="main-content"
-            class="w-full max-w-full flex-1 overflow-x-hidden pt-14 sm:pt-16"
-        >
+        <main id="main-content">
             <slot />
         </main>
-
         <PublicSiteFooter />
     </div>
 </template>

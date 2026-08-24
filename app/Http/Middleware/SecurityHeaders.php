@@ -68,7 +68,7 @@ class SecurityHeaders
             "font-src 'self' https://fonts.bunny.net data:",
             "img-src 'self' data: blob: https:",
             'connect-src '.implode(' ', $connectSrc),
-            'frame-src https://www.google.com https://www.gstatic.com https://recaptcha.google.com',
+            'frame-src https://www.google.com https://www.gstatic.com https://recaptcha.google.com https://maps.google.com https://www.openstreetmap.org',
         ];
 
         // Only upgrade insecure subresources when the page is already HTTPS.

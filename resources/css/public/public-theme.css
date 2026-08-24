@@ -1,0 +1,89 @@
+/* Isolated public-site tokens. Do not reuse admin CSS variables. */
+
+.ps-html,
+.ps-body {
+    max-width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.ps-html::-webkit-scrollbar,
+.ps-body::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none;
+}
+
+.ps-site {
+    --ps-navy: #0b1f3a;
+    --ps-navy-deep: #071528;
+    --ps-navy-mid: #143056;
+    --ps-teal: #0f766e;
+    --ps-teal-dark: #0b5b55;
+    --ps-teal-soft: #e6f4f2;
+    --ps-white: #ffffff;
+    --ps-gray-50: #f4f6f8;
+    --ps-gray-100: #e8edf2;
+    --ps-gray-200: #d5dee7;
+    --ps-gray-400: #94a3b8;
+    --ps-gray-500: #64748b;
+    --ps-gray-700: #334155;
+    --ps-gray-800: #1e293b;
+    --ps-text: #334155;
+    --ps-heading: #0b1f3a;
+    --ps-danger: #b42318;
+    --ps-success: #067647;
+    --ps-success-bg: #ecfdf3;
+    --ps-radius: 6px;
+    --ps-radius-lg: 10px;
+    --ps-shadow: 0 1px 2px rgba(11, 31, 58, 0.06), 0 8px 24px rgba(11, 31, 58, 0.06);
+    --ps-shadow-sm: 0 1px 2px rgba(11, 31, 58, 0.06);
+    --ps-font: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --ps-topbar: 2.25rem;
+    --ps-nav: 5.25rem;
+    --ps-hero-height: 36rem;
+    --ps-container: 72rem;
+    --ps-focus: 0 0 0 3px rgba(15, 118, 110, 0.28);
+
+    min-height: 100vh;
+    overflow-x: clip;
+    background: var(--ps-white);
+    color: var(--ps-text);
+    font-family: var(--ps-font);
+    font-size: 1rem;
+    line-height: 1.65;
+    color-scheme: light;
+}
+
+.ps-body {
+    margin: 0;
+    background: var(--ps-white, #fff);
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    color-scheme: light;
+}
+
+.ps-site a:not([class*="ps-btn"]) {
+    color: inherit;
+}
+
+.ps-site img {
+    max-width: 100%;
+    height: auto;
+}
+
+.ps-site .ps-logo-img,
+.ps-site .ps-hero-media,
+.ps-site .ps-card-media img,
+.ps-site .ps-card-avatar {
+    max-width: none;
+}
+
+.ps-site .ps-logo-img,
+.ps-site .ps-card-avatar {
+    height: 100%;
+}
+
+.ps-site :focus-visible {
+    outline: none;
+    box-shadow: var(--ps-focus);
+}
