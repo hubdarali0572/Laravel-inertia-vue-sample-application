@@ -115,6 +115,7 @@ return [
     'users' => [
         'title' => 'User Management',
         'subtitle' => 'Manage and monitor system access and roles.',
+        'list_title' => 'User List',
         'info' => 'User Info',
         'role' => 'User Role',
         'empty' => 'No users found.',
@@ -148,6 +149,7 @@ return [
     'roles' => [
         'title' => 'Role Management',
         'subtitle' => 'Manage and monitor system access and roles.',
+        'list_title' => 'Role List',
         'name' => 'Role Name',
         'empty' => 'No roles available.',
         'edit' => 'Edit Role',

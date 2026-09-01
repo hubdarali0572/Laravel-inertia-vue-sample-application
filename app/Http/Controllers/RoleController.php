@@ -28,22 +28,14 @@ class RoleController extends Controller implements HasMiddleware
     {
         $this->authorize(Permissions::VIEW_ROLE);
 
-        $roles = Role::whereRaw('LOWER(name) != ?', [Permissions::SUPERADMIN_ROLE])
-            ->latest()
-            ->paginate(10);
-
-        return Inertia::render('Roles/Index', [
-            'roles' => $roles,
-        ]);
+        return Inertia::render('Roles/Index', $this->indexProps());
     }
 
     public function create()
     {
         $this->authorize(Permissions::CREATE_ROLE);
 
-        return Inertia::render('Roles/Create', [
-            'permissionGroups' => $this->permissionGroups(),
-        ]);
+        return $this->index();
     }
 
     public function store(Request $request)
@@ -84,20 +76,15 @@ class RoleController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $this->authorize(Permissions::EDIT_ROLE);
+        $this->authorize(Permissions::VIEW_ROLE);
 
-        $role = Role::findOrFail($id);
+        $role = Role::with('permissions')->findOrFail($id);
 
         abort_if(Permissions::isSuperAdminRole($role->name), 403);
 
-        return Inertia::render('Roles/Edit', [
-            'role' => $role,
-            'permissionGroups' => $this->permissionGroups(),
-            'rolePermissions' => $role->permissions
-                ->whereIn('name', Permissions::assignable())
-                ->pluck('id')
-                ->values()
-                ->all(),
-        ]);
+        return Inertia::render('Roles/Index', array_merge($this->indexProps(), [
+            'editingRole' => $this->formatRoleForForm($role),
+        ]));
     }
 
     public function update(Request $request, string $id)
@@ -148,6 +135,43 @@ class RoleController extends Controller implements HasMiddleware
         return redirect()
             ->route('roles.index')
             ->with('danger', __('ui.flash.role_deleted'));
+    }
+
+    private function indexProps(): array
+    {
+        $roles = Role::with('permissions')
+            ->whereRaw('LOWER(name) != ?', [Permissions::SUPERADMIN_ROLE])
+            ->latest()
+            ->paginate(10)
+            ->through(fn ($role) => $this->formatRoleForForm($role));
+
+        $props = [
+            'roles' => $roles,
+            'permissionGroups' => [],
+            'editingRole' => null,
+        ];
+
+        if (
+            auth()->user()?->can(Permissions::CREATE_ROLE)
+            || auth()->user()?->can(Permissions::EDIT_ROLE)
+        ) {
+            $props['permissionGroups'] = $this->permissionGroups();
+        }
+
+        return $props;
+    }
+
+    private function formatRoleForForm(Role $role): array
+    {
+        return [
+            'id' => $role->id,
+            'name' => $role->name,
+            'permission_ids' => $role->permissions
+                ->whereIn('name', Permissions::assignable())
+                ->pluck('id')
+                ->values()
+                ->all(),
+        ];
     }
 
     private function permissionGroups(): array

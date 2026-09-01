@@ -103,11 +103,18 @@ const navItems = computed(() => {
 });
 
 const pageTitle = computed(() => {
-    if (route().current("dashboard")) return t("nav.dashboard");
-    if (route().current("users.*")) return t("nav.users");
-    if (route().current("roles.*")) return t("nav.roles");
-    if (route().current("activity.*")) return t("nav.activity");
-    if (route().current("profile.*")) return t("nav.profile");
+    const activeModule = allNavItems.value.find(
+        (item) => !item.category && item.show && item.active,
+    );
+
+    if (activeModule) {
+        return activeModule.name;
+    }
+
+    if (route().current("profile.*")) {
+        return t("nav.profile");
+    }
+
     return t("nav.dashboard");
 });
 </script>
@@ -267,6 +274,60 @@ const pageTitle = computed(() => {
                                 {{ t("header.my_profile") }}
                             </Link>
 
+                            <button
+                                type="button"
+                                class="theme-dropdown-item mt-0.5"
+                                :title="
+                                    isDark
+                                        ? t('header.light_mode')
+                                        : t('header.dark_mode')
+                                "
+                                :aria-label="
+                                    isDark
+                                        ? t('header.light_mode')
+                                        : t('header.dark_mode')
+                                "
+                                @click="toggleDarkMode"
+                            >
+                                <span class="theme-dropdown-icon">
+                                    <svg
+                                        v-if="isDark"
+                                        class="h-3.5 w-3.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                                        />
+                                    </svg>
+                                    <svg
+                                        v-else
+                                        class="h-3.5 w-3.5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+                                        />
+                                    </svg>
+                                </span>
+                                {{
+                                    isDark
+                                        ? t("header.light_mode")
+                                        : t("header.dark_mode")
+                                }}
+                            </button>
+
+                            <LanguageSwitcher variant="dropdown" />
+
                             <Link
                                 :href="route('logout')"
                                 method="post"
@@ -330,7 +391,7 @@ const pageTitle = computed(() => {
         <!-- MAIN CONTENT AREA -->
         <div class="flex min-w-0 flex-1 flex-col overflow-hidden">
             <header class="theme-header">
-                <div class="flex min-w-0 items-center">
+                <div class="flex min-w-0 flex-1 items-center">
                     <button
                         type="button"
                         class="theme-header-menu-btn -ms-2 lg:hidden"
@@ -351,75 +412,6 @@ const pageTitle = computed(() => {
                             {{ pageTitle }}
                         </h1>
                     </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <button
-                        type="button"
-                        class="theme-header-control theme-header-control-icon"
-                        :title="
-                            isDark
-                                ? t('header.light_mode')
-                                : t('header.dark_mode')
-                        "
-                        :aria-label="
-                            isDark
-                                ? t('header.light_mode')
-                                : t('header.dark_mode')
-                        "
-                        @click="toggleDarkMode"
-                    >
-                        <svg
-                            v-if="isDark"
-                            class="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                            />
-                        </svg>
-                        <svg
-                            v-else
-                            class="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
-                            />
-                        </svg>
-                    </button>
-                    <LanguageSwitcher />
-                    <a
-                        href="/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="theme-header-control hidden sm:inline-flex"
-                    >
-                        <svg
-                            class="h-3.5 w-3.5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            stroke-width="2"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M13.5 3H21m0 0v7.5M21 3l-9.75 9.75M7.5 6H6A2.25 2.25 0 003.75 8.25v9.75A2.25 2.25 0 006 20.25h9.75A2.25 2.25 0 0018 18v-1.5"
-                            />
-                        </svg>
-                        {{ t("header.view_site") }}
-                    </a>
                 </div>
             </header>
 

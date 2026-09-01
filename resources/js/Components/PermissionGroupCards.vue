@@ -10,6 +10,10 @@ defineProps({
         type: Array,
         required: true,
     },
+    embedded: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -68,14 +72,17 @@ const toggleGroup = (ids, permissions, checked) => {
 </script>
 
 <template>
-    <div class="theme-form-card">
-        <div class="theme-form-section-header">
+    <div :class="embedded ? '' : 'theme-form-card'">
+        <div
+            class="theme-form-section-header"
+            :class="{ 'border-t border-slate-200 dark:border-slate-700': embedded }"
+        >
             <h3 class="theme-form-section-title">
                 {{ t("roles.permissions_title") }}
             </h3>
         </div>
 
-        <div class="theme-perm-grid">
+        <div class="theme-perm-grid" :class="{ 'theme-perm-grid-embedded': embedded }">
             <div
                 v-for="(permissions, groupName) in groups"
                 :key="groupName"

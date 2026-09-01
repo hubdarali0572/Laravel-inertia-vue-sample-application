@@ -27,32 +27,14 @@ class UserController extends Controller implements HasMiddleware
     {
         $this->authorize(Permissions::VIEW_USER);
 
-        $users = User::whereHas('role', function ($query) {
-            $query->whereRaw('LOWER(name) != ?', [Permissions::SUPERADMIN_ROLE]);
-        })
-            ->with(['role', 'media'])
-            ->latest()
-            ->paginate(10)
-            ->through(fn ($user) => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role,
-                'profile_image' => $user->profile_image_url,
-            ]);
-
-        return Inertia::render('Users/Index', [
-            'users' => $users,
-        ]);
+        return Inertia::render('Users/Index', $this->indexProps());
     }
 
     public function create()
     {
         $this->authorize(Permissions::CREATE_USER);
 
-        return Inertia::render('Users/Create', [
-            'roles' => $this->assignableRoles(),
-        ]);
+        return $this->index();
     }
 
     public function store(Request $request)
@@ -89,30 +71,21 @@ class UserController extends Controller implements HasMiddleware
     {
         $this->authorize(Permissions::SHOW_USER);
 
-        $user = User::with(['role', 'media'])->findOrFail($id);
-
-        abort_if($user->isSuperAdmin(), 403);
-
-        return Inertia::render('Users/Edit', [
-            'user' => $user,
-            'roles' => $this->assignableRoles(),
-            'user_image' => $user->profile_image_url,
-        ]);
+        return $this->edit($id);
     }
 
     public function edit(string $id)
     {
         $this->authorize(Permissions::EDIT_USER);
+        $this->authorize(Permissions::VIEW_USER);
 
         $user = User::with(['role', 'media'])->findOrFail($id);
 
         abort_if($user->isSuperAdmin(), 403);
 
-        return Inertia::render('Users/Edit', [
-            'user' => $user,
-            'roles' => $this->assignableRoles(),
-            'user_image' => $user->profile_image_url,
-        ]);
+        return Inertia::render('Users/Index', array_merge($this->indexProps(), [
+            'editingUser' => $this->formatUserForForm($user),
+        ]));
     }
 
     public function update(Request $request, string $id)
@@ -172,6 +145,50 @@ class UserController extends Controller implements HasMiddleware
         return redirect()
             ->route('users.index')
             ->with('danger', __('ui.flash.user_deleted'));
+    }
+
+    private function indexProps(): array
+    {
+        $users = User::whereHas('role', function ($query) {
+            $query->whereRaw('LOWER(name) != ?', [Permissions::SUPERADMIN_ROLE]);
+        })
+            ->with(['role', 'media'])
+            ->latest()
+            ->paginate(10)
+            ->through(fn ($user) => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role_id' => $user->role_id,
+                'role' => $user->role,
+                'profile_image' => $user->profile_image_url,
+            ]);
+
+        $props = [
+            'users' => $users,
+            'roles' => [],
+            'editingUser' => null,
+        ];
+
+        if (
+            auth()->user()?->can(Permissions::CREATE_USER)
+            || auth()->user()?->can(Permissions::EDIT_USER)
+        ) {
+            $props['roles'] = $this->assignableRoles();
+        }
+
+        return $props;
+    }
+
+    private function formatUserForForm(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'role_id' => $user->role_id,
+            'profile_image' => $user->profile_image_url,
+        ];
     }
 
     private function assignableRoles()
