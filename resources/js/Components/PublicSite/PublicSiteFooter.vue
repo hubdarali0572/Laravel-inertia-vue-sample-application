@@ -1,101 +1,152 @@
 <script setup>
 import { Link, usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import { useI18n } from "@/composables/useI18n";
+import { computed, ref } from "vue";
+import InstitutionLogo from "@/Components/PublicSite/InstitutionLogo.vue";
+import PublicIcon from "@/Components/PublicSite/PublicIcon.vue";
+import PublicModal from "@/Components/PublicSite/PublicModal.vue";
 
 const page = usePage();
-const { t } = useI18n();
+const cms = computed(() => page.props.institution || {});
+const name = computed(() => cms.value.name || "Bright Future Educational Institute");
+const phone = computed(() => cms.value.phone || "+92 42 111 233 348");
+const email = computed(() => cms.value.email || "info@example.edu.pk");
+const address = computed(() => cms.value.address || "123 Education Road");
+const city = computed(() => cms.value.city || "Lahore, Pakistan");
+const officeHours = computed(() => cms.value.office_hours || "Monday – Friday, 8:00 AM – 4:00 PM");
+const social = computed(() => ({
+    facebook: cms.value.social?.facebook || "https://www.facebook.com",
+    instagram: cms.value.social?.instagram || "https://www.instagram.com",
+    youtube: cms.value.social?.youtube || "https://www.youtube.com",
+    linkedin: cms.value.social?.linkedin || "https://www.linkedin.com",
+}));
 
-const laravelVersion = computed(() => page.props.laravelVersion);
-const phpVersion = computed(() => page.props.phpVersion);
-const currentYear = computed(() => new Date().getFullYear());
+const year = computed(() => new Date().getFullYear());
+const legal = ref(null);
 
-const navItems = computed(() => [
-    { label: t("public.home"), href: route("publicSite.home") },
-    { label: t("public.features"), href: `${route("publicSite.home")}#features` },
-    { label: t("public.about"), href: route("publicSite.about") },
-    { label: t("public.stack"), href: `${route("publicSite.home")}#stack` },
-    { label: t("public.security"), href: `${route("publicSite.home")}#security` },
-]);
+const institutionLinks = [
+    { label: "About", href: route("publicSite.about") },
+    { label: "Vision & Mission", href: `${route("publicSite.about")}#vision` },
+    { label: "Leadership", href: `${route("publicSite.about")}#leadership` },
+    { label: "Achievements", href: `${route("publicSite.about")}#achievements` },
+];
 
-const isAnchor = (href) => href.startsWith("#") || href.includes("#");
+const columns = [
+    {
+        title: "Academics",
+        links: [
+            { label: "Programs", href: route("publicSite.academics") },
+            { label: "Departments", href: `${route("publicSite.academics")}#departments` },
+            { label: "Faculty", href: `${route("publicSite.academics")}#faculty` },
+            { label: "Academic Calendar", href: `${route("publicSite.academics")}#calendar` },
+        ],
+    },
+    {
+        title: "Admissions",
+        links: [
+            { label: "Apply Now", href: route("publicSite.admissions") },
+            { label: "Eligibility", href: `${route("publicSite.admissions")}#eligibility` },
+            { label: "Fee Structure", href: `${route("publicSite.admissions")}#fees` },
+            { label: "Scholarships", href: `${route("publicSite.admissions")}#scholarships` },
+        ],
+    },
+];
+
+const legalCopy = {
+    privacy: {
+        title: "Privacy Policy",
+        body: "Bright Future Educational Institute collects only the information needed to respond to enquiries and administer admissions. Personal data submitted through public forms is used for institutional communication and is not sold to third parties.",
+    },
+    terms: {
+        title: "Terms & Conditions",
+        body: "Content on this website is provided for general information about programmes, admissions, and campus life. Programme availability, fees, and dates may be updated by the institution. Enrolment is governed by the official prospectus and admission offer.",
+    },
+    accessibility: {
+        title: "Accessibility",
+        body: "We aim to keep this website usable with keyboard navigation, readable contrast, and descriptive labels. If you encounter a barrier, please contact info@example.edu.pk so we can improve access.",
+    },
+};
 </script>
 
 <template>
-    <footer
-        class="w-full max-w-full overflow-x-hidden border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950"
-    >
-        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-            <div
-                class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-10 lg:gap-16"
-            >
-                <div class="flex max-w-md flex-col gap-3 sm:gap-4">
-                    <Link
-                        :href="route('publicSite.home')"
-                        class="inline-flex items-center gap-2.5 sm:gap-3"
-                        :aria-label="t('app.brand')"
-                    >
-                        <ApplicationLogo
-                            class="h-6 w-6 shrink-0 fill-slate-400 sm:h-7 sm:w-7 dark:fill-slate-500"
-                            aria-hidden="true"
-                        />
-                        <span
-                            class="text-sm font-semibold tracking-tight text-slate-700 sm:text-base dark:text-slate-200"
-                        >
-                            {{ t("app.brand") }}
+    <footer class="ps-footer">
+        <div class="ps-container">
+            <div class="ps-footer-grid">
+                <div>
+                    <Link :href="route('publicSite.home')" class="ps-brand" :aria-label="name">
+                        <span class="ps-brand-mark">
+                            <InstitutionLogo />
                         </span>
+                        <span class="ps-brand-name" style="color: #fff">{{ name }}</span>
                     </Link>
-                    <p
-                        class="text-sm leading-relaxed text-slate-500 dark:text-slate-400"
-                    >
-                        {{ t("public.tagline") }}
+                    <p class="ps-mt-4" style="max-width: 22rem">
+                        A professional educational institution in Lahore committed to academic excellence, character, and student success.
                     </p>
-                </div>
-
-                <nav
-                    class="w-full md:max-w-xs lg:max-w-none lg:flex-1"
-                    aria-label="Footer"
-                >
-                    <p
-                        class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
-                    >
-                        {{ t("public.explore") }}
-                    </p>
-                    <ul
-                        class="grid grid-cols-2 gap-x-4 gap-y-1 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-2 lg:grid-cols-5 lg:gap-x-4"
-                    >
-                        <li v-for="item in navItems" :key="item.label">
-                            <a
-                                v-if="isAnchor(item.href)"
-                                :href="item.href"
-                                class="theme-public-nav inline-flex min-h-12 items-center"
-                            >
-                                {{ item.label }}
-                            </a>
-                            <Link
-                                v-else
-                                :href="item.href"
-                                class="theme-public-nav inline-flex min-h-12 items-center"
-                            >
-                                {{ item.label }}
-                            </Link>
+                    <h3 class="ps-mt-6">Institution</h3>
+                    <ul class="ps-footer-list">
+                        <li v-for="link in institutionLinks" :key="link.label">
+                            <Link :href="link.href">{{ link.label }}</Link>
                         </li>
                     </ul>
-                </nav>
+                    <div class="ps-social ps-mt-6">
+                        <a :href="social.facebook" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <PublicIcon name="facebook" class="h-4 w-4" />
+                        </a>
+                        <a :href="social.instagram" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                            <PublicIcon name="instagram" class="h-4 w-4" />
+                        </a>
+                        <a :href="social.youtube" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                            <PublicIcon name="youtube" class="h-4 w-4" />
+                        </a>
+                        <a :href="social.linkedin" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                            <PublicIcon name="linkedin" class="h-4 w-4" />
+                        </a>
+                    </div>
+                </div>
+
+                <div v-for="column in columns" :key="column.title">
+                    <h3>{{ column.title }}</h3>
+                    <ul class="ps-footer-list">
+                        <li v-for="link in column.links" :key="link.label">
+                            <Link :href="link.href">{{ link.label }}</Link>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Contact</h3>
+                    <ul class="ps-footer-list">
+                        <li>{{ address }}<br />{{ city }}</li>
+                        <li><a :href="`tel:${phone.replace(/\s/g, '')}`">{{ phone }}</a></li>
+                        <li><a :href="`mailto:${email}`">{{ email }}</a></li>
+                        <li>{{ officeHours }}</li>
+                    </ul>
+                </div>
             </div>
 
-            <div
-                class="mt-8 flex flex-col items-start justify-between gap-3 border-t border-slate-200 pt-6 sm:mt-10 sm:flex-row sm:items-center dark:border-slate-800"
-            >
-                <p class="text-xs text-slate-400 dark:text-slate-500">
-                    &copy; {{ currentYear }} {{ t("app.brand") }}.
-                    {{ t("public.copyright") }}
+            <div class="ps-footer-bottom">
+                <p class="ps-mb-0">
+                    © {{ year }} {{ name }}. All Rights Reserved.
                 </p>
-                <p class="text-xs text-slate-400 dark:text-slate-500">
-                    Laravel v{{ laravelVersion }} &middot; PHP v{{ phpVersion }}
-                </p>
+                <div class="ps-row">
+                    <button type="button" class="ps-util-link" style="display: inline; color: inherit" @click="legal = 'privacy'">
+                        Privacy Policy
+                    </button>
+                    <button type="button" class="ps-util-link" style="display: inline; color: inherit" @click="legal = 'terms'">
+                        Terms & Conditions
+                    </button>
+                    <button type="button" class="ps-util-link" style="display: inline; color: inherit" @click="legal = 'accessibility'">
+                        Accessibility
+                    </button>
+                </div>
             </div>
         </div>
+
+        <PublicModal
+            :open="Boolean(legal)"
+            :title="legal ? legalCopy[legal].title : ''"
+            @close="legal = null"
+        >
+            <p v-if="legal">{{ legalCopy[legal].body }}</p>
+        </PublicModal>
     </footer>
 </template>

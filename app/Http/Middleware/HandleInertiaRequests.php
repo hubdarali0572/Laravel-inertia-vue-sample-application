@@ -19,6 +19,11 @@ class HandleInertiaRequests extends Middleware
      */
     protected $rootView = 'app';
 
+    public function rootView(Request $request): string
+    {
+        return $this->isPublicSite($request) ? 'public-site' : 'app';
+    }
+
     /**
      * Determine the current asset version.
      */
@@ -43,8 +48,12 @@ class HandleInertiaRequests extends Middleware
             app(PermissionRegistrar::class)->setPermissionsTeamId(null);
         }
 
+        $isPublicSite = $this->isPublicSite($request);
+
         return [
             ...parent::share($request),
+            'isPublicSite' => $isPublicSite,
+            'institution' => $isPublicSite ? (object) [] : null,
             'auth' => [
                 'user' => $user ? [
                     'id' => $user->id,
@@ -82,5 +91,12 @@ class HandleInertiaRequests extends Middleware
             ],
             'recaptcha_site_key' => env('GOOGLE_RECAPTCHA_KEY'),
         ];
+    }
+
+    protected function isPublicSite(Request $request): bool
+    {
+        $name = $request->route()?->getName();
+
+        return is_string($name) && str_starts_with($name, 'publicSite.');
     }
 }
