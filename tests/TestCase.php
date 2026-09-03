@@ -2,11 +2,11 @@
 
 namespace Tests;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use App\Support\Permissions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 abstract class TestCase extends BaseTestCase

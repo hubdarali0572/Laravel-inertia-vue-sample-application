@@ -7,12 +7,12 @@ use App\Support\Permissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Contracts\Activity as ActivityContract;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
@@ -70,7 +70,13 @@ class User extends Authenticatable implements HasMedia
     public function syncAssignedRole(Role $role): void
     {
         $this->role_id = $role->id;
-        $this->save();
+
+        // Persist only when role_id actually changed so we get one activity log,
+        // and avoid empty update logs when the role is unchanged.
+        if ($this->isDirty('role_id') || ! $this->exists) {
+            $this->save();
+        }
+
         $this->syncRoles([$role]);
         $this->unsetRelation('roles');
         $this->unsetRelation('permissions');
@@ -118,8 +124,30 @@ class User extends Authenticatable implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'image']) // Log these fields
-            ->logOnlyDirty()                      // Only log if something actually changed
-            ->dontSubmitEmptyLogs();              // Don't log if nothing changed
+            ->logOnly(['name', 'email', 'image', 'role_id'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
+    /**
+     * Store role names (not IDs) in activity properties for readable diffs.
+     */
+    public function tapActivity(ActivityContract $activity, string $eventName): void
+    {
+        $properties = $activity->properties?->toArray() ?? [];
+
+        foreach (['attributes', 'old'] as $bucket) {
+            if (! array_key_exists('role_id', $properties[$bucket] ?? [])) {
+                continue;
+            }
+
+            $roleId = $properties[$bucket]['role_id'];
+            $properties[$bucket]['role'] = $roleId
+                ? Role::query()->find($roleId)?->name
+                : null;
+            unset($properties[$bucket]['role_id']);
+        }
+
+        $activity->properties = $properties;
     }
 }

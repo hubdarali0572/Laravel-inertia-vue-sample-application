@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
+use App\Support\ActivityLogger;
 use App\Support\Permissions;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 class RoleController extends Controller implements HasMiddleware
@@ -53,13 +54,21 @@ class RoleController extends Controller implements HasMiddleware
 
         abort_if(Permissions::isSuperAdminRole($request->name), 403);
 
+        $permissionIds = $this->assignablePermissionIds($request->permissions);
+
         $role = Role::create([
             'name' => $request->name,
             'guard_name' => 'web',
         ]);
 
-        $role->syncPermissions($this->assignablePermissionIds($request->permissions));
+        $role->syncPermissions($permissionIds);
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        ActivityLogger::attachPermissionsToRoleLog(
+            $role,
+            $role->permissions()->pluck('name')->all(),
+            'created',
+        );
 
         return redirect()
             ->route('roles.index')
@@ -91,7 +100,7 @@ class RoleController extends Controller implements HasMiddleware
     {
         $this->authorize(Permissions::EDIT_ROLE);
 
-        $role = Role::findOrFail($id);
+        $role = Role::with('permissions')->findOrFail($id);
 
         abort_if(Permissions::isSuperAdminRole($role->name), 403);
 
@@ -103,9 +112,27 @@ class RoleController extends Controller implements HasMiddleware
 
         abort_if(Permissions::isSuperAdminRole($request->name), 403);
 
+        $oldPermissions = $role->permissions
+            ->whereIn('name', Permissions::assignable())
+            ->pluck('name')
+            ->all();
+
         $role->update(['name' => $request->name]);
-        $role->syncPermissions($this->assignablePermissionIds($request->permissions));
+
+        $permissionIds = $this->assignablePermissionIds($request->permissions);
+        $role->syncPermissions($permissionIds);
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        $role->load('permissions');
+
+        ActivityLogger::logRolePermissionChanges(
+            $role,
+            $oldPermissions,
+            $role->permissions
+                ->whereIn('name', Permissions::assignable())
+                ->pluck('name')
+                ->all(),
+        );
 
         return redirect()
             ->route('roles.index')
@@ -129,8 +156,12 @@ class RoleController extends Controller implements HasMiddleware
             return back()->with('danger', __('ui.flash.role_assigned'));
         }
 
+        $permissionNames = $role->permissions()->pluck('name')->all();
+
         $role->delete();
         app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        ActivityLogger::attachPermissionsToRoleLog($role, $permissionNames, 'deleted');
 
         return redirect()
             ->route('roles.index')
@@ -176,7 +207,7 @@ class RoleController extends Controller implements HasMiddleware
 
     private function permissionGroups(): array
     {
-        $allPermissions = Permission::all()->keyBy('name');
+        $allPermissions = Permission::query()->get()->keyBy('name');
         $groups = [];
 
         foreach (Permissions::groups() as $groupName => $names) {

@@ -31,9 +31,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Relation::enforceMorphMap([
-            'user' => 'App\Models\User',
-            // 'product' => 'App\Models\Product',
-            // Add other models here as needed
+            'user' => User::class,
+            'role' => \App\Models\Role::class,
+            'permission' => \App\Models\Permission::class,
         ]);
 
         Gate::before(function ($user, ?string $ability = null) {
