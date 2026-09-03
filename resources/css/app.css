@@ -1930,6 +1930,10 @@
         color: var(--color-text);
     }
 
+    .theme-guest-card-compact {
+        padding: 1rem 1.125rem;
+    }
+
     .theme-public-header {
         border-bottom: 1px solid var(--color-border);
         background-color: var(--color-header);

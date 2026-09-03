@@ -98,14 +98,14 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout auth-simple>
         <Head :title="t('auth.login')" />
 
-        <div class="mb-6 text-center sm:mb-8">
-            <h2 class="theme-heading text-xl font-bold tracking-tight sm:text-2xl">
+        <div class="mb-4 text-center">
+            <h2 class="theme-heading text-lg font-bold tracking-tight sm:text-xl">
                 {{ t("auth.login_title") }}
             </h2>
-            <p class="theme-text-muted mt-2 text-sm">
+            <p class="theme-text-muted mt-1 text-xs sm:text-sm">
                 {{ t("auth.login_subtitle") }}
             </p>
         </div>
@@ -117,7 +117,7 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit" class="space-y-5">
+        <form @submit.prevent="submit" class="space-y-3.5">
             <div>
                 <InputLabel for="email" :value="t('auth.email')" />
                 <TextInput
@@ -200,11 +200,11 @@ const submit = () => {
             </div>
 
             <div class="min-w-0">
-                <InputLabel for="recaptcha" :value="t('auth.verification')" />
-                <div class="mt-1.5 w-full min-w-0 overflow-x-auto">
+                <InputLabel for="recaptcha" :value="t('auth.verification')" class="text-xs" />
+                <div class="mt-1 w-full min-w-0">
                     <div
                         ref="captchaContainer"
-                        class="origin-top-left scale-[0.77] sm:scale-100"
+                        class="origin-top-left scale-[0.82] sm:scale-[0.9]"
                     />
                     <InputError
                         class="mt-2"
@@ -213,8 +213,8 @@ const submit = () => {
                 </div>
             </div>
 
-            <div class="pt-1">
-                <PrimaryButton class="w-full py-3.5" :disabled="form.processing">
+            <div>
+                <PrimaryButton class="w-full py-3" :disabled="form.processing">
                     <span v-if="form.processing" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -227,7 +227,7 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="theme-border mt-8 border-t pt-6 text-center">
+        <div class="theme-border mt-4 border-t pt-4 text-center">
             <p class="theme-text-muted text-sm">
                 {{ t("auth.no_account") }}
                 <Link

@@ -28,21 +28,21 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <GuestLayout auth-simple>
         <Head :title="t('auth.register')" />
 
-        <div class="mb-6 text-center sm:mb-8">
+        <div class="mb-4 text-center">
             <h2
-                class="theme-heading text-xl font-bold tracking-tight sm:text-2xl"
+                class="theme-heading text-lg font-bold tracking-tight sm:text-xl"
             >
                 {{ t('auth.register_title') }}
             </h2>
-            <p class="theme-text-muted mt-2 text-sm">
+            <p class="theme-text-muted mt-1 text-xs sm:text-sm">
                 {{ t('auth.register_subtitle') }}
             </p>
         </div>
 
-        <form @submit.prevent="submit" class="space-y-5">
+        <form @submit.prevent="submit" class="space-y-3.5">
             <div>
                 <InputLabel for="name" :value="t('auth.full_name')" />
                 <TextInput
@@ -130,8 +130,8 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.password_confirmation" />
             </div>
 
-            <div class="pt-1">
-                <PrimaryButton class="w-full py-3.5" :disabled="form.processing">
+            <div>
+                <PrimaryButton class="w-full py-3" :disabled="form.processing">
                     <span v-if="form.processing" class="flex items-center">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -144,7 +144,7 @@ const submit = () => {
             </div>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-slate-100 text-center dark:border-slate-800">
+        <div class="theme-border mt-4 border-t pt-4 text-center">
             <p class="theme-text-muted text-sm">
                 {{ t('auth.have_account') }}
                 <Link
