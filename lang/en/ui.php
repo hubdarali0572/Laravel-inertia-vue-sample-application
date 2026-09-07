@@ -151,6 +151,8 @@ return [
         'subtitle' => 'Manage and monitor system access and roles.',
         'list_title' => 'Role List',
         'name' => 'Role Name',
+        'modules' => 'Modules',
+        'permissions' => 'Permissions',
         'empty' => 'No roles available.',
         'edit' => 'Edit Role',
         'delete' => 'Delete Role',

@@ -87,19 +87,16 @@ const confirmDelete = () => {
 
         <FlashMessage />
 
-        <div class="theme-split-layout">
-            <aside v-if="showFormPanel" class="theme-split-form-panel">
+        <div class="theme-stack-layout">
+            
+            <aside v-if="showFormPanel" class="theme-stack-form-panel w-full">
                 <RoleForm
                     :permission-groups="permissionGroups"
                     :role="activeRole"
                     @cancel="cancelEdit"
                 />
             </aside>
-
-            <section
-                class="theme-split-list-panel"
-                :class="{ 'theme-split-list-panel-full': !showFormPanel }"
-            >
+            <section class="theme-stack-list-panel w-full">
                 <div class="theme-table-card">
                     <div class="theme-form-section-header">
                         <h3 class="theme-form-section-title">
@@ -210,6 +207,7 @@ const confirmDelete = () => {
                     <PaginationFooter :paginator="roles" noun="roles" />
                 </div>
             </section>
+
         </div>
 
         <ConfirmModal
@@ -224,4 +222,5 @@ const confirmDelete = () => {
             @confirm="confirmDelete"
         />
     </AuthenticatedLayout>
+
 </template>

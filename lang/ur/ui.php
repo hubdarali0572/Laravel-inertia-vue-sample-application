@@ -168,6 +168,8 @@ return [
         'details' => 'رول کی تفصیل',
         'permissions_title' => 'ماڈیول اجازتیں',
         'permissions_hint' => 'ہر ماڈیول میں اس رول کے لیے اجازتیں منتخب کریں۔',
+        'modules' => 'ماڈیولز',
+        'permissions' => 'اجازتیں',
     ],
 
     'activity' => [

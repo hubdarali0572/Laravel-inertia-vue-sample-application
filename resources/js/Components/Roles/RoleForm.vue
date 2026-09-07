@@ -80,26 +80,45 @@ const submit = () => {
     form.post(route("roles.store"), options);
 };
 </script>
-
 <template>
     <div class="theme-form-card theme-split-form-card">
 
         <form class="theme-form-body flex flex-col gap-4" @submit.prevent="submit">
-            <div class="flex flex-col">
-                <InputLabel
-                    for="role-form-name"
-                    :value="t('roles.name')"
-                    class="theme-form-label"
-                />
-                <TextInput
-                    id="role-form-name"
-                    v-model="form.name"
-                    type="text"
-                    required
-                    class="theme-form-input"
-                    :placeholder="t('roles.placeholder_name')"
-                />
-                <InputError :message="form.errors.name" class="mt-1.5" />
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+                <div class="flex flex-1 flex-col">
+                    <InputLabel
+                        for="role-form-name"
+                        :value="t('roles.name')"
+                        class="theme-form-label"
+                    />
+                    <TextInput
+                        id="role-form-name"
+                        v-model="form.name"
+                        type="text"
+                        required
+                        class="theme-form-input"
+                        :placeholder="t('roles.placeholder_name')"
+                    />
+                    <InputError :message="form.errors.name" class="mt-1.5" />
+                </div>
+
+                <div class="flex gap-2 sm:pt-6">
+                    <button
+                        v-if="isEditing"
+                        type="button"
+                        class="theme-btn-secondary"
+                        @click="cancelEdit"
+                    >
+                        {{ t("common.cancel") }}
+                    </button>
+                    <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto">
+                        {{
+                            isEditing
+                                ? t("roles.update_button")
+                                : t("roles.create_button")
+                        }}
+                    </PrimaryButton>
+                </div>
             </div>
 
             <div class="theme-split-form-scroll">
@@ -109,26 +128,6 @@ const submit = () => {
                     embedded
                 />
                 <InputError :message="form.errors.permissions" class="mt-2 px-1" />
-            </div>
-
-            <div
-                class="flex flex-wrap justify-end gap-2 border-t border-slate-200 pt-4 dark:border-slate-700"
-            >
-                <button
-                    v-if="isEditing"
-                    type="button"
-                    class="theme-btn-secondary"
-                    @click="cancelEdit"
-                >
-                    {{ t("common.cancel") }}
-                </button>
-                <PrimaryButton :disabled="form.processing" class="w-full sm:w-auto">
-                    {{
-                        isEditing
-                            ? t("roles.update_button")
-                            : t("roles.create_button")
-                    }}
-                </PrimaryButton>
             </div>
         </form>
     </div>
