@@ -39,7 +39,7 @@ const highlights = computed(() => [
             <div
                 class="relative z-10 flex w-full flex-col justify-between p-8 xl:p-12"
             >
-                <Link href="/" class="flex w-fit items-center gap-3">
+                <Link :href="route('login')" class="flex w-fit items-center gap-3">
                     <ApplicationLogo class="theme-icon-brand h-9 w-9 shrink-0" />
                     <span class="text-sm font-bold tracking-tight">{{
                         t("app.brand")
@@ -110,7 +110,7 @@ const highlights = computed(() => [
                 :class="authSimple ? 'py-3' : 'py-4 sm:py-5 lg:px-10'"
             >
                 <Link
-                    href="/"
+                    :href="route('login')"
                     class="flex min-w-0 items-center gap-2 lg:invisible lg:pointer-events-none"
                     :aria-label="t('app.brand')"
                 >
@@ -128,7 +128,7 @@ const highlights = computed(() => [
                     </template>
 
                     <Link
-                        href="/"
+                        :href="route('login')"
                         class="theme-form-back-link"
                         :class="authSimple ? 'inline-flex text-xs' : 'hidden sm:inline-flex'"
                     >
@@ -137,7 +137,7 @@ const highlights = computed(() => [
 
                     <template v-if="!authSimple">
                         <Link
-                            href="/"
+                            :href="route('login')"
                             class="theme-header-control theme-header-control-icon sm:hidden"
                             :aria-label="t('public.back_home')"
                         >
