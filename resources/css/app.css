@@ -2319,6 +2319,110 @@
 }
 
 /* ============================================================
+   AUTH PAGE UTILITIES
+   Icon boxes, alerts, and layout helpers for all auth screens.
+   ============================================================ */
+
+@layer components {
+    /* Branded gradient icon box used on ForgotPassword / ResetPassword */
+    .theme-auth-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.25rem;
+        height: 3.25rem;
+        margin: 0 auto 1rem;
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+            135deg,
+            var(--color-primary) 0%,
+            color-mix(in srgb, var(--color-primary) 75%, #a78bfa) 100%
+        );
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(115, 103, 240, 0.35);
+        flex-shrink: 0;
+    }
+
+    .theme-auth-icon-box svg {
+        width: 1.375rem;
+        height: 1.375rem;
+    }
+
+    /* Small branded icon box for Login / Register headings */
+    .theme-auth-icon-box-sm {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0 auto 0.75rem;
+        border-radius: var(--radius-md);
+        background: linear-gradient(
+            135deg,
+            var(--color-primary) 0%,
+            color-mix(in srgb, var(--color-primary) 75%, #a78bfa) 100%
+        );
+        color: #ffffff;
+        box-shadow: 0 3px 10px rgba(115, 103, 240, 0.3);
+        flex-shrink: 0;
+    }
+
+    .theme-auth-icon-box-sm svg {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    /* Success alert — used on Login page after password reset */
+    .theme-auth-success {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.625rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-success-text);
+        border-radius: var(--radius-md);
+        background-color: var(--color-success-bg);
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--color-success-text);
+        line-height: 1.5;
+    }
+
+    /* Error alert — used for token-invalid on ResetPassword */
+    .theme-auth-error {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.625rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-danger);
+        border-radius: var(--radius-md);
+        background-color: var(--color-danger-bg);
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--color-danger);
+        line-height: 1.5;
+    }
+
+    /* Info alert — neutral information block */
+    .theme-auth-info {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.625rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-info-bg);
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--color-info-text);
+        line-height: 1.5;
+    }
+}
+
+
+/* ============================================================
    RTL SUPPORT
    Controls right-to-left typography and form alignment.
    ============================================================ */

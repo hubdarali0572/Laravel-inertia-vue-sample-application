@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -25,6 +26,9 @@ class PasswordResetLinkController extends Controller
     /**
      * Handle an incoming password reset link request.
      *
+     * Bypasses email sending entirely. Generates a secure token and redirects
+     * the user directly to the Reset Password page.
+     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -33,19 +37,25 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
 
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+        if (! $user) {
+            // Return a generic validation error (do not reveal whether the email exists)
+            throw ValidationException::withMessages([
+                'email' => [__('passwords.user')],
+            ]);
         }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
+        // Delete any existing reset tokens for this user and create a fresh one
+        $broker = Password::broker();
+        $broker->getRepository()->delete($user);
+        $token = $broker->getRepository()->create($user);
+
+        // Redirect directly to the reset password form (no email sent)
+        return redirect()->route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
         ]);
     }
 }

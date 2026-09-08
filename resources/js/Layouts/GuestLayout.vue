@@ -203,7 +203,7 @@ const highlights = computed(() => [
                 class="flex min-h-0 flex-1 justify-center px-4 sm:px-6 lg:px-8"
                 :class="
                     authSimple
-                        ? 'items-center overflow-hidden py-2'
+                        ? 'items-start overflow-y-auto py-3 sm:items-center sm:py-2'
                         : 'items-start overflow-x-hidden pb-8 pt-2 sm:items-center sm:pb-10 lg:px-10'
                 "
             >
