@@ -25,7 +25,7 @@ const highlights = computed(() => [
 
 <template>
     <div
-        class="theme-app-bg flex w-full max-w-[100vw] flex-col overflow-hidden lg:flex-row"
+        class="theme-app-bg theme-guest-shell flex w-full max-w-[100vw] flex-col overflow-hidden lg:flex-row"
         :class="
             authSimple
                 ? 'fixed inset-0 z-50 h-dvh max-h-dvh'
@@ -34,7 +34,7 @@ const highlights = computed(() => [
     >
         <!-- Branding panel (desktop only) -->
         <div
-            class="theme-guest-brand hidden h-full w-full overflow-hidden lg:flex lg:w-[45%] xl:w-1/2"
+            class="theme-guest-brand hidden h-full w-full overflow-hidden lg:flex lg:w-1/2"
         >
             <div
                 class="relative z-10 flex w-full flex-col justify-between p-8 xl:p-12"
@@ -102,7 +102,7 @@ const highlights = computed(() => [
 
         <!-- Form panel -->
         <div
-            class="flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden"
+            class="theme-guest-form flex min-h-0 w-full min-w-0 flex-1 flex-col overflow-hidden"
             :class="authSimple ? 'h-full' : 'min-h-screen'"
         >
             <header
@@ -126,14 +126,6 @@ const highlights = computed(() => [
                     <template v-if="!authSimple">
                         <LanguageSwitcher />
                     </template>
-
-                    <Link
-                        :href="route('login')"
-                        class="theme-form-back-link"
-                        :class="authSimple ? 'inline-flex text-xs' : 'hidden sm:inline-flex'"
-                    >
-                        &larr; {{ t("public.back_home") }}
-                    </Link>
 
                     <template v-if="!authSimple">
                         <Link
@@ -200,10 +192,10 @@ const highlights = computed(() => [
             </header>
 
             <main
-                class="flex min-h-0 flex-1 justify-center px-4 sm:px-6 lg:px-8"
+                class="theme-guest-auth-main flex min-h-0 flex-1 justify-center px-4 sm:px-6 lg:px-8"
                 :class="
                     authSimple
-                        ? 'items-start overflow-y-auto py-3 sm:items-center sm:py-2'
+                        ? 'items-center overflow-y-auto py-3 sm:py-2'
                         : 'items-start overflow-x-hidden pb-8 pt-2 sm:items-center sm:pb-10 lg:px-10'
                 "
             >
@@ -216,6 +208,14 @@ const highlights = computed(() => [
                         :class="{ 'theme-guest-card-compact': authSimple }"
                     >
                         <slot />
+                        <Link
+                            v-if="authSimple"
+                            :href="route('login')"
+                            class="theme-guest-back-button"
+                        >
+                            <span aria-hidden="true">&larr;</span>
+                            {{ t("public.back_home") }}
+                        </Link>
                     </div>
                 </div>
             </main>

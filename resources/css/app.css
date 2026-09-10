@@ -2372,6 +2372,181 @@
         height: 1.125rem;
     }
 
+    /* Reference-matched guest auth chrome. Page forms intentionally stay unchanged. */
+    .theme-guest-shell {
+        --guest-navy: #07132f;
+        --guest-navy-soft: #12234b;
+        --guest-canvas: #edf0f6;
+        --guest-ink: #101a3b;
+        --guest-muted: #69728c;
+        background: var(--guest-canvas);
+        color: var(--guest-ink);
+    }
+
+    .theme-guest-brand {
+        background-color: var(--guest-navy);
+        background-image:
+            radial-gradient(circle at 76% 68%, rgba(32, 83, 141, 0.34), transparent 26%),
+            radial-gradient(circle at 15% 100%, rgba(24, 53, 103, 0.42), transparent 34%),
+            linear-gradient(125deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+            linear-gradient(35deg, rgba(75, 110, 169, 0.08) 1px, transparent 1px),
+            linear-gradient(150deg, var(--guest-navy), var(--guest-navy-soft));
+        background-size: auto, auto, 18px 18px, 26px 26px, auto;
+        color: #f7f9ff;
+    }
+
+    .theme-guest-brand::after {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(110deg, transparent 35%, rgba(92, 123, 184, 0.08), transparent 68%);
+        content: "";
+        pointer-events: none;
+    }
+
+    .theme-guest-brand .theme-icon-brand {
+        fill: #eef2ff;
+        color: #eef2ff;
+    }
+
+    .theme-guest-brand-muted {
+        color: rgba(244, 247, 255, 0.86);
+    }
+
+    .theme-guest-brand-faint {
+        color: rgba(182, 197, 236, 0.72);
+    }
+
+    .theme-guest-form {
+        background: var(--guest-canvas);
+    }
+
+    .theme-guest-auth-main {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .theme-guest-auth-main::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (min-width: 1024px) {
+        .theme-guest-brand {
+            flex: 0 0 50%;
+            width: 50%;
+        }
+
+        .theme-guest-form {
+            flex: 1 1 50%;
+            min-width: 0;
+            width: 50%;
+        }
+    }
+
+    .theme-guest-form .theme-heading {
+        color: var(--guest-ink);
+    }
+
+    .theme-guest-form .theme-text-muted,
+    .theme-guest-form .theme-form-back-link {
+        color: var(--guest-muted);
+    }
+
+    .theme-guest-card {
+        max-width: 24rem;
+        border-color: #d3d8e3;
+        border-radius: 0.5rem;
+        background: rgba(249, 250, 253, 0.94);
+        padding: 1.25rem;
+        box-shadow: 0 18px 35px rgba(31, 43, 72, 0.18), 0 2px 6px rgba(31, 43, 72, 0.08);
+    }
+
+    .theme-guest-card-compact {
+        padding: 1.125rem 1.25rem;
+    }
+
+    .theme-guest-card .theme-auth-icon-box,
+    .theme-guest-card .theme-auth-icon-box-sm {
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-bottom: 0.45rem;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+        color: #536ca7;
+    }
+
+    .theme-guest-card .theme-auth-icon-box svg,
+    .theme-guest-card .theme-auth-icon-box-sm svg {
+        width: 2.35rem;
+        height: 2.35rem;
+        stroke-width: 1.4;
+    }
+
+    .theme-guest-card .theme-form-input {
+        min-height: 1.875rem;
+        border-color: #bfc7d8;
+        border-radius: 0.45rem;
+        background: #e7ebf3;
+        color: var(--guest-ink);
+        box-shadow: inset 0 1px 2px rgba(42, 54, 84, 0.08);
+        font-size: 0.75rem;
+    }
+
+    .theme-guest-card .theme-form-input:focus {
+        border-color: #6278b4;
+        box-shadow: 0 0 0 2px rgba(98, 120, 180, 0.2);
+    }
+
+    .theme-guest-card .theme-btn-primary {
+        min-height: 1.875rem;
+        border: 1px solid #273764;
+        border-radius: 0.45rem;
+        background: linear-gradient(180deg, #6478b6, #293762);
+        box-shadow: 0 5px 9px rgba(35, 49, 91, 0.28);
+        font-size: 0.75rem;
+    }
+
+    .theme-guest-card .theme-btn-primary:hover {
+        background: linear-gradient(180deg, #7488c4, #344675);
+    }
+
+    .theme-guest-card .theme-border {
+        border-color: #d7dce6;
+    }
+
+    .theme-guest-card .theme-link {
+        color: #263b75;
+    }
+
+    .theme-guest-back-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 2rem;
+        margin-top: 0.75rem;
+        border: 1px solid #b9c0ce;
+        border-radius: 0.45rem;
+        background: linear-gradient(180deg, #f8f9fc, #dce1ea);
+        box-shadow: 0 3px 5px rgba(42, 54, 84, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+        color: #253354;
+        font-size: 0.75rem;
+        font-weight: 600;
+        gap: 0.4rem;
+        transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .theme-guest-back-button span {
+        font-size: 1.25rem;
+        font-weight: 400;
+        line-height: 1;
+    }
+
+    .theme-guest-back-button:hover {
+        background: linear-gradient(180deg, #ffffff, #d4dbe7);
+        box-shadow: 0 4px 7px rgba(42, 54, 84, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
     /* Success alert — used on Login page after password reset */
     .theme-auth-success {
         display: flex;
