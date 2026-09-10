@@ -17,8 +17,8 @@
            ========================================================== */
 
         /* Brand core */
-        --color-primary: #7367f0;
-        --color-accent: #7367f0;
+        --color-primary: #12234b;
+        --color-accent: #12234b;
         --color-on-primary: #ffffff;
         --color-on-accent: #ffffff;
 
@@ -40,11 +40,11 @@
         --color-input-border: #d8d6de;
 
         /* Interactive states */
-        --color-hover-bg: #7367f0;
+        --color-hover-bg: #12234b;
         --color-hover-text: #ffffff;
         --color-row-hover: #f8f8f8;
         --color-row-stripe: #fafafa;
-        --color-focus: #7367f0;
+        --color-focus: #12234b;
         --color-btn-primary-hover: #6258cc;
         --color-accent-soft: #f3f2ff;
         --color-accent-muted: rgba(115, 103, 240, 0.12);
@@ -56,14 +56,14 @@
         --color-sidebar-text: #6e6b7b;
         --color-sidebar-text-muted: #b9b9c3;
         --color-sidebar-hover: #f3f2ff;
-        --color-sidebar-active: #7367f0;
+        --color-sidebar-active: #12234b;
         --color-sidebar-active-text: #ffffff;
         --color-header: #ffffff;
         --color-footer: #ffffff;
         --color-footer-text: #b9b9c3;
 
         /* Tables */
-        --color-table-header: #7367f0;
+        --color-table-header: #12234b;
         --color-table-header-text: #ffffff;
         --color-table-footer: #f8f9fa;
         --color-table-footer-text: #6e6b7b;
@@ -76,11 +76,11 @@
         --color-warning: #ff9f43;
         --color-warning-bg: #fff3e8;
         --color-info-bg: #eef0ff;
-        --color-info-text: #7367f0;
+        --color-info-text: #12234b;
 
         /* Badges, overlays & guest panel */
         --color-badge-bg: #f3f2ff;
-        --color-badge-text: #7367f0;
+        --color-badge-text: #12234b;
         --color-overlay: rgba(94, 88, 115, 0.5);
         --color-guest-text-muted: rgba(255, 255, 255, 0.88);
         --color-guest-text-faint: rgba(255, 255, 255, 0.55);
@@ -117,8 +117,8 @@
            ========================================================== */
 
         /* Brand core — matches light mode violet */
-        --color-primary: #7367f0;
-        --color-accent: #7367f0;
+        --color-primary: #12234b;
+        --color-accent: #12234b;
         --color-on-primary: #ffffff;
         --color-on-accent: #ffffff;
 
@@ -140,11 +140,11 @@
         --color-input-border: #1e293b;
 
         /* Interactive states */
-        --color-hover-bg: #7367f0;
+        --color-hover-bg: #12234b;
         --color-hover-text: #ffffff;
         --color-row-hover: rgba(255, 255, 255, 0.04);
         --color-row-stripe: #0f111a;
-        --color-focus: #7367f0;
+        --color-focus: #12234b;
         --color-btn-primary-hover: #6258cc;
         --color-accent-soft: rgba(115, 103, 240, 0.12);
         --color-accent-muted: rgba(115, 103, 240, 0.18);
@@ -163,7 +163,7 @@
         --color-footer-text: #8a92a6;
 
         /* Tables */
-        --color-table-header: #7367f0;
+        --color-table-header: #12234b;
         --color-table-header-text: #ffffff;
         --color-table-footer: #0f111a;
         --color-table-footer-text: #8a92a6;
@@ -2374,7 +2374,7 @@
 
     /* Reference-matched guest auth chrome. Page forms intentionally stay unchanged. */
     .theme-guest-shell {
-        --guest-navy: #07132f;
+        --guest-navy: #12234b;
         --guest-navy-soft: #12234b;
         --guest-canvas: #edf0f6;
         --guest-ink: #101a3b;
