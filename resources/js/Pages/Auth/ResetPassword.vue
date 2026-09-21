@@ -66,12 +66,23 @@ const submit = () => {
             <svg class="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
             </svg>
-            <span class="min-w-0 break-words">{{ t('auth.find_reset_link') }} <br></br><strong class="font-semibold break-all">{{ email }}</strong></span>
+            <span class="min-w-0 break-words">{{ t('auth.find_reset_link') }} <br><strong class="font-semibold break-all">{{ email }}</strong></span>
         </div>
 
         <form @submit.prevent="submit" class="space-y-4">
-            <!-- Hidden email field (sent with form for token validation) -->
-            <input type="hidden" v-model="form.email" />
+            <div>
+                <InputLabel for="email" :value="t('auth.email')" />
+                <TextInput
+                    id="email"
+                    type="email"
+                    class="mt-1.5"
+                    v-model="form.email"
+                    required
+                    :readonly="!!email"
+                    autocomplete="username"
+                />
+                <InputError class="mt-1.5" :message="form.errors.email" />
+            </div>
 
             <!-- New Password -->
             <div>
@@ -134,14 +145,6 @@ const submit = () => {
                     </button>
                 </div>
                 <InputError class="mt-1.5" :message="form.errors.password_confirmation" />
-            </div>
-
-            <!-- Token/email errors shown prominently -->
-            <div v-if="form.errors.email" class="theme-auth-error">
-                <svg class="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
-                <span>{{ form.errors.email }}</span>
             </div>
 
             <!-- Submit -->

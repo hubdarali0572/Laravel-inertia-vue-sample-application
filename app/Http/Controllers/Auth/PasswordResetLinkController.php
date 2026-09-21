@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -24,10 +23,7 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
-     *
-     * Bypasses email sending entirely. Generates a secure token and redirects
-     * the user directly to the Reset Password page.
+     * Send a password reset link to the given account email.
      *
      * @throws ValidationException
      */
@@ -37,25 +33,16 @@ class PasswordResetLinkController extends Controller
             'email' => 'required|email',
         ]);
 
-        // Find the user by email
-        $user = User::where('email', $request->email)->first();
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-        if (! $user) {
-            // Return a generic validation error (do not reveal whether the email exists)
-            throw ValidationException::withMessages([
-                'email' => [__('passwords.user')],
-            ]);
+        if ($status == Password::RESET_LINK_SENT) {
+            return back()->with('status', __($status));
         }
 
-        // Delete any existing reset tokens for this user and create a fresh one
-        $broker = Password::broker();
-        $broker->getRepository()->delete($user);
-        $token = $broker->getRepository()->create($user);
-
-        // Redirect directly to the reset password form (no email sent)
-        return redirect()->route('password.reset', [
-            'token' => $token,
-            'email' => $user->email,
+        throw ValidationException::withMessages([
+            'email' => [__($status)],
         ]);
     }
 }

@@ -38,10 +38,17 @@ class PasswordResetTest extends TestCase
 
         $this->post('/forgot-password', ['email' => $user->email]);
 
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
-            $response = $this->get('/reset-password/'.$notification->token);
+        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
+            $response = $this->get(route('password.reset', [
+                'token' => $notification->token,
+                'email' => $user->email,
+            ]));
 
             $response->assertStatus(200);
+            $response->assertInertia(fn ($page) => $page
+                ->component('Auth/ResetPassword')
+                ->where('email', $user->email)
+            );
 
             return true;
         });
