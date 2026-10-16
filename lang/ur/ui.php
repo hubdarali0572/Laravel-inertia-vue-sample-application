@@ -66,6 +66,11 @@ return [
         'log_out' => 'لاگ آؤٹ',
         'open_menu' => 'مینو کھولیں',
         'close_menu' => 'مینو بند کریں',
+        'logout_modal_title' => 'لاگ آؤٹ',
+        'logout_modal_message' => 'کیا آپ واقعی اپنے اکاؤنٹ سے لاگ آؤٹ کرنا چاہتے ہیں؟',
+        'logout_confirm' => 'ہاں، لاگ آؤٹ کریں',
+        'logout_cancel' => 'نہیں، لاگ ان رہیں',
+        'logout_warning' => 'ڈیش بورڈ تک رسائی کے لیے آپ کو دوبارہ لاگ ان کرنا ہوگا۔',
     ],
 
     'pagination' => [

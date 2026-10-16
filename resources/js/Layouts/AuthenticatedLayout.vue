@@ -1,10 +1,11 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link, router, usePage } from "@inertiajs/vue3";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { usePermissions } from "@/composables/usePermissions";
 import { useI18n } from "@/composables/useI18n";
 import LanguageSwitcher from "@/Components/LanguageSwitcher.vue";
+import ConfirmModal from "@/Components/ConfirmModal.vue";
 
 const { isDark, toggleDarkMode } = useDarkMode();
 const { can, roleName, isSuperAdmin } = usePermissions();
@@ -14,6 +15,34 @@ const page = usePage();
 const isSidebarOpen = ref(false);
 const isProfileMenuOpen = ref(false);
 const profileMenuRef = ref(null);
+const isLogoutModalOpen = ref(false);
+const isLoggingOut = ref(false);
+
+const openLogoutModal = () => {
+    isProfileMenuOpen.value = false;
+    isLogoutModalOpen.value = true;
+};
+
+const closeLogoutModal = () => {
+    if (isLoggingOut.value) {
+        return;
+    }
+    isLogoutModalOpen.value = false;
+};
+
+const confirmLogout = () => {
+    isLoggingOut.value = true;
+    router.post(
+        route("logout"),
+        {},
+        {
+            onFinish: () => {
+                isLoggingOut.value = false;
+                isLogoutModalOpen.value = false;
+            },
+        },
+    );
+};
 
 const closeProfileMenuOnOutsideClick = (event) => {
     if (!isProfileMenuOpen.value) {
@@ -328,11 +357,10 @@ const pageTitle = computed(() => {
 
                             <LanguageSwitcher variant="dropdown" />
 
-                            <Link
-                                :href="route('logout')"
-                                method="post"
-                                as="button"
+                            <button
+                                type="button"
                                 class="theme-dropdown-item mt-0.5"
+                                @click="openLogoutModal"
                             >
                                 <span class="theme-dropdown-icon">
                                     <svg
@@ -350,7 +378,7 @@ const pageTitle = computed(() => {
                                     </svg>
                                 </span>
                                 {{ t("header.log_out") }}
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </transition>
@@ -427,6 +455,21 @@ const pageTitle = computed(() => {
                 <div>{{ t("app.footer") }}</div>
             </footer>
         </div>
+
+        <ConfirmModal
+            :show="isLogoutModalOpen"
+            :title="t('header.logout_modal_title')"
+            :message="t('header.logout_modal_message')"
+            :confirm-label="t('header.logout_confirm')"
+            :cancel-label="t('header.logout_cancel')"
+            :badge="$page.props.auth?.user?.name"
+            :badge-initial="userInitials()"
+            :warning="t('header.logout_warning')"
+            icon="logout"
+            :loading="isLoggingOut"
+            @close="closeLogoutModal"
+            @confirm="confirmLogout"
+        />
     </div>
 </template>
 

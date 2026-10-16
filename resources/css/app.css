@@ -1637,7 +1637,8 @@
     }
 
     .theme-modal-icon-danger,
-    .theme-modal-icon-warning {
+    .theme-modal-icon-warning,
+    .theme-modal-icon-logout {
         background-color: var(--color-background);
         color: var(--color-heading);
     }

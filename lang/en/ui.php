@@ -66,6 +66,11 @@ return [
         'log_out' => 'Log Out',
         'open_menu' => 'Open menu',
         'close_menu' => 'Close menu',
+        'logout_modal_title' => 'Log Out',
+        'logout_modal_message' => 'Are you sure you want to log out of your account?',
+        'logout_confirm' => 'Yes, Log Out',
+        'logout_cancel' => 'No, Stay Logged In',
+        'logout_warning' => 'You will need to sign in again to access your dashboard.',
     ],
 
     'pagination' => [
