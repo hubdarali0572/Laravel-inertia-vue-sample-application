@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(ForcePublicEnglish::class)
     ->controller(PublicSitePageController::class)
     ->group(function () {
-        Route::get('/', 'home')->name('publicSite.home');
+        Route::get('/home', 'home')->name('publicSite.home');
         Route::get('/about', 'about')->name('publicSite.about');
         Route::get('/academics', 'academics')->name('publicSite.academics');
         Route::get('/admissions', 'admissions')->name('publicSite.admissions');

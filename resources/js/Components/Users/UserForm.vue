@@ -30,6 +30,7 @@ const form = useForm({
     password: "",
     password_confirmation: "",
     image: null,
+    status_checking: true,
 });
 
 const imagePreview = ref(null);
@@ -61,6 +62,10 @@ const fillForm = (user) => {
     form.password = "";
     form.password_confirmation = "";
     form.image = null;
+    form.status_checking =
+        user?.status_checking === "inactive" || user?.status_checking === false
+            ? false
+            : true;
     imagePreview.value = user?.profile_image ?? null;
 
     if (imageInput.value) {
@@ -77,6 +82,7 @@ const resetForm = () => {
     form.password = "";
     form.password_confirmation = "";
     form.image = null;
+    form.status_checking = true;
     imagePreview.value = null;
 
     if (imageInput.value) {
@@ -406,6 +412,26 @@ onUnmounted(() => document.removeEventListener("click", handleClickOutside));
                     </div>
                 </div>
                 <InputError :message="form.errors.image" class="mt-1.5" />
+            </div>
+
+            <div class="flex flex-col pt-1">
+
+                <div class="flex items-center gap-2 pt-0.5">
+                    <input
+                        id="status_checking"
+                        name="status_checking"
+                        v-model="form.status_checking"
+                        type="checkbox"
+                        class="theme-form-checkbox h-4 w-4 rounded border-slate-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)] dark:border-slate-600 dark:bg-slate-700"
+                    />
+                    <label
+                        for="status_checking"
+                        class="cursor-pointer select-none text-sm font-medium text-slate-700 dark:text-slate-300"
+                    >
+                        {{ form.status_checking ? t("users.active") : t("users.inactive") }}
+                    </label>
+                </div>
+                <InputError :message="form.errors.status_checking" class="mt-1.5" />
             </div>
 
             <div

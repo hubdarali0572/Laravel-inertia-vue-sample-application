@@ -57,6 +57,9 @@ class UserController extends Controller implements HasMiddleware
         $user->password = Hash::make($request->password);
         $user->user_type = 'user';
         $user->role_id = $role->id;
+        if ($request->has('status_checking')) {
+            $user->status_checking = ($request->boolean('status_checking') || in_array($request->status_checking, ['on', 'active', '1', 1, true, 'true'], true)) ? 'active' : 'inactive';
+        }
         $user->save();
         $user->syncAssignedRole($role);
 
@@ -113,6 +116,10 @@ class UserController extends Controller implements HasMiddleware
             $user->password = Hash::make($request->password);
         }
 
+        if ($request->has('status_checking')) {
+            $user->status_checking = ($request->boolean('status_checking') || in_array($request->status_checking, ['on', 'active', '1', 1, true, 'true'], true)) ? 'active' : 'inactive';
+        }
+
         $user->save();
         $user->syncAssignedRole($role);
 
@@ -162,6 +169,7 @@ class UserController extends Controller implements HasMiddleware
                 'role_id' => $user->role_id,
                 'role' => $user->role,
                 'profile_image' => $user->profile_image_url,
+                'status_checking' => $user->status_checking ?? 'active',
             ]);
 
         $props = [
@@ -188,6 +196,7 @@ class UserController extends Controller implements HasMiddleware
             'email' => $user->email,
             'role_id' => $user->role_id,
             'profile_image' => $user->profile_image_url,
+            'status_checking' => $user->status_checking ?? 'active',
         ];
     }
 

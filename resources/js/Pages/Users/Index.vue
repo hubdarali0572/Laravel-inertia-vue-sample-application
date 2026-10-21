@@ -56,6 +56,7 @@ const startEdit = (user) => {
         email: user.email,
         role_id: user.role_id ?? user.role?.id ?? "",
         profile_image: user.profile_image,
+        status_checking: user.status_checking,
     };
 };
 
@@ -126,6 +127,9 @@ const confirmDelete = () => {
                                     <th class="theme-table-header-cell">
                                         {{ t("users.role") }}
                                     </th>
+                                        <th class="theme-table-header-cell">
+                                            {{ t("users.status") }}
+                                        </th>
                                     <th
                                         v-if="showActions"
                                         class="theme-table-header-cell w-px text-end"
@@ -184,9 +188,31 @@ const confirmDelete = () => {
                                         </div>
                                     </td>
                                     <td class="theme-table-cell">
-                                        <span class="theme-user-role">{{
-                                            user.role?.name
-                                        }}</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="theme-user-role">{{
+                                                user.role?.name
+                                            }}</span>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="theme-table-cell">
+                                        <div class="flex items-center gap-2">
+                                            <span
+                                                class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold"
+                                                :class="
+                                                    user.status_checking === 'inactive'
+                                                        ? 'bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300'
+                                                        : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                                "
+                                            >
+                                                {{
+                                                    user.status_checking === 'inactive'
+                                                        ? t('users.inactive')
+                                                        : t('users.active')
+                                                }}
+                                            </span>
+                                          
+                                        </div>
                                     </td>
                                     <td
                                         v-if="showActions"
@@ -247,7 +273,7 @@ const confirmDelete = () => {
                                 </tr>
                                 <tr v-if="users.data.length === 0">
                                     <td
-                                        :colspan="showActions ? 3 : 2"
+                                        :colspan="showActions ? 4 : 3"
                                         class="theme-table-empty"
                                     >
                                         {{ t("users.empty") }}

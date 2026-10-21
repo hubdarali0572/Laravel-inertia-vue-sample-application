@@ -31,6 +31,9 @@ class User extends Authenticatable implements HasMedia
         'image',
         'role_id',
         'user_type',
+        'status_checking',
+        'google_id',
+        'avatar'
     ];
 
     /**
@@ -124,7 +127,7 @@ class User extends Authenticatable implements HasMedia
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'image', 'role_id'])
+            ->logOnly(['name', 'email', 'image', 'role_id', 'status_checking'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

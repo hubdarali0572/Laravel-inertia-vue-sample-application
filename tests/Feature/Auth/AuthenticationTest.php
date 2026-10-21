@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -12,6 +13,9 @@ class AuthenticationTest extends TestCase
 
     public function test_login_screen_can_be_rendered(): void
     {
+        $this->assertSame('/', route('login', absolute: false));
+        $this->assertSame('/login', route('login.store', absolute: false));
+        $this->get('/')->assertStatus(200);
         $response = $this->get('/login');
 
         $response->assertStatus(200);
@@ -21,9 +25,11 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $this->fakeSuccessfulRecaptcha();
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'password',
+            'g-recaptcha-response' => 'test-token',
         ]);
 
         $this->assertAuthenticated();
@@ -34,9 +40,11 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $this->fakeSuccessfulRecaptcha();
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
+            'g-recaptcha-response' => 'test-token',
         ]);
 
         $this->assertGuest();
@@ -50,5 +58,12 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
         $response->assertRedirect('/');
+    }
+
+    private function fakeSuccessfulRecaptcha(): void
+    {
+        Http::fake([
+            'www.google.com/recaptcha/api/siteverify' => Http::response(['success' => true]),
+        ]);
     }
 }

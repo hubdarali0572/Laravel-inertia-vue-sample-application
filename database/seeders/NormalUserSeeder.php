@@ -26,6 +26,7 @@ class NormalUserSeeder extends Seeder
                 'name' => 'Normal User',
                 'user_type' => Permissions::USER_ROLE,
                 'password' => Hash::make('password'),
+                'status_checking' => 'active',
                 'email_verified_at' => now(),
             ]
         );
