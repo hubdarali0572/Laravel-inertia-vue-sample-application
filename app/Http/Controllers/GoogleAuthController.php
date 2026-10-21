@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Support\Permissions;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -22,22 +23,17 @@ class GoogleAuthController extends Controller
             ['email' => $googleUser->getEmail()],
             [
                 'name'              => $googleUser->getName(),
+                'password'          => bcrypt(rand(10, 999999)),
                 'google_id'         => $googleUser->getId(),
                 'avatar'            => $googleUser->getAvatar(),
                 'email_verified_at' => now(),
             ]
         );
 
-        // Sirf naye user ko role milega
-        // if ($user->wasRecentlyCreated) {
-        //     $user->assignRole('user'); // apne role ka naam likhein
-        // }
-
-          // Sirf naye user ko role milega
-        if ($user->wasRecentlyCreated) {
-            $user->role_id = Role::where('name', 'user')->value('id');
-            $user->save();
-        }
+        $role = $user->role
+            ?? $user->roles()->first()
+            ?? Role::where('name', Permissions::USER_ROLE)->firstOrFail();
+        $user->syncAssignedRole($role);
 
         Auth::login($user, true);
 

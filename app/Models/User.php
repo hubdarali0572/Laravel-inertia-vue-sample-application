@@ -33,7 +33,8 @@ class User extends Authenticatable implements HasMedia
         'user_type',
         'status_checking',
         'google_id',
-        'avatar'
+        'avatar',
+        'email_verified_at',
     ];
 
     /**
