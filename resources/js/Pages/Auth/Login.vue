@@ -143,16 +143,7 @@ const submit = () => {
 
             <!-- Password -->
             <div>
-                <div class="flex items-center justify-between">
-                    <InputLabel for="password" :value="t('auth.password')" />
-                    <Link
-                        v-if="canResetPassword"
-                        :href="route('password.request')"
-                        class="theme-link text-xs"
-                    >
-                        {{ t("auth.forgot") }}
-                    </Link>
-                </div>
+                <InputLabel for="password" :value="t('auth.password')" />
 
                 <div class="mt-1.5 relative">
                     <TextInput
@@ -182,21 +173,27 @@ const submit = () => {
                 <InputError class="mt-1.5" :message="form.errors.password" />
             </div>
 
-            <!-- Remember me -->
-            <div class="flex items-center">
-                <Checkbox name="remember" v-model:checked="form.remember" />
-                <span
-                    class="ms-2 text-sm text-slate-600 cursor-pointer select-none dark:text-slate-400"
-                    @click="form.remember = !form.remember"
+            <!-- Remember me and password reset -->
+            <div class="flex items-center justify-between gap-3">
+                <label class="flex min-w-0 cursor-pointer items-center">
+                    <Checkbox name="remember" v-model:checked="form.remember" />
+                    <span class="ms-2 text-sm text-slate-600 select-none dark:text-slate-400">
+                        {{ t("auth.remember") }}
+                    </span>
+                </label>
+                <Link
+                    v-if="canResetPassword"
+                    :href="route('password.request')"
+                    class="theme-link shrink-0 text-xs"
                 >
-                    {{ t("auth.remember") }}
-                </span>
+                    {{ t("auth.forgot") }}
+                </Link>
             </div>
 
             <!-- reCAPTCHA -->
             <div class="min-w-0">
-                <InputLabel for="recaptcha" :value="t('auth.verification')" class="text-xs" />
-                <div class="mt-1 w-full min-w-0">
+                <!-- <InputLabel for="recaptcha" :value="t('auth.verification')" class="text-xs" /> -->
+                <div class="w-full min-w-0">
                     <div
                         ref="captchaContainer"
                         class="origin-top-left scale-[0.82] sm:scale-[0.9]"
@@ -208,14 +205,12 @@ const submit = () => {
                 </div>
             </div>
 
-            <!-- Google Sign-in -->
-            <div>
+            <!-- Social sign-in -->
+            <div class="grid grid-cols-2 gap-3">
                 <a
                     :href="route('google.login')"
-                    class="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-                    style="min-height: var(--control-height);"
+                    class="flex min-h-[var(--control-height)] min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-2 py-2.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
                 >
-                    <!-- Google logo SVG -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-5 w-5 flex-shrink-0">
                         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                         <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -224,6 +219,16 @@ const submit = () => {
                         <path fill="none" d="M0 0h48v48H0z"/>
                     </svg>
                     Sign in with Google
+                </a>
+                <a
+                    :href="route('facebook.redirect')"
+                    class="flex min-h-[var(--control-height)] min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-2 py-2.5 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 flex-shrink-0" aria-hidden="true">
+                        <path fill="#1877F2" d="M24 12a12 12 0 1 0-13.875 11.85v-8.38H7.08V12h3.045V9.36c0-3.006 1.79-4.667 4.53-4.667 1.312 0 2.685.234 2.685.234v2.953h-1.512c-1.49 0-1.953.925-1.953 1.874V12h3.324l-.532 3.47h-2.792v8.38A12.002 12.002 0 0 0 24 12Z"/>
+                        <path fill="#fff" d="M16.667 15.47 17.2 12h-3.324V9.754c0-.95.464-1.874 1.953-1.874h1.512V4.927s-1.373-.234-2.685-.234c-2.74 0-4.53 1.66-4.53 4.667V12H7.08v3.47h3.045v8.38a12.11 12.11 0 0 0 3.75 0v-8.38h2.792Z"/>
+                    </svg>
+                    <span class="truncate">Sign in with Facebook</span>
                 </a>
             </div>
 

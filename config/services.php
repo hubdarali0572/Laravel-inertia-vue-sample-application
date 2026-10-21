@@ -34,12 +34,18 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
-    'google' => [
-        'client_id'     => env('GOOGLE_CLIENT_ID'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect'      => env('GOOGLE_REDIRECT_URL', rtrim(env('APP_URL', 'http://localhost'), '/').'/auth/google/callback'),
-    ],
+    // google login
+        'google' => [
+            'client_id'     => env('GOOGLE_CLIENT_ID'),
+            'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+            'redirect'      => env('GOOGLE_REDIRECT_URL', rtrim(env('APP_URL', 'http://localhost'), '/').'/auth/google/callback'),
+        ],
+    // facebook login
+      'facebook' => [
+    'client_id'     => env('FACEBOOK_CLIENT_ID'),
+    'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    'redirect'      => env('FACEBOOK_REDIRECT_URL'),
+],
 
 
 ];

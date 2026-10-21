@@ -208,14 +208,6 @@ const highlights = computed(() => [
                         :class="{ 'theme-guest-card-compact': authSimple }"
                     >
                         <slot />
-                        <!-- <Link
-                            v-if="authSimple"
-                            :href="route('login')"
-                            class="theme-guest-back-button"
-                        >
-                            <span aria-hidden="true">&larr;</span>
-                            {{ t("public.back_home") }}
-                        </Link> -->
                     </div>
                 </div>
             </main>

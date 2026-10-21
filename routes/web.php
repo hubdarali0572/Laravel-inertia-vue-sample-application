@@ -9,18 +9,23 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\FacebookAuthController;
 
 require __DIR__.'/public-site.php';
 
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
 
 
-// Google Login (auth group ke BAHAR)
+// Google & Facebook Login (auth group ke BAHAR)
 Route::middleware('guest')->group(function () {
     Route::get('/auth/google', [GoogleAuthController::class, 'redirect'])->name('google.login');
 });
 Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('google.callback');
+Route::get('/auth/facebook/redirect', [FacebookAuthController::class, 'redirect'])->name('facebook.redirect');
+Route::get('/auth/facebook/callback', [FacebookAuthController::class, 'callback'])->name('facebook.callback');
 
+
+// OTHER ROUTES
 Route::middleware('auth')->group(function () {
     Route::get('/media/{media}/{conversion?}', [MediaController::class, 'show'])
         ->name('media.show');
